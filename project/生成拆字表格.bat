@@ -1,0 +1,2 @@
+lua InitTable.lua
+pause

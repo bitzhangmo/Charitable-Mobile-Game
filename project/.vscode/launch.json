@@ -1,0 +1,38 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "launch process",
+            "type": "lua",
+            "request": "launch",
+            "stopOnEntry": true,
+            "runtimeExecutable": "${workspaceFolder}/lua.exe",
+            "runtimeArgs": "${workspaceFolder}/main.lua",
+            "consoleCoding": "utf8"
+        },
+
+        {
+            "type": "lua",
+            "request": "launch",
+            "internalConsoleOptions": "openOnFirstSessionStart",
+            "name": "PandoraLuaDebugger",
+            "program": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}",
+            "TempFilePath": "${workspaceFolder}",
+            "luaFileExtension": "lua",
+            "pathCaseSensitivity": true,
+            "connectionPort": 9999,
+            "stopOnEntry": true,
+            "logLevel": 1
+        },
+        {
+            "type": "lua",
+            "request": "launch",
+            "name": "Debug",
+            "program": "${workspaceFolder}/findword.lua"
+        }
+    ]
+}
