@@ -135,10 +135,45 @@ function OutputFile4()
     for i,v in pairs(file4Table) do
         if v > 1 then
             File4:write(i)
+        else
+            -- table.remove(file4Table,i)
+            file4Table[i] = nil
         end
         -- File4:write("\n")
     end
     File4:close()
+end
+
+function OutputFile5()
+    -- log_tree(file4Table)
+    local finalTable = {}
+    for lines in io.lines("file3.csv") do
+        local subTable = Split(lines, ",")
+        -- log_tree(subTable)
+        finalTable[subTable[1]] = {}
+        for i = 2, #subTable do
+            -- print(subTable[i])
+            -- if IsContainTarget(file4Table, subTable[i]) then
+            if file4Table[subTable[i]] ~= nil then
+                table.insert(finalTable[subTable[1]],subTable[i])
+                -- print("contain target")
+            end
+        end
+    end
+
+    File5 = io.open("file5.csv", "w+")
+    for i,v in pairs(finalTable) do
+        local str = i
+        for k,s in pairs(v) do
+            str = str..","..s
+        end
+        str = str.."\n"
+
+        File5:write(str)
+    end
+
+    File5:close()
+    -- log_tree(finalTable)
 end
 
 function write2File()
@@ -350,6 +385,8 @@ LoadChaiziFile()
 InitPoemPlusTable()
 OutputFile3()
 OutputFile4()
+OutputFile5()
+
 write2PoemFile()
 OutputReverseTable()
 OutputReverseTableCSV()
