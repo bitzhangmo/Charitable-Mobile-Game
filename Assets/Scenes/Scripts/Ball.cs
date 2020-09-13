@@ -27,7 +27,10 @@ public class Ball : MonoBehaviour
         if (other.gameObject.tag == "Ball")
         {
             Debug.Log("hello");
-            other.gameObject.SendMessage("TakeDamage",attack);
+            if(this.isChosen)
+            {
+                other.gameObject.SendMessage("TakeDamage",attack);
+            }
         }
     }
 
