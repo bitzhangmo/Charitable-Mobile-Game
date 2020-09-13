@@ -135,6 +135,7 @@ function OutputFile4()
     for i,v in pairs(file4Table) do
         if v > 1 then
             File4:write(i)
+            File4:write("\n")
         else
             -- table.remove(file4Table,i)
             file4Table[i] = nil
