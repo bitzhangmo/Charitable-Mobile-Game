@@ -1,30 +1,41 @@
 -- poemfile = io.open("poem.txt", "rb")
 -- chaiziFile = io.open("chaizi-jt.txt", "rb")
 
-local poemTable = {}
-local chaiziTable = {}
-local reverseTable = {}
+local poemTable = {}        -- 诗词原文件,去重
+local chaiziTable = {}      -- 包含步数信息的拆字表
+local reverseTable = {}     -- 包含步数信息的翻转表
+local poemPlusTable = {}    -- 包含诗词源文件和成分偏旁部首的表
+local file4Table = {}       -- 封闭性检测通过后的表
 
--- 加载poem.txt文件，并在拆字表中搜索对应字的拆字方法，并插入到诗词拆字表中
-function loadPoemfile()
+-- 加载poem.txt文件，并存储到poemTable中
+function LoadPoemfile()
     for line in io.lines("poem.txt") do
-        -- local poemLineTable = Split(line,"")
-        -- print(#line)
-        -- for i = 1,#line do
-
-        -- end
         local i = 1
         while i < #line do
             local str = string.sub(line,i,i+1)  -- 中文长度为2
             i = i + 2
-            table.insert(poemTable ,str)
+            if IsContainTarget(poemTable,str) == false then
+                table.insert(poemTable ,str)
+            end
         end
         -- print(line)
     end
     -- log_tree(poemTable)
 end
 
-function loadChaiziFile()
+function IsContainTarget(targetTable,str)
+    for _,v in pairs(targetTable) do
+        if v == str then
+            return true
+        end
+    end
+
+    -- log_tree(targetTable)
+    return false
+end
+
+-- 生成reverseTable和chaiziTable
+function LoadChaiziFile()
     for line in io.lines("chaizi-jt.txt") do    -- line 拆字表的每一行
         -- local subTable = string.split(line, ",")
         -- 生成结构：
@@ -34,13 +45,11 @@ function loadChaiziFile()
         --     丿 乚,
         -- }
         local subTable = Split(line, "	")      
-        local key_str = subTable[1]
+        local key_str = subTable[1]             -- 母字
         local tempTable = {}
         for i = 2,#subTable do
-            -- local wordTable = string.split(subTable[i], " ")
             local wordTable = Split(subTable[i], " ")
             for i,v in pairs(wordTable) do
-                -- table.insert(reverseTable,v,key_str)
                 if reverseTable[v] == nil then
                     reverseTable[v] = {}
                 end
@@ -54,7 +63,82 @@ function loadChaiziFile()
         end
         chaiziTable[key_str] = tempTable
     end
+    -- log_tree(chaiziTable)
     -- log_tree(reverseTable)
+end
+
+-- 生成中间文件2
+function InitPoemPlusTable()
+    for _,v in pairs(poemTable) do
+        if chaiziTable[v] ~= nil then
+            table.insert(poemPlusTable,v)
+            for k,s in pairs(chaiziTable[v]) do
+                for index,value in pairs(s) do
+                    if IsContainTarget(poemPlusTable,value) == false then
+                        table.insert(poemPlusTable, value)
+                    end
+                end
+            end
+        end
+    end
+    -- log_tree(poemPlusTable)
+    Write2PoemPlusFile()
+end
+
+function Write2PoemPlusFile()
+    PoemPlusFile = io.open("poemPlusFile.txt","w+")
+
+    for _,v in pairs(poemPlusTable) do
+        local str = v.."\n"
+        PoemPlusFile:write(str)
+    end
+
+    PoemPlusFile:close()
+end
+
+function OutputFile3()
+    File3 = io.open("file3.csv", "w+")
+
+    for _,v in pairs(poemPlusTable) do
+        if reverseTable[v] ~= nil then
+            local str = v..","
+            for i,value in pairs(reverseTable[v]) do                
+                for k,s in pairs(value) do
+                    if type(s) ~= "number" then
+                        str = str..tostring(s)..","      -- TODO：此处使用concat提升性能
+                    end
+                end
+            end
+            str = str.."\n"
+            File3:write(str)
+        end
+    end
+
+    File3:close()
+end
+
+function OutputFile4()
+    for lines in io.lines("file3.csv") do
+        local subTable = Split(lines, ",")
+        for i,v in pairs(subTable) do
+            if file4Table[v] == nil then
+                file4Table[v] = 1
+            else
+                file4Table[v] = file4Table[v] + 1
+            end
+        end
+    end
+
+    -- log_tree(file4Table)
+    
+    File4 = io.open("file4.txt", "w+")
+    for i,v in pairs(file4Table) do
+        if v > 1 then
+            File4:write(i)
+        end
+        -- File4:write("\n")
+    end
+    File4:close()
 end
 
 function write2File()
@@ -126,13 +210,32 @@ function OutputReverseTableCSV()
     for _,word in pairs(poemTable) do
         for i,v in pairs(reverseTable) do
             if i == word then
-                print("find"..word)
+                -- print("find"..word)
                 local str = i..","
                 for k,s in pairs(v) do
                     str = str..s[1]..s[2]..","      -- TODO：此处使用concat提升性能
                 end
                 str = str.."\n"
-                print(str)
+                -- print(str)
+                PoemReverseTableFile:write(str)
+            end
+        end
+    end
+    PoemReverseTableFile:close()
+end
+
+function OutputReverseTablePlusCSV()
+    PoemReverseTableFile = io.open("PoemReverseTablePlus.csv", "w+")
+    for _,word in pairs(poemPlusTable) do
+        for i,v in pairs(reverseTable) do
+            if i == word then
+                -- print("find"..word)
+                local str = i..","
+                for k,s in pairs(v) do
+                    str = str..s[1]..s[2]..","      -- TODO：此处使用concat提升性能
+                end
+                str = str.."\n"
+                -- print(str)
                 PoemReverseTableFile:write(str)
             end
         end
@@ -198,6 +301,7 @@ local function tab2string(visited, path, base, tab)
     return lines;
 end
 
+-- 树状输出表格函数
 function log_tree(desc, var)
     if var == nil then
         var = desc;
@@ -221,19 +325,7 @@ function log_tree(desc, var)
     end
 end
 
--- function string.split(str, sep)
---     local result = {}
---     if str == nil or sep == nil or type(str) ~= "string" or type(sep) ~= "string" then
---         return result
---     end
---     if #sep == 0 then
---         return result
---     end
---     local pattern = string.format("([^%s]*)", sep)
---     string.gsub(str, pattern, function(c) result[#result+1] = c end)
---     return result
--- end
-
+-- 字符串分割函数
 function Split(szFullString, szSeparator)
     local nFindStartIndex = 1
     local nSplitIndex = 1
@@ -251,9 +343,14 @@ function Split(szFullString, szSeparator)
     return nSplitArray
 end
 
-OutputReverseTable()
-loadPoemfile()
-loadChaiziFile()
+
+LoadPoemfile()
+LoadChaiziFile()
+
+InitPoemPlusTable()
+OutputFile3()
+OutputFile4()
 write2PoemFile()
+OutputReverseTable()
 OutputReverseTableCSV()
 -- write2File()
