@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.IO;
 
 
 public class GameManager : MonoBehaviour
@@ -15,10 +17,12 @@ public class GameManager : MonoBehaviour
     public float maxDistance = 5.0f;
 
     public Ball chosenBall;
+
+    public Dictionary<string,List<string>> dict = new Dictionary<string, List<string>>();
     // Start is called before the first frame update
     void Start()
     {
-        
+        ReadFile();
     }
 
     // Update is called once per frame
@@ -114,5 +118,30 @@ public class GameManager : MonoBehaviour
     {
         Rigidbody2D rb2D = target.GetComponent<Rigidbody2D>();
         rb2D.AddForce(direction*percent);
+    }
+
+    void ReadFile()
+    {
+        TextAsset txt = Resources.Load("file5") as TextAsset;
+        //Debug.Log(txt);
+
+        string[] str = txt.text.Split('\n');
+        foreach(string strs in str)
+        {
+            string[] ss = strs.Split(',');
+            string key = ss[0];
+            List<string> result = new List<string>();
+            for (int i = 1; i < ss.Length; i++)
+            {
+                //result.Insert(i - 1,ss[i]);
+                result.Add(ss[i]);
+            }
+            dict.Add(key,result);
+        }
+        foreach(string st in dict["春"])
+        {
+            Debug.Log(st);
+        }
+        
     }
 }

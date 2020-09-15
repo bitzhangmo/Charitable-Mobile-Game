@@ -162,7 +162,7 @@ function OutputFile5()
         end
     end
 
-    File5 = io.open("file5.csv", "w+")
+    File5 = io.open("file5.txt", "w+")
     for i,v in pairs(finalTable) do
         local str = i
         for k,s in pairs(v) do
