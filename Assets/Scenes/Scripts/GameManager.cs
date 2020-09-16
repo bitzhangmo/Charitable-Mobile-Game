@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     GameObject target;
     public float percent = 0.0f;
     public float maxDistance = 5.0f;
+    public float initTime = 5.0f;
+    public float force = 5.0f;
+    public Transform shootPoint;
 
     public Ball chosenBall;
 
@@ -61,6 +64,7 @@ public class GameManager : MonoBehaviour
             isMouseDown = false;
             endPos = Input.mousePosition;
             percent = Vector2.Distance(startPos,endPos)/maxDistance;
+
             direction = startPos - endPos;
             direction.Normalize();
             PushTarget(target, direction, percent);
@@ -120,6 +124,7 @@ public class GameManager : MonoBehaviour
         rb2D.AddForce(direction*percent);
     }
 
+    // 读取数据表并生成依据
     void ReadFile()
     {
         TextAsset txt = Resources.Load("file5") as TextAsset;
@@ -137,11 +142,11 @@ public class GameManager : MonoBehaviour
                 result.Add(ss[i]);
             }
             dict.Add(key,result);
-        }
-        foreach(string st in dict["春"])
-        {
-            Debug.Log(st);
-        }
-        
+        }        
+    }
+
+    void InitBall()
+    {
+
     }
 }
