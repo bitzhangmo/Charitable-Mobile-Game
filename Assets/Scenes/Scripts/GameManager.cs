@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
-
+using System.Text;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public Transform shootPoint;
 
     public Ball chosenBall;
-    private string l = "落";
+    // private string l = "落";
     [SerializeField]
     // public Dictionary<string,List<string>> dict = new Dictionary<string, List<string>>();
     public Dictionary<string,string[]> dict = new Dictionary<string, string[]>();
@@ -137,10 +137,11 @@ public class GameManager : MonoBehaviour
     // 读取数据表并生成依据
     void ReadFile()
     {
-        TextAsset txt = Resources.Load("level1") as TextAsset;
+        TextAsset txt = Resources.Load("filetest") as TextAsset;
         //Debug.Log(txt);
 
         string[] str = txt.text.Split('\n');
+        Debug.Log(str);
         foreach(string strs in str)
         {
             string[] ss = strs.Split(',');
@@ -205,14 +206,24 @@ public class GameManager : MonoBehaviour
             // foreach()
             for(int i = 0;i < list1.Length; i++)
             {
-                // Debug.Log(list1[i]);
+                Debug.Log(list1[i]);
+                byte[] utf81 = Encoding.UTF8.GetBytes(list1[i]);
                 for(int j = 0;j < list2.Length; j++)
                 {
                     Debug.Log(list2[j]);
-                    if(list1[i] == list2[j])
-                    // if(String.Compare(list1[i],list2[j]) == 0)
-                    // if(list1[i].Equals(list2[j]))
+                    // if(list1[i] == list2[j])
+                    // // if(String.Compare(list1[i],list2[j]) == 0)
+                    // // if(list1[i].Equals(list2[j]))
+                    // {
+                    //     return list1[i];
+                    // }
+                    
+                    byte[] utf82 = Encoding.UTF8.GetBytes(list2[j]);
+                    bool equal = isEqual(utf81,utf82);
+
+                    if(equal)
                     {
+                        Debug.Log("equal");
                         return list1[i];
                     }
                 }
@@ -238,13 +249,12 @@ public class GameManager : MonoBehaviour
 
     public void mixWord(GameObject[] balls)
     {
-        Debug.Log("mix");
+        // Debug.Log("mix");
         Ball ball0 = balls[0].GetComponent<Ball>();
         Ball ball1 = balls[1].GetComponent<Ball>();
 
         string targetWord = CheckBall(ball0.myName, ball1.myName);
         Vector3 pos = ball1.transform.position;
-
         if(!targetWord.Equals(""))
         {
             ball0.Destroy();
@@ -259,5 +269,34 @@ public class GameManager : MonoBehaviour
             // Debug.Log(textmesh.text);
             newObject.GetComponent<Ball>().myName = targetWord;
         }
+    }
+
+    public static bool isEqual(byte[] src, byte[] dis)
+    {
+        bool isEq = false;
+
+        if(src.Length != dis.Length)
+        {
+            Debug.Log("length is not equal");
+            isEq = false;
+        }
+        else
+        {
+            isEq = true;
+            for(int i = 0; i < src.Length; i++)
+            {
+                Debug.Log("src:");
+                Debug.Log(src[i]);
+                Debug.Log("dis:");
+                Debug.Log(dis[i]);
+                if(src[i] != dis[i])
+                {
+                    isEq = false;
+                    break;
+                }
+            }
+        }
+    
+        return isEq;
     }
 }
