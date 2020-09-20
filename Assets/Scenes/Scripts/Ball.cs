@@ -13,11 +13,16 @@ public class Ball : MonoBehaviour
     public string myName;
     private Rigidbody2D rb;
     public bool canMove = false;
+    private Transform word;
+    private TextMesh textMesh;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
+        word = this.transform.GetChild(0);
+        textMesh = word.gameObject.GetComponent<TextMesh>();
+        textMesh.text = myName;
     }
 
     // Update is called once per frame
@@ -30,11 +35,20 @@ public class Ball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "Ball")
         {
-            Debug.Log("hello");
             if(this.isChosen)
             {
-                other.gameObject.SendMessage("TakeDamage",attack);
+                GameObject[] balls = new GameObject[2];
+                balls[0] = this.gameObject;
+                balls[1] = other.gameObject;
+                gm.gameObject.SendMessage("mixWord",balls);
             }
+
+
+            // // Debug.Log("hello");
+            // if(this.isChosen)
+            // {
+            //     other.gameObject.SendMessage("TakeDamage",attack);
+            // }
         }
     }
 
@@ -61,5 +75,10 @@ public class Ball : MonoBehaviour
         {
             rb.velocity = new Vector2(0, 0);
         }
+    }
+
+    public void Destroy()
+    {
+        GameObject.Destroy(this.gameObject);
     }
 }

@@ -17,11 +17,14 @@ public class GameManager : MonoBehaviour
     public float maxDistance = 5.0f;
     public float initTime = 5.0f;
     public float force = 5.0f;
+    public GameObject prefab;
     public Transform shootPoint;
 
     public Ball chosenBall;
-
-    public Dictionary<string,List<string>> dict = new Dictionary<string, List<string>>();
+    private string l = "落";
+    [SerializeField]
+    // public Dictionary<string,List<string>> dict = new Dictionary<string, List<string>>();
+    public Dictionary<string,string[]> dict = new Dictionary<string, string[]>();
     // Start is called before the first frame update
     void Start()
     {
@@ -134,7 +137,7 @@ public class GameManager : MonoBehaviour
     // 读取数据表并生成依据
     void ReadFile()
     {
-        TextAsset txt = Resources.Load("file5") as TextAsset;
+        TextAsset txt = Resources.Load("level1") as TextAsset;
         //Debug.Log(txt);
 
         string[] str = txt.text.Split('\n');
@@ -142,11 +145,13 @@ public class GameManager : MonoBehaviour
         {
             string[] ss = strs.Split(',');
             string key = ss[0];
-            List<string> result = new List<string>();
+            // List<string> result = new List<string>();
+            string[] result = new string[ss.Length - 1];
             for (int i = 1; i < ss.Length; i++)
             {
                 //result.Insert(i - 1,ss[i]);
-                result.Add(ss[i]);
+                // result.Add(ss[i]);
+                result[i - 1] = ss[i];
             }
             dict.Add(key,result);
         }        
@@ -155,5 +160,104 @@ public class GameManager : MonoBehaviour
     void InitBall()
     {
 
+    }
+
+    private string CheckBall(string myName, string otherName)
+    {
+        if(dict.ContainsKey(myName) && dict.ContainsKey(otherName))
+        {
+            // List<string> list1 = dict[myName];
+            // List<string> list2 = dict[otherName];
+            string[] list1 = dict[myName];
+            string[] list2 = dict[otherName];
+
+            // foreach(string item in list1)
+            // {                  
+            //     // if(item.Equals(""))
+            //     // {
+            //     //     continue;
+            //     // }  
+            //     // if(item.Equals(""))
+            //     // {
+            //     // Debug.Log(item);
+            //     // if()
+            //     foreach(string item2 in list2)
+            //     {
+            //         // Debug.Log("___________");
+            //         // Debug.Log(myName);
+            //         // Debug.Log(otherName);
+            //         // Debug.Log(item);
+            //         if(String.Compare(item,item2) == 0)
+            //         // if(item.Equals(item2))
+            //         // if(item == item2)
+            //         {
+            //             Debug.Log("item1 == item2");
+            //             return item;
+            //         }
+            //         else return "";
+                    
+            //     }
+            //     // }
+            // }
+
+
+            // Debug.Log("item2========================");
+            // foreach()
+            for(int i = 0;i < list1.Length; i++)
+            {
+                // Debug.Log(list1[i]);
+                for(int j = 0;j < list2.Length; j++)
+                {
+                    Debug.Log(list2[j]);
+                    if(list1[i] == list2[j])
+                    // if(String.Compare(list1[i],list2[j]) == 0)
+                    // if(list1[i].Equals(list2[j]))
+                    {
+                        return list1[i];
+                    }
+                }
+                // if(list1[i] == l)
+                // {
+                //     Debug.Log("luo");
+                // }
+                // if(list2.Contains(list1[i]))
+                // {
+                //     return list1[i];
+                // }
+            }
+            // Debug.Log("list2======================");
+
+
+            return "";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public void mixWord(GameObject[] balls)
+    {
+        Debug.Log("mix");
+        Ball ball0 = balls[0].GetComponent<Ball>();
+        Ball ball1 = balls[1].GetComponent<Ball>();
+
+        string targetWord = CheckBall(ball0.myName, ball1.myName);
+        Vector3 pos = ball1.transform.position;
+
+        if(!targetWord.Equals(""))
+        {
+            ball0.Destroy();
+            ball1.Destroy();
+            GameObject newObject = GameObject.Instantiate(prefab, pos, Quaternion.identity);
+            // Debug.Log(ball0.myName);
+            // Debug.Log(ball1.myName);
+            // Debug.Log(targetWord);
+            // Transform word = newObject.transform.GetChild(0);
+            // TextMesh textmesh = word.GetComponent<TextMesh>();
+            // textmesh.text = targetWord;
+            // Debug.Log(textmesh.text);
+            newObject.GetComponent<Ball>().myName = targetWord;
+        }
     }
 }
