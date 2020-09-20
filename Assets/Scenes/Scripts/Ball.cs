@@ -9,18 +9,22 @@ public class Ball : MonoBehaviour
     public bool isChosen = false;
     public int Life = 10;
     public int attack = 3;
+    public float minSpeed = 0.05f;
     public string myName;
+    private Rigidbody2D rb;
+    public bool canMove = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = this.gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckLife();
+        CheckSpeed();
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
@@ -48,6 +52,14 @@ public class Ball : MonoBehaviour
         {
             GameObject.Destroy(this.gameObject);
             // this.transform.gameObject.Destory();
+        }
+    }
+
+    public void CheckSpeed()
+    {
+        if(rb.velocity.magnitude < minSpeed)
+        {
+            rb.velocity = new Vector2(0, 0);
         }
     }
 }

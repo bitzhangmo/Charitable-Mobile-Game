@@ -55,7 +55,10 @@ public class GameManager : MonoBehaviour
                 {
                     target = hit.transform.gameObject;
                     chosenBall = target.GetComponent<Ball>();
-                    chosenBall.isChosen = true;
+                    if(chosenBall.canMove)
+                    {
+                        chosenBall.isChosen = true;
+                    }
                 }
             }
         }
@@ -67,7 +70,11 @@ public class GameManager : MonoBehaviour
 
             direction = startPos - endPos;
             direction.Normalize();
-            PushTarget(target, direction, percent);
+            if(target != null && chosenBall.canMove)
+            {
+                PushTarget(target, direction, percent);
+            }
+
         }
 
         // if(isMouseDown)
