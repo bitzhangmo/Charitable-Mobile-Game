@@ -19,8 +19,15 @@ public class GameManager : MonoBehaviour
     public float force = 5.0f;
     public GameObject prefab;
     public Transform shootPoint;
-
+    public AudioClip ac;
+    private AudioSource audioSource;
     public Ball chosenBall;
+    public string poem = "花落知多少";
+    public string[] strs = {"矢","少","洛","小","化","夕","口","丿","十","火","一","丁","木","办","林","日"};
+    public Transform[] initPos;
+    // public Ball[] balls;
+    public List<Ball> balls;
+    public float timer = 2.0f;
     // private string l = "落";
     [SerializeField]
     // public Dictionary<string,List<string>> dict = new Dictionary<string, List<string>>();
@@ -28,6 +35,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = this.GetComponent<AudioSource>();
         ReadFile();
     }
 
@@ -35,7 +43,18 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UserInput();
+        if(balls.Count == 0)
+        {
+            timer -= Time.deltaTime;
+            if(timer <= 0)
+            {
+                InitBall();
+                timer = 2.0f;
+            }
+            
+        }
     }
+
 
     void UserInput()
     {
@@ -58,6 +77,7 @@ public class GameManager : MonoBehaviour
                 {
                     target = hit.transform.gameObject;
                     chosenBall = target.GetComponent<Ball>();
+
                     if(chosenBall.canMove)
                     {
                         chosenBall.isChosen = true;
@@ -76,6 +96,11 @@ public class GameManager : MonoBehaviour
             if(target != null && chosenBall.canMove)
             {
                 PushTarget(target, direction, percent);
+            }
+
+            if(balls.Contains(chosenBall))
+            {
+                balls.Remove(chosenBall);
             }
 
         }
@@ -160,7 +185,16 @@ public class GameManager : MonoBehaviour
 
     void InitBall()
     {
-
+        for(int i = 0; i < 3; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0,strs.Length);
+            GameObject initObject = GameObject.Instantiate(prefab, initPos[i].position, Quaternion.identity);
+            Ball tempBall = initObject.GetComponent<Ball>();
+            balls.Add(tempBall);
+            tempBall.canMove = true;
+            tempBall.myName = strs[randomIndex];
+            tempBall.gm = this;
+        }
     }
 
     private string CheckBall(string myName, string otherName)
@@ -206,11 +240,11 @@ public class GameManager : MonoBehaviour
             // foreach()
             for(int i = 0;i < list1.Length; i++)
             {
-                Debug.Log(list1[i]);
+                // Debug.Log(list1[i]);
                 byte[] utf81 = Encoding.UTF8.GetBytes(list1[i]);
                 for(int j = 0;j < list2.Length; j++)
                 {
-                    Debug.Log(list2[j]);
+                    // Debug.Log(list2[j]);
                     // if(list1[i] == list2[j])
                     // // if(String.Compare(list1[i],list2[j]) == 0)
                     // // if(list1[i].Equals(list2[j]))
@@ -267,7 +301,21 @@ public class GameManager : MonoBehaviour
             // TextMesh textmesh = word.GetComponent<TextMesh>();
             // textmesh.text = targetWord;
             // Debug.Log(textmesh.text);
-            newObject.GetComponent<Ball>().myName = targetWord;
+            Ball newball = newObject.GetComponent<Ball>();
+            newball.myName = targetWord;
+            newball.gm = this;
+            audioSource.PlayOneShot(ac, 1F);
+            if(poem.Contains(targetWord))
+            {
+                newObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                newObject.GetComponent<SpriteRenderer>().color = Color.red;
+                newball.isTargetBall = true;
+            }
+            else
+            {
+                newball.canMove = true;
+            }
+
         }
     }
 
@@ -277,7 +325,7 @@ public class GameManager : MonoBehaviour
 
         if(src.Length != dis.Length)
         {
-            Debug.Log("length is not equal");
+            // Debug.Log("length is not equal");
             isEq = false;
         }
         else
@@ -285,10 +333,10 @@ public class GameManager : MonoBehaviour
             isEq = true;
             for(int i = 0; i < src.Length; i++)
             {
-                Debug.Log("src:");
-                Debug.Log(src[i]);
-                Debug.Log("dis:");
-                Debug.Log(dis[i]);
+                // Debug.Log("src:");
+                // Debug.Log(src[i]);
+                // Debug.Log("dis:");
+                // Debug.Log(dis[i]);
                 if(src[i] != dis[i])
                 {
                     isEq = false;

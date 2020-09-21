@@ -15,6 +15,7 @@ public class Ball : MonoBehaviour
     public bool canMove = false;
     private Transform word;
     private TextMesh textMesh;
+    public bool isTargetBall = false;
 
     // Start is called before the first frame update
     void Start()
@@ -44,11 +45,14 @@ public class Ball : MonoBehaviour
             }
 
 
-            // // Debug.Log("hello");
-            // if(this.isChosen)
-            // {
-            //     other.gameObject.SendMessage("TakeDamage",attack);
-            // }
+            // Debug.Log("hello");
+            if(this.isChosen)
+            {
+                if(other.gameObject.GetComponent<Ball>().isTargetBall)
+                {   
+                    other.gameObject.SendMessage("TakeDamage",attack);
+                }
+            }
         }
     }
 
@@ -81,4 +85,5 @@ public class Ball : MonoBehaviour
     {
         GameObject.Destroy(this.gameObject);
     }
+
 }
