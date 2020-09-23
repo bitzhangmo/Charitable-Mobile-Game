@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public float initTime = 5.0f;
     public float force = 5.0f;
     public GameObject prefab;
+    public GameObject p_Scroll;
+    public GameObject scroll;
     public Transform shootPoint;
     public AudioClip ac;
     private AudioSource audioSource;
@@ -30,12 +32,17 @@ public class GameManager : MonoBehaviour
     public float timer = 2.0f;
     // private string l = "落";
     [SerializeField]
-    // public Dictionary<string,List<string>> dict = new Dictionary<string, List<string>>();
-    public Dictionary<string,string[]> dict = new Dictionary<string, string[]>();
+    public Dictionary<string,List<string>> levelRule = new Dictionary<string, List<string>>();
+    // public Dictionary<string,string[]> levelRule = new Dictionary<string, string[]>();
+    public Dictionary<string,string> doubleRule = new Dictionary<string, string>();
+    public string[] levelPath;
+
     // Start is called before the first frame update
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
+        ReadLevelPathFile();
+        ReadDoubleFile();
         ReadFile();
     }
 
@@ -84,6 +91,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
+            // initScroll(new Vector3(ray2D.origin.x,ray2D.origin.y,0));
         }
         if(Input.GetMouseButtonUp(0))
         {
@@ -102,7 +110,7 @@ public class GameManager : MonoBehaviour
             {
                 balls.Remove(chosenBall);
             }
-
+            // ReleaseScroll();
         }
 
         // if(isMouseDown)
@@ -162,7 +170,7 @@ public class GameManager : MonoBehaviour
     // 读取数据表并生成依据
     void ReadFile()
     {
-        TextAsset txt = Resources.Load("filetest") as TextAsset;
+        TextAsset txt = Resources.Load("level0") as TextAsset;
         //Debug.Log(txt);
 
         string[] str = txt.text.Split('\n');
@@ -171,16 +179,44 @@ public class GameManager : MonoBehaviour
         {
             string[] ss = strs.Split(',');
             string key = ss[0];
-            // List<string> result = new List<string>();
-            string[] result = new string[ss.Length - 1];
+            List<string> result = new List<string>();
+            // string[] result = new string[ss.Length - 1];
             for (int i = 1; i < ss.Length; i++)
             {
-                //result.Insert(i - 1,ss[i]);
-                // result.Add(ss[i]);
-                result[i - 1] = ss[i];
+                // result.Insert(i - 1,ss[i]);
+                result.Add(ss[i]);
+                // result[i - 1] = ss[i];
             }
-            dict.Add(key,result);
+            levelRule.Add(key,result);
         }        
+    }
+
+    public void ReadFileByIndex(int index)
+    {
+        
+    }
+
+    // 关卡规则文件名
+    public void ReadLevelPathFile()
+    {
+        TextAsset pathFile = Resources.Load("levelPath") as TextAsset;
+
+        levelPath = pathFile.text.Split('\n');
+    }
+
+    // 同字合成表
+    public void ReadDoubleFile()
+    {
+        TextAsset doubleFile = Resources.Load("double") as TextAsset;
+
+        string[] strs = doubleFile.text.Split('\n');
+        foreach(string str in strs)
+        {
+            string[] rule = str.Split(',');
+            string key = rule[0];
+            string target = rule[1];
+            doubleRule.Add(key,target);
+        }
     }
 
     void InitBall()
@@ -199,12 +235,28 @@ public class GameManager : MonoBehaviour
 
     private string CheckBall(string myName, string otherName)
     {
-        if(dict.ContainsKey(myName) && dict.ContainsKey(otherName))
+        if(levelRule.ContainsKey(myName) && levelRule.ContainsKey(otherName))
         {
-            // List<string> list1 = dict[myName];
-            // List<string> list2 = dict[otherName];
-            string[] list1 = dict[myName];
-            string[] list2 = dict[otherName];
+            List<string> list1 = levelRule[myName];
+            List<string> list2 = levelRule[otherName];
+            // string[] list1 = levelRule[myName];
+            // string[] list2 = levelRule[otherName];
+
+            // 检查同字情况
+            if(myName == otherName)
+            {
+                return CheckBallInDoubleFile(myName);
+            }
+
+            foreach(string item in list1)
+            {
+                if(list2.Contains(item))
+                {
+                    return item;
+                }
+            }
+
+            // return "";
 
             // foreach(string item in list1)
             // {                  
@@ -236,49 +288,61 @@ public class GameManager : MonoBehaviour
             // }
 
 
-            // Debug.Log("item2========================");
-            // foreach()
-            for(int i = 0;i < list1.Length; i++)
-            {
-                // Debug.Log(list1[i]);
-                byte[] utf81 = Encoding.UTF8.GetBytes(list1[i]);
-                for(int j = 0;j < list2.Length; j++)
-                {
-                    // Debug.Log(list2[j]);
-                    // if(list1[i] == list2[j])
-                    // // if(String.Compare(list1[i],list2[j]) == 0)
-                    // // if(list1[i].Equals(list2[j]))
-                    // {
-                    //     return list1[i];
-                    // }
+        //     // Debug.Log("item2========================");
+        //     // foreach()
+        //     for(int i = 0;i < list1.Length; i++)
+        //     {
+        //         // Debug.Log(list1[i]);
+        //         byte[] utf81 = Encoding.UTF8.GetBytes(list1[i]);
+        //         for(int j = 0;j < list2.Length; j++)
+        //         {
+        //             // Debug.Log(list2[j]);
+        //             // if(list1[i] == list2[j])
+        //             // // if(String.Compare(list1[i],list2[j]) == 0)
+        //             // // if(list1[i].Equals(list2[j]))
+        //             // {
+        //             //     return list1[i];
+        //             // }
                     
-                    byte[] utf82 = Encoding.UTF8.GetBytes(list2[j]);
-                    bool equal = isEqual(utf81,utf82);
+        //             byte[] utf82 = Encoding.UTF8.GetBytes(list2[j]);
+        //             bool equal = isEqual(utf81,utf82);
 
-                    if(equal)
-                    {
-                        Debug.Log("equal");
-                        return list1[i];
-                    }
-                }
-                // if(list1[i] == l)
-                // {
-                //     Debug.Log("luo");
-                // }
-                // if(list2.Contains(list1[i]))
-                // {
-                //     return list1[i];
-                // }
-            }
-            // Debug.Log("list2======================");
+        //             if(equal)
+        //             {
+        //                 Debug.Log("equal");
+        //                 return list1[i];
+        //             }
+        //         }
+        //         // if(list1[i] == l)
+        //         // {
+        //         //     Debug.Log("luo");
+        //         // }
+        //         // if(list2.Contains(list1[i]))
+        //         // {
+        //         //     return list1[i];
+        //         // }
+        //     }
+        //     // Debug.Log("list2======================");
 
 
-            return "";
+        //     return "";
+        // }
+        // else
+        // {
+        //     return "";
+        // }
         }
-        else
+
+        return "";
+    }
+
+    private string CheckBallInDoubleFile(string key)
+    {
+        if(doubleRule.ContainsKey(key))
         {
-            return "";
+            return doubleRule[key];
         }
+        return "";
     }
 
     public void mixWord(GameObject[] balls)
@@ -346,5 +410,15 @@ public class GameManager : MonoBehaviour
         }
     
         return isEq;
+    }
+
+    private void initScroll(Vector3 clickPos)
+    {
+        scroll = GameObject.Instantiate(p_Scroll, clickPos, Quaternion.identity);
+    }
+
+    private void ReleaseScroll()
+    {
+        GameObject.Destroy(scroll);
     }
 }
