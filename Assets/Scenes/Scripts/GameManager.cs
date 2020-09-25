@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     public string[] poem = {"花","落","知","多","少"};
     public string[] strs = {"矢","少","洛","小","化","夕","口","丿","十","火","一","丁","木","办","林","日","艹"};
     public string[] strsReal = {"矢","洛","化","夕","口","艹"};
+    public string[] levelPath = {"level0/","level1/","level2/"};
     public Dictionary<string,int> wordCount = new Dictionary<string, int>(); 
     private string uiText = "";
     public Transform[] initPos;
@@ -55,7 +56,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<string,List<string>> levelRule = new Dictionary<string, List<string>>();
     // public Dictionary<string,string[]> levelRule = new Dictionary<string, string[]>();
     public Dictionary<string,string> doubleRule = new Dictionary<string, string>();
-    public string[] levelPath;
+    // public string[] levelPath;
 
     [Header("GM开关")]
     public bool isUseDisturb = true;
@@ -65,7 +66,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
-        ReadLevelPathFile();
+        // ReadLevelPathFile();
         ReadDoubleFile();
         // ReadFile();
         ReadFileByIndex(0);
@@ -190,12 +191,14 @@ public class GameManager : MonoBehaviour
         // string path = levelPath[index];
         // TextAsset txt = Resources.Load(path) as TextAsset;
         // Debug.Log(txt);
+        // string front = "level0/";
+        string back = "level0";
         TextAsset txt;
         switch(index)
         {
             case 0:
             {
-                txt = Resources.Load("level0/level0") as TextAsset;
+                txt = Resources.Load(levelPath[index]+"level") as TextAsset;
                 break;
             }
             case 1:
@@ -256,6 +259,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ReadPartFileByIndex()
+    {
+        // TextAsset partFile = Resources.Load("") as TextAsset;
+    }
+
     void InitBall()
     {
         for(int i = 0; i < 3; i++)
@@ -302,10 +310,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    public void ChooseBall()
-    {
-
-    }
 
     private string CheckBall(string myName, string otherName)
     {
@@ -343,6 +347,10 @@ public class GameManager : MonoBehaviour
         return "";
     }
 
+    // private string CheckBallnotFinish()
+    // {
+
+    // }
     public void mixWord(GameObject[] balls)
     {
         // Debug.Log("mix");
