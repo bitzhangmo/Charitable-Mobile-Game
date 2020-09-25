@@ -20,8 +20,9 @@ public class GameManager : MonoBehaviour
     [Header("场景数据")]
     public int strsIndex = 0;
     public int strsRealIndex = 0;
-    public int repeatCount = 0;
+    // public int repeatCount = 0;
     public int chooseIndex = 0;
+    public int levelIndex = 0;
     public float percent = 0.0f;
     public float maxDistance = 5.0f;
     public float initTime = 5.0f;
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
     public GameObject p_Scroll;
     public GameObject scroll;
     public Transform shootPoint;
-    public LineRenderer lineRenderer;
+    // public LineRenderer lineRenderer;
     public Text topText;
     
     [Header("音频相关")]
@@ -40,11 +41,10 @@ public class GameManager : MonoBehaviour
 
     [Header("关卡数据")]
     public Ball chosenBall;
-    public string poem = "花落知多少";
+    public string[] poem = {"花","落","知","多","少"};
     public string[] strs = {"矢","少","洛","小","化","夕","口","丿","十","火","一","丁","木","办","林","日","艹"};
     public string[] strsReal = {"矢","洛","化","夕","口","艹"};
-    
-    // private List<string> uiText = new List<string>();
+    public Dictionary<string,int> wordCount = new Dictionary<string, int>(); 
     private string uiText = "";
     public Transform[] initPos;
     // public Ball[] balls;
@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
 
     [Header("GM开关")]
     public bool isUseDisturb = true;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -66,31 +67,15 @@ public class GameManager : MonoBehaviour
         audioSource = this.GetComponent<AudioSource>();
         ReadLevelPathFile();
         ReadDoubleFile();
-        ReadFile();
+        // ReadFile();
+        ReadFileByIndex(0);
     }
 
     // Update is called once per frame
     void Update()
     {
         UserInput();
-        if(balls.Count == 0)
-        {
-            timer -= Time.deltaTime;
-            if(timer <= 0)
-            {
-                InitBall();
-                timer = 2.0f;
-            }
-        }
-        if(repeatCount > 2)
-        {
-            Time.timeScale = 0;
-        }
-        if(balls.Count > 0)
-        {
-            balls[0].canMove = true;
-        }
-        
+        InitBallByTime();        
     }
 
 
@@ -121,8 +106,8 @@ public class GameManager : MonoBehaviour
                     target = hit.transform.gameObject;
                     chosenBall = target.GetComponent<Ball>();
 
-                    lineRenderer = target.GetComponent<LineRenderer>();
-                    lineRenderer.SetVertexCount(2);
+                    // lineRenderer = target.GetComponent<LineRenderer>();
+                    // lineRenderer.SetVertexCount(2);
                     
                     
                     if(chosenBall.canMove)
@@ -146,8 +131,8 @@ public class GameManager : MonoBehaviour
             direction.Normalize();
             
             Vector3 line_end = (startPos + direction)*5;
-            lineRenderer.SetPosition(0, new Vector3(startPos.x,startPos.y,-0.3f));
-            lineRenderer.SetPosition(1,line_end);
+            // lineRenderer.SetPosition(0, new Vector3(startPos.x,startPos.y,-0.3f));
+            // lineRenderer.SetPosition(1,line_end);
             
             if(target != null && chosenBall.canMove)
             {
@@ -178,11 +163,11 @@ public class GameManager : MonoBehaviour
     // 读取数据表并生成依据
     void ReadFile()
     {
-        TextAsset txt = Resources.Load("level0") as TextAsset;
+        TextAsset txt = Resources.Load("level0/level0") as TextAsset;
         //Debug.Log(txt);
 
         string[] str = txt.text.Split('\n');
-        Debug.Log(str);
+        // Debug.Log(str);
         foreach(string strs in str)
         {
             string[] ss = strs.Split(',');
@@ -201,7 +186,47 @@ public class GameManager : MonoBehaviour
 
     public void ReadFileByIndex(int index)
     {
+        // // Debug.Log(levelPath[index]);
+        // string path = levelPath[index];
+        // TextAsset txt = Resources.Load(path) as TextAsset;
+        // Debug.Log(txt);
+        TextAsset txt;
+        switch(index)
+        {
+            case 0:
+            {
+                txt = Resources.Load("level0/level0") as TextAsset;
+                break;
+            }
+            case 1:
+            {
+                txt = Resources.Load("level1/level1") as TextAsset;
+                break;
+            }
+            default:
+            {
+                txt = Resources.Load("level0/level0") as TextAsset;
+                break;
+            }
+        }
+
+        Debug.Log(txt);
+        string[] strs = txt.text.Split('\n');
+
+        foreach(string line in strs)
+        {
+            string[] items = line.Split(',');
+            string key = items[0];
+
+            List<string> result = new List<string>();
+            for(int i = 1; i<items.Length; i++)
+            {
+                result.Add(items[i]);
+            }
+            levelRule.Add(key,result);
+        }
         
+
     }
 
     // 关卡规则文件名
@@ -210,6 +235,10 @@ public class GameManager : MonoBehaviour
         TextAsset pathFile = Resources.Load("levelPath") as TextAsset;
 
         levelPath = pathFile.text.Split('\n');
+        // foreach(var item in levelPath)
+        // {
+        //     Debug.Log(item);
+        // }
     }
 
     // 同字合成表
@@ -235,7 +264,7 @@ public class GameManager : MonoBehaviour
             GameObject initObject = GameObject.Instantiate(prefab, initPos[i].position, Quaternion.identity);
             Ball tempBall = initObject.GetComponent<Ball>();
             balls.Add(tempBall);
-            // tempBall.canMove = true;
+            tempBall.canMove = true;
             if(isUseDisturb)
             {
                 tempBall.myName = strs[strsIndex];
@@ -243,7 +272,7 @@ public class GameManager : MonoBehaviour
                 if(strsIndex == strs.Length)
                 {
                     strsIndex = 0;
-                    repeatCount++;
+                    // repeatCount++;
                 }
             }
             else
@@ -253,7 +282,7 @@ public class GameManager : MonoBehaviour
                 if(strsRealIndex == strsReal.Length)
                 {
                     strsRealIndex = 0;
-                    repeatCount++;
+                    // repeatCount++;
                 }
             }
 
@@ -261,6 +290,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void InitBallByTime()
+    {
+        if(balls.Count == 0)
+        {
+            timer -= Time.deltaTime;
+            if(timer <= 0)
+            {
+                InitBall();
+                timer = 2.0f;
+            }
+        }
+    }
     public void ChooseBall()
     {
 
@@ -319,11 +360,19 @@ public class GameManager : MonoBehaviour
             newball.myName = targetWord;
             newball.gm = this;
             audioSource.PlayOneShot(ac, 1F);
-            if(poem.Contains(targetWord))
+            if(ArrayStringContainWord(poem , targetWord))
             {
                 newObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
                 newObject.GetComponent<SpriteRenderer>().color = Color.red;
                 newball.isTargetBall = true;
+                if(wordCount.ContainsKey(targetWord))
+                {
+                    wordCount[targetWord] += 1;
+                }
+                else
+                {
+                    wordCount.Add(targetWord,1);
+                }
             }
             else
             {
@@ -335,34 +384,22 @@ public class GameManager : MonoBehaviour
 
     public void UpdateTopText(string name)
     {
-        // int index = checkWordIndex(name);
-        // // uiText[index*2] = name;
-        // uiText.Insert(index * 2,name);
-        // uiText.Insert(index + 1," ");
-        // string txt = uiText.ToString();
         uiText += name;
         topText.text = uiText;
     }
 
-    private int checkWordIndex(string name)
+    public bool ArrayStringContainWord(string[] array,string word)
     {
-        string[] poemArray = poem.Split();
-        for(int i = 0; i < poemArray.Length; i++)
+        foreach (var item in array)
         {
-            if(name == poemArray[i])
+            if(item == word)
             {
-                return i;
+                return true;
             }
         }
-        return -1;
-    }
-    private void initScroll(Vector3 clickPos)
-    {
-        scroll = GameObject.Instantiate(p_Scroll, clickPos, Quaternion.identity);
+
+        return false;
     }
 
-    private void ReleaseScroll()
-    {
-        GameObject.Destroy(scroll);
-    }
+    // 
 }
