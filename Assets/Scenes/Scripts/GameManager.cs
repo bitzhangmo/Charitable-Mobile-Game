@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public Vector2 endPos;
     public Vector2 direction;
     GameObject target;
+    public int strsIndex = 0;
+    public int repeatCount = 0;
+    public int chooseIndex = 0;
     public float percent = 0.0f;
     public float maxDistance = 5.0f;
     public float initTime = 5.0f;
@@ -58,13 +61,22 @@ public class GameManager : MonoBehaviour
                 InitBall();
                 timer = 2.0f;
             }
-            
         }
+        if(repeatCount > 2)
+        {
+            Time.timeScale = 0;
+        }
+        if(balls.Count > 0)
+        {
+            balls[0].canMove = true;
+        }
+        
     }
 
 
     void UserInput()
     {
+        // balls[0].canMove = true;
         if(Input.GetMouseButtonDown(0))
         {
             isMouseDown = true;
@@ -110,6 +122,7 @@ public class GameManager : MonoBehaviour
             {
                 balls.Remove(chosenBall);
             }
+            chosenBall.canMove = false;
             // ReleaseScroll();
         }
 
@@ -223,14 +236,25 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < 3; i++)
         {
-            int randomIndex = UnityEngine.Random.Range(0,strs.Length);
+            // int randomIndex = UnityEngine.Random.Range(0,strs.Length);
             GameObject initObject = GameObject.Instantiate(prefab, initPos[i].position, Quaternion.identity);
             Ball tempBall = initObject.GetComponent<Ball>();
             balls.Add(tempBall);
-            tempBall.canMove = true;
-            tempBall.myName = strs[randomIndex];
+            // tempBall.canMove = true;
+            tempBall.myName = strs[strsIndex];
+            strsIndex++;
+            if(strsIndex == strs.Length)
+            {
+                strsIndex = 0;
+                repeatCount++;
+            }
             tempBall.gm = this;
         }
+    }
+
+    public void ChooseBall()
+    {
+
     }
 
     private string CheckBall(string myName, string otherName)
@@ -255,82 +279,6 @@ public class GameManager : MonoBehaviour
                     return item;
                 }
             }
-
-            // return "";
-
-            // foreach(string item in list1)
-            // {                  
-            //     // if(item.Equals(""))
-            //     // {
-            //     //     continue;
-            //     // }  
-            //     // if(item.Equals(""))
-            //     // {
-            //     // Debug.Log(item);
-            //     // if()
-            //     foreach(string item2 in list2)
-            //     {
-            //         // Debug.Log("___________");
-            //         // Debug.Log(myName);
-            //         // Debug.Log(otherName);
-            //         // Debug.Log(item);
-            //         if(String.Compare(item,item2) == 0)
-            //         // if(item.Equals(item2))
-            //         // if(item == item2)
-            //         {
-            //             Debug.Log("item1 == item2");
-            //             return item;
-            //         }
-            //         else return "";
-                    
-            //     }
-            //     // }
-            // }
-
-
-        //     // Debug.Log("item2========================");
-        //     // foreach()
-        //     for(int i = 0;i < list1.Length; i++)
-        //     {
-        //         // Debug.Log(list1[i]);
-        //         byte[] utf81 = Encoding.UTF8.GetBytes(list1[i]);
-        //         for(int j = 0;j < list2.Length; j++)
-        //         {
-        //             // Debug.Log(list2[j]);
-        //             // if(list1[i] == list2[j])
-        //             // // if(String.Compare(list1[i],list2[j]) == 0)
-        //             // // if(list1[i].Equals(list2[j]))
-        //             // {
-        //             //     return list1[i];
-        //             // }
-                    
-        //             byte[] utf82 = Encoding.UTF8.GetBytes(list2[j]);
-        //             bool equal = isEqual(utf81,utf82);
-
-        //             if(equal)
-        //             {
-        //                 Debug.Log("equal");
-        //                 return list1[i];
-        //             }
-        //         }
-        //         // if(list1[i] == l)
-        //         // {
-        //         //     Debug.Log("luo");
-        //         // }
-        //         // if(list2.Contains(list1[i]))
-        //         // {
-        //         //     return list1[i];
-        //         // }
-        //     }
-        //     // Debug.Log("list2======================");
-
-
-        //     return "";
-        // }
-        // else
-        // {
-        //     return "";
-        // }
         }
 
         return "";
@@ -358,13 +306,6 @@ public class GameManager : MonoBehaviour
             ball0.Destroy();
             ball1.Destroy();
             GameObject newObject = GameObject.Instantiate(prefab, pos, Quaternion.identity);
-            // Debug.Log(ball0.myName);
-            // Debug.Log(ball1.myName);
-            // Debug.Log(targetWord);
-            // Transform word = newObject.transform.GetChild(0);
-            // TextMesh textmesh = word.GetComponent<TextMesh>();
-            // textmesh.text = targetWord;
-            // Debug.Log(textmesh.text);
             Ball newball = newObject.GetComponent<Ball>();
             newball.myName = targetWord;
             newball.gm = this;
@@ -397,10 +338,6 @@ public class GameManager : MonoBehaviour
             isEq = true;
             for(int i = 0; i < src.Length; i++)
             {
-                // Debug.Log("src:");
-                // Debug.Log(src[i]);
-                // Debug.Log("dis:");
-                // Debug.Log(dis[i]);
                 if(src[i] != dis[i])
                 {
                     isEq = false;

@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-
-    public GameManager gm;
-    public bool isChosen = false;
+    [Header("小球属性")]
     public int Life = 10;
     public int attack = 3;
     public float minSpeed = 0.05f;
+    public float speed = 0f;
+    [Header("组件相关")]
+    public GameManager gm;
+    public bool isChosen = false;
     public string myName;
     private Rigidbody2D rb;
     public bool canMove = false;
     private Transform word;
     private TextMesh textMesh;
     public bool isTargetBall = false;
+    public bool reachLimit = false;
+    public float rgb = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +35,10 @@ public class Ball : MonoBehaviour
     {
         CheckLife();
         CheckSpeed();
+        if(canMove)
+        {
+            ChangeColor();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
@@ -75,8 +83,10 @@ public class Ball : MonoBehaviour
 
     public void CheckSpeed()
     {
+        // Debug.Log(rb.velocity.magnitude);
         if(rb.velocity.magnitude < minSpeed)
         {
+            speed = rb.velocity.magnitude;
             rb.velocity = new Vector2(0, 0);
         }
     }
@@ -86,4 +96,27 @@ public class Ball : MonoBehaviour
         GameObject.Destroy(this.gameObject);
     }
 
+    public void ChangeColor()
+    {
+        
+        if(rgb > 1)
+        {
+            reachLimit = true;
+        }
+        else if(rgb < 0)
+        {
+            reachLimit = false;
+        }
+
+        if(reachLimit)
+        {
+            rgb -= Time.deltaTime;
+        }
+        else
+        {
+            rgb += Time.deltaTime;
+        }
+        
+        this.gameObject.GetComponent<SpriteRenderer>().color = new Color(rgb,rgb,rgb,rgb);
+    }
 }
