@@ -4,31 +4,48 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Text;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
 
+    [Header("输入相关")]
     public bool isMouseDown = false;
     public Vector2 startPos;
     public Vector2 endPos;
     public Vector2 direction;
+
+    
     GameObject target;
+    [Header("场景数据")]
     public int strsIndex = 0;
+    public int strsRealIndex = 0;
     public int repeatCount = 0;
     public int chooseIndex = 0;
     public float percent = 0.0f;
     public float maxDistance = 5.0f;
     public float initTime = 5.0f;
     public float force = 5.0f;
+
     public GameObject prefab;
     public GameObject p_Scroll;
     public GameObject scroll;
     public Transform shootPoint;
+    public LineRenderer lineRenderer;
+    public Text topText;
+    
+    [Header("音频相关")]
     public AudioClip ac;
     private AudioSource audioSource;
+
+    [Header("关卡数据")]
     public Ball chosenBall;
     public string poem = "花落知多少";
-    public string[] strs = {"矢","少","洛","小","化","夕","口","丿","十","火","一","丁","木","办","林","日"};
+    public string[] strs = {"矢","少","洛","小","化","夕","口","丿","十","火","一","丁","木","办","林","日","艹"};
+    public string[] strsReal = {"矢","洛","化","夕","口","艹"};
+    
+    // private List<string> uiText = new List<string>();
+    private string uiText = "";
     public Transform[] initPos;
     // public Ball[] balls;
     public List<Ball> balls;
@@ -39,6 +56,9 @@ public class GameManager : MonoBehaviour
     // public Dictionary<string,string[]> levelRule = new Dictionary<string, string[]>();
     public Dictionary<string,string> doubleRule = new Dictionary<string, string>();
     public string[] levelPath;
+
+    [Header("GM开关")]
+    public bool isUseDisturb = true;
 
     // Start is called before the first frame update
     void Start()
@@ -79,8 +99,12 @@ public class GameManager : MonoBehaviour
         // balls[0].canMove = true;
         if(Input.GetMouseButtonDown(0))
         {
+            if(!isMouseDown)
+            {
+                startPos = Input.mousePosition;
+            }
             isMouseDown = true;
-            startPos = Input.mousePosition;
+            
 
             if (chosenBall != null)
             {
@@ -97,22 +121,34 @@ public class GameManager : MonoBehaviour
                     target = hit.transform.gameObject;
                     chosenBall = target.GetComponent<Ball>();
 
+                    lineRenderer = target.GetComponent<LineRenderer>();
+                    lineRenderer.SetVertexCount(2);
+                    
+                    
                     if(chosenBall.canMove)
                     {
                         chosenBall.isChosen = true;
                     }
                 }
             }
+
+
             // initScroll(new Vector3(ray2D.origin.x,ray2D.origin.y,0));
         }
         if(Input.GetMouseButtonUp(0))
         {
             isMouseDown = false;
+
             endPos = Input.mousePosition;
             percent = Vector2.Distance(startPos,endPos)/maxDistance;
 
             direction = startPos - endPos;
             direction.Normalize();
+            
+            Vector3 line_end = (startPos + direction)*5;
+            lineRenderer.SetPosition(0, new Vector3(startPos.x,startPos.y,-0.3f));
+            lineRenderer.SetPosition(1,line_end);
+            
             if(target != null && chosenBall.canMove)
             {
                 PushTarget(target, direction, percent);
@@ -123,6 +159,7 @@ public class GameManager : MonoBehaviour
                 balls.Remove(chosenBall);
             }
             chosenBall.canMove = false;
+            chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
             // ReleaseScroll();
         }
 
@@ -131,48 +168,6 @@ public class GameManager : MonoBehaviour
         //     percent = Vector2.Distance(startPos,endPos);
         // }
     }
-
-    // void UserInputMobile()
-    // {
-    //     // Track a single touch as a direction control.
-    //     if (Input.touchCount > 0)
-    //     {
-    //         Touch touch = Input.GetTouch(0);
-
-    //         // Handle finger movements based on TouchPhase
-    //         switch (touch.phase)
-    //         {
-    //             //When a touch has first been detected, change the message and record the starting position
-    //             case TouchPhase.Began:
-    //                 // Record initial touch position.
-    //                 startPos = touch.position;
-    //                 // message = "Begun ";
-    //                 Ray ray2D = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //                 RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
-
-    //                 if(hit.collider)
-    //                 {   
-    //                     if(hit.transform.gameObject.tag == "Ball")
-    //                     {
-    //                         target = hit.transform.gameObject;
-    //                     }
-    //                 }
-    //                 break;
-
-    //             //Determine if the touch is a moving touch
-    //             case TouchPhase.Moved:
-    //                 // Determine direction by comparing the current touch position with the initial one
-    //                 direction = touch.position - startPos;
-    //                 // message = "Moving ";
-    //                 break;
-
-    //             case TouchPhase.Ended:
-    //                 // Report that the touch has ended when it ends
-    //                 // message = "Ending ";
-    //                 break;
-    //         }
-    //     }
-    // }
 
     void PushTarget(GameObject target,Vector2 direction,float percent)
     {
@@ -241,13 +236,27 @@ public class GameManager : MonoBehaviour
             Ball tempBall = initObject.GetComponent<Ball>();
             balls.Add(tempBall);
             // tempBall.canMove = true;
-            tempBall.myName = strs[strsIndex];
-            strsIndex++;
-            if(strsIndex == strs.Length)
+            if(isUseDisturb)
             {
-                strsIndex = 0;
-                repeatCount++;
+                tempBall.myName = strs[strsIndex];
+                strsIndex++;
+                if(strsIndex == strs.Length)
+                {
+                    strsIndex = 0;
+                    repeatCount++;
+                }
             }
+            else
+            {
+                tempBall.myName = strsReal[strsRealIndex];
+                strsRealIndex++;
+                if(strsRealIndex == strsReal.Length)
+                {
+                    strsRealIndex = 0;
+                    repeatCount++;
+                }
+            }
+
             tempBall.gm = this;
         }
     }
@@ -324,31 +333,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static bool isEqual(byte[] src, byte[] dis)
+    public void UpdateTopText(string name)
     {
-        bool isEq = false;
-
-        if(src.Length != dis.Length)
-        {
-            // Debug.Log("length is not equal");
-            isEq = false;
-        }
-        else
-        {
-            isEq = true;
-            for(int i = 0; i < src.Length; i++)
-            {
-                if(src[i] != dis[i])
-                {
-                    isEq = false;
-                    break;
-                }
-            }
-        }
-    
-        return isEq;
+        // int index = checkWordIndex(name);
+        // // uiText[index*2] = name;
+        // uiText.Insert(index * 2,name);
+        // uiText.Insert(index + 1," ");
+        // string txt = uiText.ToString();
+        uiText += name;
+        topText.text = uiText;
     }
 
+    private int checkWordIndex(string name)
+    {
+        string[] poemArray = poem.Split();
+        for(int i = 0; i < poemArray.Length; i++)
+        {
+            if(name == poemArray[i])
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
     private void initScroll(Vector3 clickPos)
     {
         scroll = GameObject.Instantiate(p_Scroll, clickPos, Quaternion.identity);
