@@ -50,7 +50,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 931b432fc4aebd34fb1f45b82fc81d9a, type: 3}
+  - {fileID: 2100000, guid: 05bbd0220841a0b4b87dd9f690e02d64, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,7 +79,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7717561597020441201}
-  m_Text: "\u5E8A"
+  m_Text: 
   m_OffsetZ: -0.3
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -89,7 +89,7 @@ TextMesh:
   m_FontSize: 150
   m_FontStyle: 1
   m_RichText: 0
-  m_Font: {fileID: 12800000, guid: 931b432fc4aebd34fb1f45b82fc81d9a, type: 3}
+  m_Font: {fileID: 12800000, guid: 05bbd0220841a0b4b87dd9f690e02d64, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
@@ -206,14 +206,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d58800c31cb2dd47bc2b48d7c686f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Life: 4
+  attack: 2
+  minSpeed: 1
+  speed: 0
   gm: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
   isChosen: 0
-  Life: 10
-  attack: 3
-  minSpeed: 0.05
   myName: 
   canMove: 0
   isTargetBall: 0
+  reachLimit: 0
+  rgb: 0
 --- !u!50 &7717561598415076501
 Rigidbody2D:
   serializedVersion: 4

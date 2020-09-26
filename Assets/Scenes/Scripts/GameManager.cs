@@ -4,28 +4,49 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Text;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
 
+    [Header("输入相关")]
     public bool isMouseDown = false;
     public Vector2 startPos;
     public Vector2 endPos;
     public Vector2 direction;
+
+    
     GameObject target;
+    [Header("场景数据")]
+    public int strsIndex = 0;
+    public int strsRealIndex = 0;
+    // public int repeatCount = 0;
+    public int chooseIndex = 0;
+    public int levelIndex = 0;
     public float percent = 0.0f;
     public float maxDistance = 5.0f;
     public float initTime = 5.0f;
     public float force = 5.0f;
+
     public GameObject prefab;
     public GameObject p_Scroll;
     public GameObject scroll;
     public Transform shootPoint;
+    // public LineRenderer lineRenderer;
+    public Text topText;
+    
+    [Header("音频相关")]
     public AudioClip ac;
     private AudioSource audioSource;
+
+    [Header("关卡数据")]
     public Ball chosenBall;
-    public string poem = "花落知多少";
-    public string[] strs = {"矢","少","洛","小","化","夕","口","丿","十","火","一","丁","木","办","林","日"};
+    public string[] poem = {"花","落","知","多","少"};
+    public string[] strs = {"矢","少","洛","小","化","夕","口","丿","十","火","一","丁","木","办","林","日","艹"};
+    public string[] strsReal = {"矢","洛","化","夕","口","艹"};
+    public string[] levelPath = {"level0/","level1/","level2/"};
+    public Dictionary<string,int> wordCount = new Dictionary<string, int>(); 
+    private string uiText = "";
     public Transform[] initPos;
     // public Ball[] balls;
     public List<Ball> balls;
@@ -35,40 +56,41 @@ public class GameManager : MonoBehaviour
     public Dictionary<string,List<string>> levelRule = new Dictionary<string, List<string>>();
     // public Dictionary<string,string[]> levelRule = new Dictionary<string, string[]>();
     public Dictionary<string,string> doubleRule = new Dictionary<string, string>();
-    public string[] levelPath;
+    // public string[] levelPath;
+
+    [Header("GM开关")]
+    public bool isUseDisturb = true;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
-        ReadLevelPathFile();
+        // ReadLevelPathFile();
         ReadDoubleFile();
-        ReadFile();
+        // ReadFile();
+        ReadFileByIndex(0);
     }
 
     // Update is called once per frame
     void Update()
     {
         UserInput();
-        if(balls.Count == 0)
-        {
-            timer -= Time.deltaTime;
-            if(timer <= 0)
-            {
-                InitBall();
-                timer = 2.0f;
-            }
-            
-        }
+        InitBallByTime();        
     }
 
 
     void UserInput()
     {
+        // balls[0].canMove = true;
         if(Input.GetMouseButtonDown(0))
         {
+            if(!isMouseDown)
+            {
+                startPos = Input.mousePosition;
+            }
             isMouseDown = true;
-            startPos = Input.mousePosition;
+            
 
             if (chosenBall != null)
             {
@@ -85,22 +107,34 @@ public class GameManager : MonoBehaviour
                     target = hit.transform.gameObject;
                     chosenBall = target.GetComponent<Ball>();
 
+                    // lineRenderer = target.GetComponent<LineRenderer>();
+                    // lineRenderer.SetVertexCount(2);
+                    
+                    
                     if(chosenBall.canMove)
                     {
                         chosenBall.isChosen = true;
                     }
                 }
             }
+
+
             // initScroll(new Vector3(ray2D.origin.x,ray2D.origin.y,0));
         }
         if(Input.GetMouseButtonUp(0))
         {
             isMouseDown = false;
+
             endPos = Input.mousePosition;
             percent = Vector2.Distance(startPos,endPos)/maxDistance;
 
             direction = startPos - endPos;
             direction.Normalize();
+            
+            Vector3 line_end = (startPos + direction)*5;
+            // lineRenderer.SetPosition(0, new Vector3(startPos.x,startPos.y,-0.3f));
+            // lineRenderer.SetPosition(1,line_end);
+            
             if(target != null && chosenBall.canMove)
             {
                 PushTarget(target, direction, percent);
@@ -110,6 +144,8 @@ public class GameManager : MonoBehaviour
             {
                 balls.Remove(chosenBall);
             }
+            chosenBall.canMove = false;
+            chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
             // ReleaseScroll();
         }
 
@@ -118,48 +154,6 @@ public class GameManager : MonoBehaviour
         //     percent = Vector2.Distance(startPos,endPos);
         // }
     }
-
-    // void UserInputMobile()
-    // {
-    //     // Track a single touch as a direction control.
-    //     if (Input.touchCount > 0)
-    //     {
-    //         Touch touch = Input.GetTouch(0);
-
-    //         // Handle finger movements based on TouchPhase
-    //         switch (touch.phase)
-    //         {
-    //             //When a touch has first been detected, change the message and record the starting position
-    //             case TouchPhase.Began:
-    //                 // Record initial touch position.
-    //                 startPos = touch.position;
-    //                 // message = "Begun ";
-    //                 Ray ray2D = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //                 RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
-
-    //                 if(hit.collider)
-    //                 {   
-    //                     if(hit.transform.gameObject.tag == "Ball")
-    //                     {
-    //                         target = hit.transform.gameObject;
-    //                     }
-    //                 }
-    //                 break;
-
-    //             //Determine if the touch is a moving touch
-    //             case TouchPhase.Moved:
-    //                 // Determine direction by comparing the current touch position with the initial one
-    //                 direction = touch.position - startPos;
-    //                 // message = "Moving ";
-    //                 break;
-
-    //             case TouchPhase.Ended:
-    //                 // Report that the touch has ended when it ends
-    //                 // message = "Ending ";
-    //                 break;
-    //         }
-    //     }
-    // }
 
     void PushTarget(GameObject target,Vector2 direction,float percent)
     {
@@ -170,11 +164,11 @@ public class GameManager : MonoBehaviour
     // 读取数据表并生成依据
     void ReadFile()
     {
-        TextAsset txt = Resources.Load("level0") as TextAsset;
+        TextAsset txt = Resources.Load("level0/level0") as TextAsset;
         //Debug.Log(txt);
 
         string[] str = txt.text.Split('\n');
-        Debug.Log(str);
+        // Debug.Log(str);
         foreach(string strs in str)
         {
             string[] ss = strs.Split(',');
@@ -193,7 +187,49 @@ public class GameManager : MonoBehaviour
 
     public void ReadFileByIndex(int index)
     {
+        // // Debug.Log(levelPath[index]);
+        // string path = levelPath[index];
+        // TextAsset txt = Resources.Load(path) as TextAsset;
+        // Debug.Log(txt);
+        // string front = "level0/";
+        string back = "level0";
+        TextAsset txt;
+        switch(index)
+        {
+            case 0:
+            {
+                txt = Resources.Load(levelPath[index]+"level") as TextAsset;
+                break;
+            }
+            case 1:
+            {
+                txt = Resources.Load("level1/level1") as TextAsset;
+                break;
+            }
+            default:
+            {
+                txt = Resources.Load("level0/level0") as TextAsset;
+                break;
+            }
+        }
+
+        Debug.Log(txt);
+        string[] strs = txt.text.Split('\n');
+
+        foreach(string line in strs)
+        {
+            string[] items = line.Split(',');
+            string key = items[0];
+
+            List<string> result = new List<string>();
+            for(int i = 1; i<items.Length; i++)
+            {
+                result.Add(items[i]);
+            }
+            levelRule.Add(key,result);
+        }
         
+
     }
 
     // 关卡规则文件名
@@ -202,6 +238,10 @@ public class GameManager : MonoBehaviour
         TextAsset pathFile = Resources.Load("levelPath") as TextAsset;
 
         levelPath = pathFile.text.Split('\n');
+        // foreach(var item in levelPath)
+        // {
+        //     Debug.Log(item);
+        // }
     }
 
     // 同字合成表
@@ -219,17 +259,55 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ReadPartFileByIndex()
+    {
+        // TextAsset partFile = Resources.Load("") as TextAsset;
+    }
+
     void InitBall()
     {
         for(int i = 0; i < 3; i++)
         {
-            int randomIndex = UnityEngine.Random.Range(0,strs.Length);
+            // int randomIndex = UnityEngine.Random.Range(0,strs.Length);
             GameObject initObject = GameObject.Instantiate(prefab, initPos[i].position, Quaternion.identity);
             Ball tempBall = initObject.GetComponent<Ball>();
             balls.Add(tempBall);
             tempBall.canMove = true;
-            tempBall.myName = strs[randomIndex];
+            if(isUseDisturb)
+            {
+                tempBall.myName = strs[strsIndex];
+                strsIndex++;
+                if(strsIndex == strs.Length)
+                {
+                    strsIndex = 0;
+                    // repeatCount++;
+                }
+            }
+            else
+            {
+                tempBall.myName = strsReal[strsRealIndex];
+                strsRealIndex++;
+                if(strsRealIndex == strsReal.Length)
+                {
+                    strsRealIndex = 0;
+                    // repeatCount++;
+                }
+            }
+
             tempBall.gm = this;
+        }
+    }
+
+    public void InitBallByTime()
+    {
+        if(balls.Count == 0)
+        {
+            timer -= Time.deltaTime;
+            if(timer <= 0)
+            {
+                InitBall();
+                timer = 2.0f;
+            }
         }
     }
 
@@ -255,82 +333,6 @@ public class GameManager : MonoBehaviour
                     return item;
                 }
             }
-
-            // return "";
-
-            // foreach(string item in list1)
-            // {                  
-            //     // if(item.Equals(""))
-            //     // {
-            //     //     continue;
-            //     // }  
-            //     // if(item.Equals(""))
-            //     // {
-            //     // Debug.Log(item);
-            //     // if()
-            //     foreach(string item2 in list2)
-            //     {
-            //         // Debug.Log("___________");
-            //         // Debug.Log(myName);
-            //         // Debug.Log(otherName);
-            //         // Debug.Log(item);
-            //         if(String.Compare(item,item2) == 0)
-            //         // if(item.Equals(item2))
-            //         // if(item == item2)
-            //         {
-            //             Debug.Log("item1 == item2");
-            //             return item;
-            //         }
-            //         else return "";
-                    
-            //     }
-            //     // }
-            // }
-
-
-        //     // Debug.Log("item2========================");
-        //     // foreach()
-        //     for(int i = 0;i < list1.Length; i++)
-        //     {
-        //         // Debug.Log(list1[i]);
-        //         byte[] utf81 = Encoding.UTF8.GetBytes(list1[i]);
-        //         for(int j = 0;j < list2.Length; j++)
-        //         {
-        //             // Debug.Log(list2[j]);
-        //             // if(list1[i] == list2[j])
-        //             // // if(String.Compare(list1[i],list2[j]) == 0)
-        //             // // if(list1[i].Equals(list2[j]))
-        //             // {
-        //             //     return list1[i];
-        //             // }
-                    
-        //             byte[] utf82 = Encoding.UTF8.GetBytes(list2[j]);
-        //             bool equal = isEqual(utf81,utf82);
-
-        //             if(equal)
-        //             {
-        //                 Debug.Log("equal");
-        //                 return list1[i];
-        //             }
-        //         }
-        //         // if(list1[i] == l)
-        //         // {
-        //         //     Debug.Log("luo");
-        //         // }
-        //         // if(list2.Contains(list1[i]))
-        //         // {
-        //         //     return list1[i];
-        //         // }
-        //     }
-        //     // Debug.Log("list2======================");
-
-
-        //     return "";
-        // }
-        // else
-        // {
-        //     return "";
-        // }
         }
 
         return "";
@@ -345,6 +347,10 @@ public class GameManager : MonoBehaviour
         return "";
     }
 
+    // private string CheckBallnotFinish()
+    // {
+
+    // }
     public void mixWord(GameObject[] balls)
     {
         // Debug.Log("mix");
@@ -358,22 +364,23 @@ public class GameManager : MonoBehaviour
             ball0.Destroy();
             ball1.Destroy();
             GameObject newObject = GameObject.Instantiate(prefab, pos, Quaternion.identity);
-            // Debug.Log(ball0.myName);
-            // Debug.Log(ball1.myName);
-            // Debug.Log(targetWord);
-            // Transform word = newObject.transform.GetChild(0);
-            // TextMesh textmesh = word.GetComponent<TextMesh>();
-            // textmesh.text = targetWord;
-            // Debug.Log(textmesh.text);
             Ball newball = newObject.GetComponent<Ball>();
             newball.myName = targetWord;
             newball.gm = this;
             audioSource.PlayOneShot(ac, 1F);
-            if(poem.Contains(targetWord))
+            if(ArrayStringContainWord(poem , targetWord))
             {
                 newObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
                 newObject.GetComponent<SpriteRenderer>().color = Color.red;
                 newball.isTargetBall = true;
+                if(wordCount.ContainsKey(targetWord))
+                {
+                    wordCount[targetWord] += 1;
+                }
+                else
+                {
+                    wordCount.Add(targetWord,1);
+                }
             }
             else
             {
@@ -383,42 +390,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static bool isEqual(byte[] src, byte[] dis)
+    public void UpdateTopText(string name)
     {
-        bool isEq = false;
+        uiText += name;
+        topText.text = uiText;
+    }
 
-        if(src.Length != dis.Length)
+    public bool ArrayStringContainWord(string[] array,string word)
+    {
+        foreach (var item in array)
         {
-            // Debug.Log("length is not equal");
-            isEq = false;
-        }
-        else
-        {
-            isEq = true;
-            for(int i = 0; i < src.Length; i++)
+            if(item == word)
             {
-                // Debug.Log("src:");
-                // Debug.Log(src[i]);
-                // Debug.Log("dis:");
-                // Debug.Log(dis[i]);
-                if(src[i] != dis[i])
-                {
-                    isEq = false;
-                    break;
-                }
+                return true;
             }
         }
-    
-        return isEq;
+
+        return false;
     }
 
-    private void initScroll(Vector3 clickPos)
-    {
-        scroll = GameObject.Instantiate(p_Scroll, clickPos, Quaternion.identity);
-    }
-
-    private void ReleaseScroll()
-    {
-        GameObject.Destroy(scroll);
-    }
+    // 
 }
