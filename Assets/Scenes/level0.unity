@@ -6588,7 +6588,7 @@ PrefabInstance:
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: strs.Array.data[3]
-      value: "\u76EE"
+      value: "\u8F66"
       objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
@@ -6598,7 +6598,7 @@ PrefabInstance:
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: strs.Array.data[5]
-      value: "\u5C11"
+      value: "\u65A4"
       objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
@@ -6633,7 +6633,7 @@ PrefabInstance:
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: strsReal.Array.data[3]
-      value: "\u76EE"
+      value: "\u8F66"
       objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
@@ -6643,7 +6643,7 @@ PrefabInstance:
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: strsReal.Array.data[5]
-      value: "\u5C11"
+      value: "\u65A4"
       objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}

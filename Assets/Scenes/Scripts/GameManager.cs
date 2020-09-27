@@ -105,7 +105,6 @@ public class GameManager : MonoBehaviour
 
     void UserInput()
     {
-        // balls[0].canMove = true;
         if(Input.GetMouseButtonDown(0))
         {
             if(!isMouseDown)
@@ -129,10 +128,6 @@ public class GameManager : MonoBehaviour
                 {
                     target = hit.transform.gameObject;
                     chosenBall = target.GetComponent<Ball>();
-
-                    // lineRenderer = target.GetComponent<LineRenderer>();
-                    // lineRenderer.SetVertexCount(2);
-                    
                     
                     if(chosenBall.canMove)
                     {
@@ -140,13 +135,6 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            // MousePos = Input.mousePosition;
-            // _count = 0;
-            // _line.SetVertexCount(1);
-            // _line.SetPosition(0,target.transform.position);
-            // _line.enabled = LineRayCast(new Ray(target.transform.position,))
-
-            // initScroll(new Vector3(ray2D.origin.x,ray2D.origin.y,0));
         }
         if(Input.GetMouseButtonUp(0))
         {
@@ -159,8 +147,6 @@ public class GameManager : MonoBehaviour
             direction.Normalize();
             
             Vector3 line_end = (startPos + direction)*5;
-            // lineRenderer.SetPosition(0, new Vector3(startPos.x,startPos.y,-0.3f));
-            // lineRenderer.SetPosition(1,line_end);
             
             if(target != null && chosenBall.canMove)
             {
@@ -173,13 +159,8 @@ public class GameManager : MonoBehaviour
             }
             chosenBall.canMove = false;
             chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-            // ReleaseScroll();
         }
 
-        // if(isMouseDown)
-        // {
-        //     percent = Vector2.Distance(startPos,endPos);
-        // }
     }
 
     public void UserMobileInput()
@@ -205,9 +186,6 @@ public class GameManager : MonoBehaviour
                         {
                             target = hit.transform.gameObject;
                             chosenBall = target.GetComponent<Ball>();
-
-                        // lineRenderer = target.GetComponent<LineRenderer>();
-                        // lineRenderer.SetVertexCount(2);
                             if(chosenBall.canMove)
                             {
                                 chosenBall.isChosen = true;
@@ -222,16 +200,11 @@ public class GameManager : MonoBehaviour
                     percent = Vector2.Distance(startPos,endPos)/maxDistance;
                     break;
                 case TouchPhase.Ended:
-                    // endPos = Input.GetTouch(0).position;
-                    
+                    if(percent < 0.1)
+                    {
+                        break;
+                    }
 
-                    // direction = startPos - endPos;
-                    // direction.Normalize();
-                    
-                    // Vector3 line_end = (startPos + direction)*5;
-                    // lineRenderer.SetPosition(0, new Vector3(startPos.x,startPos.y,-0.3f));
-                    // lineRenderer.SetPosition(1,line_end);
-                    
                     if(target != null && chosenBall.canMove)
                     {
                         PushTarget(target, direction, percent);
@@ -259,21 +232,16 @@ public class GameManager : MonoBehaviour
     void ReadFile()
     {
         TextAsset txt = Resources.Load("level0/level0") as TextAsset;
-        //Debug.Log(txt);
 
         string[] str = txt.text.Split('\n');
-        // Debug.Log(str);
         foreach(string strs in str)
         {
             string[] ss = strs.Split(',');
             string key = ss[0];
             List<string> result = new List<string>();
-            // string[] result = new string[ss.Length - 1];
             for (int i = 1; i < ss.Length; i++)
             {
-                // result.Insert(i - 1,ss[i]);
                 result.Add(ss[i]);
-                // result[i - 1] = ss[i];
             }
             levelRule.Add(key,result);
         }        
@@ -317,18 +285,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // public void Read
-
     // 关卡规则文件名
     public void ReadLevelPathFile()
     {
         TextAsset pathFile = Resources.Load("levelPath") as TextAsset;
 
         levelPath = pathFile.text.Split('\n');
-        // foreach(var item in levelPath)
-        // {
-        //     Debug.Log(item);
-        // }
     }
 
     // 同字合成表
@@ -355,7 +317,6 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < 3; i++)
         {
-            // int randomIndex = UnityEngine.Random.Range(0,strs.Length);
             GameObject initObject = GameObject.Instantiate(prefab, initPos[i].position, Quaternion.identity);
             Ball tempBall = initObject.GetComponent<Ball>();
             balls.Add(tempBall);
@@ -371,9 +332,6 @@ public class GameManager : MonoBehaviour
                         if(!wordCount.ContainsKey(item))
                         {
                             AddItemtoRestWordList(item);
-                            // tempBall.myName = 
-                            // Debug.Log(item);
-                            // restPartStr.Add()
                         }
                     }
                     isInitPartStr = true;
@@ -392,10 +350,6 @@ public class GameManager : MonoBehaviour
                     // lose.SetEnabled(true);
                     lose.SetActive(true);
                 }
-
-
-                // tempBall.myName =
-                
             }
             else
             {
@@ -403,22 +357,11 @@ public class GameManager : MonoBehaviour
                 {
                     tempBall.myName = strs[strsIndex];
                     strsIndex++;
-                    // if(strsIndex == strs.Length)
-                    // {
-                    //     strsIndex = 0;
-                    //     // repeatCount++;
-                    // }
                 }
                 else
                 {
-                    // Debug.Log("Init real ball");
                     tempBall.myName = strsReal[strsRealIndex];
                     strsRealIndex++;
-                    // if(strsRealIndex == strsReal.Length)
-                    // {
-                    //     strsRealIndex = 0;
-                    //     // repeatCount++;
-                    // }
                 }
             }
 
@@ -500,10 +443,6 @@ public class GameManager : MonoBehaviour
         return "";
     }
 
-    // private string CheckBallnotFinish()
-    // {
-
-    // }
     public void mixWord(GameObject[] balls)
     {
         // Debug.Log("mix");
@@ -575,25 +514,4 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 
-    // private bool LineRayCast(Ray ray)
-    // {
-    //     RaycastHit2D hit;
-    //     if(Physics2D.Raycast(ray, out hit, _maxDistance) && _count <= _maxIterations - 1)
-    //     {
-    //         _count++;
-    //         var reflectAngle = Vector2.Reflect(ray.direction, hit.normal);
-    //         _line.SetVertexCount(_count + 1);
-    //         _line.SetPosition(_count, hit.point);
-    //         LineRayCast(new Ray(hit.point, reflectAngle));
-    //         return true;
-    //     }
-    //     if(hit == false)
-    //     {
-    //         _line.SetVertexCount(_count + 2);
-    //         _line.SetPosition(_count + 1, position + direction * _maxDistance);
-    //     }
-
-    //     return false;
-    // }
 }

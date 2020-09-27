@@ -21,6 +21,12 @@ public class Ball : MonoBehaviour
     public bool reachLimit = false;
     public float rgb = 0;
 
+    public Ball(int attack,int life,float bouns)
+    {
+        this.attack = attack;
+        this.Life = life;
+        // this.bouns = bouns;
+    }
     // Start is called before the first frame update
     void Start()
     {
