@@ -94,9 +94,9 @@ public class GameManager : MonoBehaviour
     {
         
         // #if UNITY_ANDROID
-            // UserMobileInput();
+        UserMobileInput();
         // #else
-        UserInput();
+        // UserInput();
         // #endif
         InitBallByTime();
         CheckGameOver(2);
@@ -191,6 +191,10 @@ public class GameManager : MonoBehaviour
             switch(touch.phase)
             {
                 case TouchPhase.Began:
+                    if (chosenBall != null)
+                    {
+                        chosenBall.isChosen = false;
+                    }
                     startPos = touch.position;
                     Ray ray2D = Camera.main.ScreenPointToRay(startPos);
                     RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
@@ -248,7 +252,7 @@ public class GameManager : MonoBehaviour
     void PushTarget(GameObject target,Vector2 direction,float percent)
     {
         Rigidbody2D rb2D = target.GetComponent<Rigidbody2D>();
-        rb2D.AddForce(direction*percent);
+        rb2D.AddForce(direction*percent*force);
     }
 
     // 读取数据表并生成依据
