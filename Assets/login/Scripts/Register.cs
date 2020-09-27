@@ -19,11 +19,18 @@ public class Register : MonoBehaviour
     private string mUserName;
     private string mPwd;
     private string mPwdRepeat;
+    private User[] users;
 
 
     void Start()
     {
+        string all = Utils.ReadJsonFile(Utils.FileNameUsers);
+        print(all);
+        if (all.Length > 0)
+        {
+            users = Utils.FromJson<User>(all);
 
+        }
 
     }
 
@@ -75,7 +82,7 @@ public class Register : MonoBehaviour
                 Utils.ClearFile(Utils.FileNameDefault);
             }
 
-            Utils.WriteJsonFileAppend(Utils.FileNameUsers, JsonUtility.ToJson(user));
+            writeToJson(user);
             SceneManager.LoadScene(1);
 
         }
@@ -89,15 +96,41 @@ public class Register : MonoBehaviour
     }
 
 
-    private bool hashkUserName(string userName)
+    private void writeToJson(User user)
     {
 
-        User user = new User();
-        JsonUtility.FromJsonOverwrite(Utils.ReadJsonFile(Utils.FileNameUsers), user);
-        if (user.userName.Equals(userName))
+        if (users != null)
         {
-            return true;
+            int index = users.Length;
+            User[] tmp = new User[index + 1];
+            users.CopyTo(tmp, 0);
+            tmp[index] = user;
+            users = tmp;
+
         }
+        else
+        {
+            users = new User[1];
+            users[0] = user;
+        }
+
+        Utils.WriteJsonFile(Utils.FileNameUsers, Utils.ToJson<User>(users));
+    }
+
+
+    private bool hashkUserName(string userName)
+    {
+        if (users != null)
+        {
+            foreach (User s in users)
+            {
+                if (s.userName.Equals(userName))
+                {
+                    return true;
+                }
+            }
+        }
+
         return false;
 
     }

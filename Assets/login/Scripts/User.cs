@@ -24,4 +24,16 @@ public class User
        
     }
 
+
+    public bool IsEmpty()
+    {
+        return userName.Length == 0 || pwd.Length == 0;
+    }
+
+
+    public bool Equal(User other)
+    {
+        return other != null && userName.Equals(other.userName) && pwd.Equals(other.pwd);
+    }
+
 }

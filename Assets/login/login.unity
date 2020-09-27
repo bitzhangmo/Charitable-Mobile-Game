@@ -359,7 +359,6 @@ MonoBehaviour:
   panleRegister: {fileID: 220728633}
   saveUser: {fileID: 1226054150}
   messageBox: {fileID: 1189746494}
-  isShow: 0
 --- !u!222 &220728636
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2911,6 +2910,8 @@ MonoBehaviour:
   edUserName: {fileID: 1739882381}
   edPwd: {fileID: 1460028675}
   panleRegister: {fileID: 220728633}
+  isSaveDefault: {fileID: 1975633020}
+  messageBox: {fileID: 1189746494}
 --- !u!222 &1312007609
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3510,7 +3511,6 @@ GameObject:
   - component: {fileID: 1704845022}
   - component: {fileID: 1704845021}
   - component: {fileID: 1704845020}
-  - component: {fileID: 1704845019}
   m_Layer: 5
   m_Name: btnRegister
   m_TagString: Untagged
@@ -3538,22 +3538,6 @@ RectTransform:
   m_AnchoredPosition: {x: -135, y: -413}
   m_SizeDelta: {x: 250, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1704845019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704845017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6cd4887d635649b88022a6f04dbf18a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  btnLogin: {fileID: 0}
-  edUserName: {fileID: 0}
-  edPwd: {fileID: 0}
-  panleRegister: {fileID: 0}
 --- !u!114 &1704845020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4421,7 +4405,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044045891}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 35f11cdb0ed05164b9adb1d5ac10afa0, type: 3}
