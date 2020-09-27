@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/login/login.unity
     guid: e5d3eac9d43ab431a9f2230db820d556
+  - enabled: 1
+    path: Assets/checkpoint/checkpoint.unity
+    guid: 7b2ee9a803ae44f0cb865b66d4b81cc8
   - enabled: 0
     path: Assets/Scenes/testCloud.unity
     guid: 39ac928b6ce2e454ba19c42e49d5e793
