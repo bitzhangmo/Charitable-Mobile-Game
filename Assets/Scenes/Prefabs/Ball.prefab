@@ -213,7 +213,7 @@ MonoBehaviour:
   gm: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
   isChosen: 0
   myName: 
-  canMove: 0
+  canMove: 1
   isTargetBall: 0
   reachLimit: 0
   rgb: 0

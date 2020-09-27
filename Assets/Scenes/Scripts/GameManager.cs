@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public Vector2 startPos;
     public Vector2 endPos;
     public Vector2 direction;
-
+    public Vector2 MousePos;
     
     GameObject target;
     [Header("场景数据")]
@@ -61,11 +61,20 @@ public class GameManager : MonoBehaviour
     [Header("GM开关")]
     public bool isUseDisturb = true;
     
+    [Header("预瞄线")]
+    [Range(1,5)]
+    public int _maxIterations = 3;
+    public float _maxDistance = 10f;
+
+    public int _count;
+    public LineRenderer _line;
+
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
+        _line = GetComponent<LineRenderer>();
         // ReadLevelPathFile();
         ReadDoubleFile();
         // ReadFile();
@@ -75,7 +84,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        // #if UNITY_ANDROID
+            // UserMobileInput();
+        // #else
         UserInput();
+        // #endif
         InitBallByTime();        
     }
 
@@ -117,7 +131,11 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-
+            // MousePos = Input.mousePosition;
+            // _count = 0;
+            // _line.SetVertexCount(1);
+            // _line.SetPosition(0,target.transform.position);
+            // _line.enabled = LineRayCast(new Ray(target.transform.position,))
 
             // initScroll(new Vector3(ray2D.origin.x,ray2D.origin.y,0));
         }
@@ -154,6 +172,122 @@ public class GameManager : MonoBehaviour
         //     percent = Vector2.Distance(startPos,endPos);
         // }
     }
+
+    public void UserMobileInput()
+    {
+        // if(Input.touchCount != 1)
+        // {
+        //     return;
+        // }
+        // if(Input.GetTouch(0).phase == TouchPhase.Began)
+        // {
+        //     Debug.Log("GetTouch");
+        //     Ray ray2D = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+        //     RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
+
+        //     if(hit.collider)
+        //     {
+        //         if(hit.transform.gameObject.tag == "Ball")
+        //         {
+        //             target = hit.transform.gameObject;
+        //             chosenBall = target.GetComponent<Ball>();
+
+        //             // lineRenderer = target.GetComponent<LineRenderer>();
+        //             // lineRenderer.SetVertexCount(2);
+                    
+                    
+        //             if(chosenBall.canMove)
+        //             {
+        //                 chosenBall.isChosen = true;
+        //             }
+        //         }
+        //     }
+        // }
+        // if(Input.GetTouch(0).phase == TouchPhase.Ended)
+        // {
+        //     endPos = Input.GetTouch(0).position;
+        //     percent = Vector2.Distance(startPos,endPos)/maxDistance;
+
+        //     direction = startPos - endPos;
+        //     direction.Normalize();
+            
+        //     Vector3 line_end = (startPos + direction)*5;
+        //     // lineRenderer.SetPosition(0, new Vector3(startPos.x,startPos.y,-0.3f));
+        //     // lineRenderer.SetPosition(1,line_end);
+            
+        //     if(target != null && chosenBall.canMove)
+        //     {
+        //         PushTarget(target, direction, percent);
+        //     }
+
+        //     if(balls.Contains(chosenBall))
+        //     {
+        //         balls.Remove(chosenBall);
+        //     }
+        //     chosenBall.canMove = false;
+        //     chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        // }
+
+        if(Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            switch(touch.phase)
+            {
+                case TouchPhase.Began:
+                    startPos = touch.position;
+                    Ray ray2D = Camera.main.ScreenPointToRay(startPos);
+                    RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
+
+                    if(hit.collider)
+                    {
+                        if(hit.transform.gameObject.tag == "Ball")
+                        {
+                            target = hit.transform.gameObject;
+                            chosenBall = target.GetComponent<Ball>();
+
+                        // lineRenderer = target.GetComponent<LineRenderer>();
+                        // lineRenderer.SetVertexCount(2);
+                            if(chosenBall.canMove)
+                            {
+                                chosenBall.isChosen = true;
+                            }
+                        }
+                    }
+                    break;
+                case TouchPhase.Moved:
+                    endPos = touch.position;
+                    direction = startPos - endPos;
+                    direction.Normalize();
+                    percent = Vector2.Distance(startPos,endPos)/maxDistance;
+                    break;
+                case TouchPhase.Ended:
+                    // endPos = Input.GetTouch(0).position;
+                    
+
+                    // direction = startPos - endPos;
+                    // direction.Normalize();
+                    
+                    // Vector3 line_end = (startPos + direction)*5;
+                    // lineRenderer.SetPosition(0, new Vector3(startPos.x,startPos.y,-0.3f));
+                    // lineRenderer.SetPosition(1,line_end);
+                    
+                    if(target != null && chosenBall.canMove)
+                    {
+                        PushTarget(target, direction, percent);
+                    }
+
+                    if(balls.Contains(chosenBall))
+                    {
+                        balls.Remove(chosenBall);
+                    }
+                    chosenBall.canMove = false;
+                    chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                    break;
+            }
+        }
+    }
+
 
     void PushTarget(GameObject target,Vector2 direction,float percent)
     {
@@ -192,26 +326,26 @@ public class GameManager : MonoBehaviour
         // TextAsset txt = Resources.Load(path) as TextAsset;
         // Debug.Log(txt);
         // string front = "level0/";
-        string back = "level0";
-        TextAsset txt;
-        switch(index)
-        {
-            case 0:
-            {
-                txt = Resources.Load(levelPath[index]+"level") as TextAsset;
-                break;
-            }
-            case 1:
-            {
-                txt = Resources.Load("level1/level1") as TextAsset;
-                break;
-            }
-            default:
-            {
-                txt = Resources.Load("level0/level0") as TextAsset;
-                break;
-            }
-        }
+        // string back = "level0";
+        TextAsset txt = Resources.Load(levelPath[index] + "level") as TextAsset;
+        // switch(index)
+        // {
+        //     case 0:
+        //     {
+        //         txt = Resources.Load(levelPath[index]+"level") as TextAsset;
+        //         break;
+        //     }
+        //     case 1:
+        //     {
+        //         txt = Resources.Load("level1/level1") as TextAsset;
+        //         break;
+        //     }
+        //     default:
+        //     {
+        //         txt = Resources.Load("level0/level0") as TextAsset;
+        //         break;
+        //     }
+        // }
 
         Debug.Log(txt);
         string[] strs = txt.text.Split('\n');
@@ -410,4 +544,24 @@ public class GameManager : MonoBehaviour
     }
 
     // 
+    // private bool LineRayCast(Ray ray)
+    // {
+    //     RaycastHit2D hit;
+    //     if(Physics2D.Raycast(ray, out hit, _maxDistance) && _count <= _maxIterations - 1)
+    //     {
+    //         _count++;
+    //         var reflectAngle = Vector2.Reflect(ray.direction, hit.normal);
+    //         _line.SetVertexCount(_count + 1);
+    //         _line.SetPosition(_count, hit.point);
+    //         LineRayCast(new Ray(hit.point, reflectAngle));
+    //         return true;
+    //     }
+    //     if(hit == false)
+    //     {
+    //         _line.SetVertexCount(_count + 2);
+    //         _line.SetPosition(_count + 1, position + direction * _maxDistance);
+    //     }
+
+    //     return false;
+    // }
 }
