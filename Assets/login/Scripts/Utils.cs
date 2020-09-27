@@ -1,5 +1,7 @@
 ﻿
+using System;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 
@@ -10,37 +12,59 @@ public class Utils
     public static string FileNameUsers = "UserInfos.txt";
     public static string FileNameDefault = "DefaultInfos.txt";
 
-    public static void WriteJsonFile(string fileName, string txt)
-    {
-        string path = Application.dataPath + fileName;
 
-        // This text is added only once to the file.
-        if (!File.Exists(path))
+
+
+
+    public static void WriteJsonFile(string fileName, string data)
+    {
+        string path = "";
+
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
-            // Create a file to write to.
-            File.WriteAllText(path, txt, System.Text.Encoding.UTF8);
-            return;
+            path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            UnityEngine.Application.productName) + fileName;
+        }
+        else if (Application.platform == RuntimePlatform.Android)
+        {
+            path = Path.Combine(Application.temporaryCachePath, UnityEngine.Application.productName) + fileName;
+        }
+        else
+        {
+            path = Application.persistentDataPath + fileName;
         }
 
-        //File.AppendAllText(path, txt, System.Text.Encoding.UTF8);
-        File.WriteAllText(path, txt, System.Text.Encoding.UTF8);
+
+        Debug.Log(path);
+
+        File.WriteAllText(path, data, Encoding.UTF8);
+
     }
 
 
- 
+
 
 
     public static void ClearFile(string fileName)
     {
-        string path = Application.dataPath + fileName;
+        string path = "";
 
-        // This text is added only once to the file.
-        if (!File.Exists(path))
+
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
-            // Create a file to write to.
-            File.WriteAllText(path, "", System.Text.Encoding.UTF8);
-            return;
+            path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            UnityEngine.Application.productName) + fileName;
         }
+        else if (Application.platform == RuntimePlatform.Android)
+        {
+            path = Path.Combine(Application.temporaryCachePath, UnityEngine.Application.productName) + fileName;
+        }
+        else
+        {
+            path = Application.persistentDataPath + fileName;
+        }
+
+
 
         File.WriteAllText(path, "", System.Text.Encoding.UTF8);
     }
@@ -48,9 +72,35 @@ public class Utils
 
     public static string ReadJsonFile(string fileName)
     {
-        string path = Application.dataPath + fileName;
-        return File.ReadAllText(path, System.Text.Encoding.UTF8);
+        string path = "";
+
+
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            UnityEngine.Application.productName) + fileName;
+        }
+        else if (Application.platform == RuntimePlatform.Android)
+        {
+            path = Path.Combine(Application.temporaryCachePath, UnityEngine.Application.productName) + fileName;
+        }
+        else
+        {
+            path = Application.persistentDataPath + fileName;
+        }
+
+        if (File.Exists(path))
+        {
+            return File.ReadAllText(path, System.Text.Encoding.UTF8);
+
+        }
+        return null;
+
+
     }
+
+
+
 
 
 

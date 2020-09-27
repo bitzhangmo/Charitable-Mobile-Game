@@ -40,7 +40,7 @@ public class Login : MonoBehaviour
         string all = Utils.ReadJsonFile(Utils.FileNameUsers);
         print(all);
 
-        if (all.Length > 0)
+        if (userJson != null && all.Length > 0)
         {
             users = Utils.FromJson<User>(all);
 

@@ -26,7 +26,7 @@ public class Register : MonoBehaviour
     {
         string all = Utils.ReadJsonFile(Utils.FileNameUsers);
         print(all);
-        if (all.Length > 0)
+        if (all!=null && all.Length > 0)
         {
             users = Utils.FromJson<User>(all);
 
@@ -145,6 +145,8 @@ public class Register : MonoBehaviour
                 }
             }
         }
+
+        
 
         return false;
 

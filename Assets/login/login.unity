@@ -4330,5 +4330,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: MessageBox
       objectReference: {fileID: 0}
+    - target: {fileID: 446645582700592345, guid: 3c31f8c39f3d14eb3919113140fe2ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 446645584753730847, guid: 3c31f8c39f3d14eb3919113140fe2ade,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 35.06845
+      objectReference: {fileID: 0}
+    - target: {fileID: 446645584753730847, guid: 3c31f8c39f3d14eb3919113140fe2ade,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000011444
+      objectReference: {fileID: 0}
+    - target: {fileID: 446645584753730847, guid: 3c31f8c39f3d14eb3919113140fe2ade,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 359.07748
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c31f8c39f3d14eb3919113140fe2ade, type: 3}
