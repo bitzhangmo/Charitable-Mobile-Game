@@ -35,7 +35,7 @@ public class Ball : MonoBehaviour
     {
         CheckLife();
         CheckSpeed();
-        if(canMove)
+        if(canMove && !isTargetBall)
         {
             ChangeColor();
         }

@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     [Header("场景数据")]
     public int strsIndex = 0;
     public int strsRealIndex = 0;
+    public int restPartIndex = 0;
+    public int restPartCount = 0;
     // public int repeatCount = 0;
     public int chooseIndex = 0;
     public int levelIndex = 0;
@@ -34,6 +36,8 @@ public class GameManager : MonoBehaviour
     public Transform shootPoint;
     // public LineRenderer lineRenderer;
     public Text topText;
+    public GameObject win;
+    public GameObject lose;
     
     [Header("音频相关")]
     public AudioClip ac;
@@ -43,8 +47,9 @@ public class GameManager : MonoBehaviour
     public Ball chosenBall;
     public string[] poem = {"花","落","知","多","少"};
     public string[] strs = {"矢","少","洛","小","化","夕","口","丿","十","火","一","丁","木","办","林","日","艹"};
-    public string[] strsReal = {"矢","洛","化","夕","口","艹"};
+    public string[] strsReal = {"化","艹","口","目","丿","少","夕"};
     public string[] levelPath = {"level0/","level1/","level2/"};
+    public List<string> restPartStr = new List<string>();
     public Dictionary<string,int> wordCount = new Dictionary<string, int>(); 
     private string uiText = "";
     public Transform[] initPos;
@@ -56,6 +61,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<string,List<string>> levelRule = new Dictionary<string, List<string>>();
     // public Dictionary<string,string[]> levelRule = new Dictionary<string, string[]>();
     public Dictionary<string,string> doubleRule = new Dictionary<string, string>();
+    public Dictionary<string,List<string>> partRule = new Dictionary<string, List<string>>();
     // public string[] levelPath;
 
     [Header("GM开关")]
@@ -69,7 +75,9 @@ public class GameManager : MonoBehaviour
     public int _count;
     public LineRenderer _line;
 
-
+    [Header("游戏流程")]
+    public float gameTimer = 0;
+    public bool isInitPartStr = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -90,7 +98,8 @@ public class GameManager : MonoBehaviour
         // #else
         UserInput();
         // #endif
-        InitBallByTime();        
+        InitBallByTime();
+        CheckGameOver(2);
     }
 
 
@@ -175,59 +184,6 @@ public class GameManager : MonoBehaviour
 
     public void UserMobileInput()
     {
-        // if(Input.touchCount != 1)
-        // {
-        //     return;
-        // }
-        // if(Input.GetTouch(0).phase == TouchPhase.Began)
-        // {
-        //     Debug.Log("GetTouch");
-        //     Ray ray2D = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-        //     RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
-
-        //     if(hit.collider)
-        //     {
-        //         if(hit.transform.gameObject.tag == "Ball")
-        //         {
-        //             target = hit.transform.gameObject;
-        //             chosenBall = target.GetComponent<Ball>();
-
-        //             // lineRenderer = target.GetComponent<LineRenderer>();
-        //             // lineRenderer.SetVertexCount(2);
-                    
-                    
-        //             if(chosenBall.canMove)
-        //             {
-        //                 chosenBall.isChosen = true;
-        //             }
-        //         }
-        //     }
-        // }
-        // if(Input.GetTouch(0).phase == TouchPhase.Ended)
-        // {
-        //     endPos = Input.GetTouch(0).position;
-        //     percent = Vector2.Distance(startPos,endPos)/maxDistance;
-
-        //     direction = startPos - endPos;
-        //     direction.Normalize();
-            
-        //     Vector3 line_end = (startPos + direction)*5;
-        //     // lineRenderer.SetPosition(0, new Vector3(startPos.x,startPos.y,-0.3f));
-        //     // lineRenderer.SetPosition(1,line_end);
-            
-        //     if(target != null && chosenBall.canMove)
-        //     {
-        //         PushTarget(target, direction, percent);
-        //     }
-
-        //     if(balls.Contains(chosenBall))
-        //     {
-        //         balls.Remove(chosenBall);
-        //     }
-        //     chosenBall.canMove = false;
-        //     chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-        // }
-
         if(Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -321,33 +277,9 @@ public class GameManager : MonoBehaviour
 
     public void ReadFileByIndex(int index)
     {
-        // // Debug.Log(levelPath[index]);
-        // string path = levelPath[index];
-        // TextAsset txt = Resources.Load(path) as TextAsset;
-        // Debug.Log(txt);
-        // string front = "level0/";
-        // string back = "level0";
-        TextAsset txt = Resources.Load(levelPath[index] + "level") as TextAsset;
-        // switch(index)
-        // {
-        //     case 0:
-        //     {
-        //         txt = Resources.Load(levelPath[index]+"level") as TextAsset;
-        //         break;
-        //     }
-        //     case 1:
-        //     {
-        //         txt = Resources.Load("level1/level1") as TextAsset;
-        //         break;
-        //     }
-        //     default:
-        //     {
-        //         txt = Resources.Load("level0/level0") as TextAsset;
-        //         break;
-        //     }
-        // }
 
-        Debug.Log(txt);
+        TextAsset txt = Resources.Load(levelPath[index] + "level") as TextAsset;
+        // Debug.Log(txt);
         string[] strs = txt.text.Split('\n');
 
         foreach(string line in strs)
@@ -363,8 +295,25 @@ public class GameManager : MonoBehaviour
             levelRule.Add(key,result);
         }
         
+        TextAsset partTxt = Resources.Load(levelPath[index] + "wordpart") as TextAsset;
+        Debug.Log(partTxt);
+        string[] partStrs = partTxt.text.Split('\n');
 
+        foreach (var item in partStrs)
+        {
+            string[] parts = item.Split(',');
+            string key = parts[0];
+
+            List<string> partList = new List<string>();
+            for(int i = 1; i < parts.Length - 1; i++)
+            {
+                partList.Add(parts[i]);
+            }
+            partRule.Add(key,partList);
+        }
     }
+
+    // public void Read
 
     // 关卡规则文件名
     public void ReadLevelPathFile()
@@ -407,26 +356,68 @@ public class GameManager : MonoBehaviour
             Ball tempBall = initObject.GetComponent<Ball>();
             balls.Add(tempBall);
             tempBall.canMove = true;
-            if(isUseDisturb)
+
+            // 字的逻辑
+            if(strsRealIndex >= strsReal.Length)
             {
-                tempBall.myName = strs[strsIndex];
-                strsIndex++;
-                if(strsIndex == strs.Length)
+                if(!isInitPartStr)
                 {
-                    strsIndex = 0;
-                    // repeatCount++;
+                    foreach(var item in poem)
+                    {
+                        if(!wordCount.ContainsKey(item))
+                        {
+                            AddItemtoRestWordList(item);
+                            // tempBall.myName = 
+                            // Debug.Log(item);
+                            // restPartStr.Add()
+                        }
+                    }
+                    isInitPartStr = true;
                 }
+
+                tempBall.myName = restPartStr[restPartIndex];
+                restPartIndex++;
+                if(restPartIndex >= restPartStr.Count)
+                {
+                    restPartIndex = 0;
+                    restPartCount++;
+                }
+                if(restPartCount > 3)
+                {
+                    Debug.Log("Game Over!");
+                    // lose.SetEnabled(true);
+                    lose.SetActive(true);
+                }
+
+
+                // tempBall.myName =
+                
             }
             else
             {
-                tempBall.myName = strsReal[strsRealIndex];
-                strsRealIndex++;
-                if(strsRealIndex == strsReal.Length)
+                if(isUseDisturb)
                 {
-                    strsRealIndex = 0;
-                    // repeatCount++;
+                    tempBall.myName = strs[strsIndex];
+                    strsIndex++;
+                    // if(strsIndex == strs.Length)
+                    // {
+                    //     strsIndex = 0;
+                    //     // repeatCount++;
+                    // }
+                }
+                else
+                {
+                    // Debug.Log("Init real ball");
+                    tempBall.myName = strsReal[strsRealIndex];
+                    strsRealIndex++;
+                    // if(strsRealIndex == strsReal.Length)
+                    // {
+                    //     strsRealIndex = 0;
+                    //     // repeatCount++;
+                    // }
                 }
             }
+
 
             tempBall.gm = this;
         }
@@ -472,6 +463,30 @@ public class GameManager : MonoBehaviour
         return "";
     }
 
+    private void CheckGameOver(int index)
+    {
+        switch(index)
+        {
+            // 步数小于某值
+            case 0:
+                break;
+            // 场景中有多少球
+            case 1:
+                break;
+            // 时间限制
+            case 2:
+                gameTimer += Time.deltaTime;
+                if(gameTimer > 120)
+                {
+                    Debug.Log("游戏结束！");
+                }
+                break;
+            // 时间限制
+            default:
+                break;
+        }
+    }
+
     private string CheckBallInDoubleFile(string key)
     {
         if(doubleRule.ContainsKey(key))
@@ -502,6 +517,7 @@ public class GameManager : MonoBehaviour
             newball.myName = targetWord;
             newball.gm = this;
             audioSource.PlayOneShot(ac, 1F);
+
             if(ArrayStringContainWord(poem , targetWord))
             {
                 newObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
@@ -541,6 +557,18 @@ public class GameManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void AddItemtoRestWordList(string key)
+    {
+        foreach(var item in partRule[key])
+        {
+            if(item != " ")
+            {
+                restPartStr.Add(item);
+            }
+            
+        }
     }
 
     // 
