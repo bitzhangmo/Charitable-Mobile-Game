@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
     [Header("游戏流程")]
     public float gameTimer = 0;
     public bool isInitPartStr = false;
+    public int processIndex = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -94,11 +95,15 @@ public class GameManager : MonoBehaviour
     {
         
         // #if UNITY_ANDROID
-        UserMobileInput();
+        // UserMobileInput();
         // #else
-        // UserInput();
+        UserInput();
         // #endif
         InitBallByTime();
+        if(wordCount.Count >= 5)
+        {
+            processIndex = 1;
+        }
         CheckGameOver(2);
     }
 
@@ -332,9 +337,11 @@ public class GameManager : MonoBehaviour
                         if(!wordCount.ContainsKey(item))
                         {
                             AddItemtoRestWordList(item);
+                            isInitPartStr = true;
                         }
                     }
-                    isInitPartStr = true;
+
+
                 }
 
                 tempBall.myName = restPartStr[restPartIndex];
@@ -344,12 +351,12 @@ public class GameManager : MonoBehaviour
                     restPartIndex = 0;
                     restPartCount++;
                 }
-                if(restPartCount > 3)
-                {
-                    Debug.Log("Game Over!");
-                    // lose.SetEnabled(true);
-                    lose.SetActive(true);
-                }
+                // if(restPartCount > 3)
+                // {
+                //     Debug.Log("Game Over!");
+                //     // lose.SetEnabled(true);
+                //     lose.SetActive(true);
+                // }
             }
             else
             {

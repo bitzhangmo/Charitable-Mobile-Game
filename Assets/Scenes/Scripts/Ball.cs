@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Ball : MonoBehaviour
 {
     [Header("小球属性")]
@@ -17,6 +17,8 @@ public class Ball : MonoBehaviour
     public bool canMove = false;
     private Transform word;
     private TextMesh textMesh;
+    private GameObject canvas;
+    private GameObject bar;
     public bool isTargetBall = false;
     public bool reachLimit = false;
     public float rgb = 0;
@@ -31,9 +33,13 @@ public class Ball : MonoBehaviour
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
+        
         word = this.transform.GetChild(0);
         textMesh = word.gameObject.GetComponent<TextMesh>();
         textMesh.text = myName;
+
+        canvas = this.transform.GetChild(1).gameObject;
+        bar = canvas.transform.GetChild(1).gameObject;
     }
 
     // Update is called once per frame
@@ -44,6 +50,11 @@ public class Ball : MonoBehaviour
         if(canMove && !isTargetBall)
         {
             ChangeColor();
+        }
+        if(isTargetBall)
+        {
+            canvas.SetActive(true);
+            bar.GetComponent<Image>().fillAmount = (float)this.Life / 4.0f;
         }
     }
 
@@ -62,7 +73,7 @@ public class Ball : MonoBehaviour
             // Debug.Log("hello");
             if(this.isChosen)
             {
-                if(other.gameObject.GetComponent<Ball>().isTargetBall)
+                if(other.gameObject.GetComponent<Ball>().isTargetBall && gm.processIndex == 1)  // 当处于阶段2时才可以造成伤害
                 {   
                     other.gameObject.SendMessage("TakeDamage",attack);
                 }
