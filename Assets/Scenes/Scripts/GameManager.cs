@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     // public Dictionary<string,string[]> levelRule = new Dictionary<string, string[]>();
     public Dictionary<string,string> doubleRule = new Dictionary<string, string>();
     public Dictionary<string,List<string>> partRule = new Dictionary<string, List<string>>();
+    public List<string> wordList = new List<string>();
     // public string[] levelPath;
 
     [Header("GM开关")]
@@ -88,6 +89,12 @@ public class GameManager : MonoBehaviour
         ReadDoubleFile();
         // ReadFile();
         ReadFileByIndex(0);
+        UpdateWord(wordList, true, "艹");
+        UpdateWord(wordList, true, "矢");
+        UpdateWord(wordList, true, "夕");
+        UpdateWord(wordList, true, "洛");
+        UpdateWord(wordList, true, "小");
+        UpdateWord(wordList, true, "水");
     }
 
     // Update is called once per frame
@@ -95,9 +102,9 @@ public class GameManager : MonoBehaviour
     {
         
         // #if UNITY_ANDROID
-        // UserMobileInput();
+        UserMobileInput();
         // #else
-        UserInput();
+        // UserInput();
         // #endif
         InitBallByTime();
         if(wordCount.Count >= 5)
@@ -162,7 +169,7 @@ public class GameManager : MonoBehaviour
             {
                 balls.Remove(chosenBall);
             }
-            chosenBall.canMove = false;
+            // chosenBall.canMove = false;
             chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
         }
 
@@ -213,13 +220,14 @@ public class GameManager : MonoBehaviour
                     if(target != null && chosenBall.canMove)
                     {
                         PushTarget(target, direction, percent);
+                        UpdateWord(wordList, true, chosenBall.myName);
                     }
-
+                    
                     if(balls.Contains(chosenBall))
                     {
                         balls.Remove(chosenBall);
                     }
-                    chosenBall.canMove = false;
+                    // chosenBall.canMove = false;
                     chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
                     break;
             }
@@ -344,13 +352,14 @@ public class GameManager : MonoBehaviour
 
                 }
 
-                tempBall.myName = restPartStr[restPartIndex];
-                restPartIndex++;
+
                 if(restPartIndex >= restPartStr.Count)
                 {
                     restPartIndex = 0;
                     restPartCount++;
                 }
+                tempBall.myName = restPartStr[restPartIndex];
+                restPartIndex++;
                 // if(restPartCount > 3)
                 // {
                 //     Debug.Log("Game Over!");
@@ -460,6 +469,10 @@ public class GameManager : MonoBehaviour
         Vector3 pos = ball1.transform.position;
         if(!targetWord.Equals(""))
         {
+            UpdateWord(wordList, false, ball0.myName);
+            UpdateWord(wordList, false, ball1.myName);
+            UpdateWord(wordList, true, targetWord);
+
             ball0.Destroy();
             ball1.Destroy();
             GameObject newObject = GameObject.Instantiate(prefab, pos, Quaternion.identity);
@@ -513,7 +526,7 @@ public class GameManager : MonoBehaviour
     {
         foreach(var item in partRule[key])
         {
-            if(item != " ")
+            if(item != " " && !wordList.Contains(item))
             {
                 restPartStr.Add(item);
             }
@@ -521,4 +534,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UpdateWord(List<string> wordlist, bool isInsert, string item)
+    {
+        if(isInsert)
+        {
+            if(wordList.Contains(item))
+            {
+                return;
+            }
+            wordList.Add(item);
+        }
+        else
+        {
+            wordList.Remove(item);
+        }
+    }
 }
