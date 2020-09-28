@@ -66,7 +66,10 @@ public class Ball : MonoBehaviour
                 GameObject[] balls = new GameObject[2];
                 balls[0] = this.gameObject;
                 balls[1] = other.gameObject;
-                gm.gameObject.SendMessage("mixWord",balls);
+                if(!other.gameObject.GetComponent<Ball>().isTargetBall)
+                {
+                    gm.gameObject.SendMessage("mixWord",balls);
+                }
             }
 
 
@@ -83,6 +86,7 @@ public class Ball : MonoBehaviour
 
     public void TakeDamage(int attack)
     {
+        Debug.Log("TakeDamage");
         if(this.isChosen == false)
         {
             this.Life -= attack;

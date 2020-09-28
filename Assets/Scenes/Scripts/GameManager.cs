@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     public Transform shootPoint;
     // public LineRenderer lineRenderer;
     public Text topText;
+    public Text StepCount;
+    public int step = 0;
     public GameObject win;
     public GameObject lose;
     
@@ -191,6 +193,10 @@ public class GameManager : MonoBehaviour
                     if (chosenBall != null)
                     {
                         chosenBall.isChosen = false;
+                        if(chosenBall.isTargetBall)
+                        {
+                            return;
+                        }
                     }
                     startPos = touch.position;
                     Ray ray2D = Camera.main.ScreenPointToRay(startPos);
@@ -225,6 +231,8 @@ public class GameManager : MonoBehaviour
                     {
                         PushTarget(target, direction, percent);
                         UpdateWord(wordList, true, chosenBall.myName);
+                        step++;
+                        StepCount.text = step.ToString();
                     }
                     
                     if(balls.Contains(chosenBall))
@@ -339,6 +347,7 @@ public class GameManager : MonoBehaviour
         {
             GameObject initObject = GameObject.Instantiate(prefab, initPos[i].position, Quaternion.identity);
             Ball tempBall = initObject.GetComponent<Ball>();
+            initObject.SetActive(false);
             balls.Add(tempBall);
             tempBall.canMove = true;
 
@@ -349,20 +358,26 @@ public class GameManager : MonoBehaviour
                 {
                     foreach(var item in poem)
                     {
-                        if(!wordCount.ContainsKey(item))
+                        if(doubleRule.ContainsValue(item) || !wordCount.ContainsKey(item))
                         {
                             AddItemtoRestWordList(item);
                             isInitPartStr = true;
                         }
                     }
                 }
+                if(restPartStr.Count == 0)
+                {
+                    return;
+                }
                 if(restPartIndex >= restPartStr.Count)
                 {
                     restPartIndex = 0;
-                    restPartCount++;
+                    // restPartCount++;
                 }
                 tempBall.myName = restPartStr[restPartIndex];
                 restPartIndex++;
+                Debug.Log("InitObject");
+                initObject.SetActive(true);
                 // if(restPartCount > 3)
                 // {
                 //     Debug.Log("Game Over!");
@@ -381,6 +396,7 @@ public class GameManager : MonoBehaviour
                 {
                     tempBall.myName = strsReal[strsRealIndex];
                     strsRealIndex++;
+                    initObject.SetActive(true);
                 }
             }
 
@@ -420,7 +436,8 @@ public class GameManager : MonoBehaviour
             {
                 return CheckBallInDoubleFile(myName);
             }
-
+            if((myName == "水")&&(otherName == "车") || (myName == "车")&&(otherName == "水"))
+                return "";
             foreach(string item in list1)
             {
                 if(list2.Contains(item))
