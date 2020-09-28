@@ -94,6 +94,7 @@ public class Ball : MonoBehaviour
         if(this.Life <= 0)
         {
             gm.gameObject.SendMessage("UpdateTopText",myName);
+            gm.gameObject.SendMessage("RemoveWordCount",myName);
             GameObject.Destroy(this.gameObject);
             // this.transform.gameObject.Destory();
         }

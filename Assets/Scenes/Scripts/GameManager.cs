@@ -111,6 +111,10 @@ public class GameManager : MonoBehaviour
         {
             processIndex = 1;
         }
+        if(processIndex == 1 && wordCount.Count <= 0)
+        {
+            win.SetActive(true);
+        }
         CheckGameOver(2);
     }
 
@@ -228,7 +232,10 @@ public class GameManager : MonoBehaviour
                         balls.Remove(chosenBall);
                     }
                     // chosenBall.canMove = false;
-                    chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                    if(chosenBall != null)
+                    {
+                        chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                    }
                     break;
             }
         }
@@ -348,11 +355,7 @@ public class GameManager : MonoBehaviour
                             isInitPartStr = true;
                         }
                     }
-
-
                 }
-
-
                 if(restPartIndex >= restPartStr.Count)
                 {
                     restPartIndex = 0;
@@ -388,6 +391,10 @@ public class GameManager : MonoBehaviour
 
     public void InitBallByTime()
     {
+        if(wordCount.Count >= 5 )
+        {
+            return;
+        }
         if(balls.Count == 0)
         {
             timer -= Time.deltaTime;
@@ -435,6 +442,10 @@ public class GameManager : MonoBehaviour
                 break;
             // 场景中有多少球
             case 1:
+                if(processIndex == 1)
+                {
+                    // 
+                }
                 break;
             // 时间限制
             case 2:
@@ -548,5 +559,15 @@ public class GameManager : MonoBehaviour
         {
             wordList.Remove(item);
         }
+    }
+
+    public void OnClickRestartButton()
+    {
+        Application.LoadLevel(2);
+    }
+
+    public void RemoveWordCount(string item)
+    {
+        wordCount.Remove(item);
     }
 }
