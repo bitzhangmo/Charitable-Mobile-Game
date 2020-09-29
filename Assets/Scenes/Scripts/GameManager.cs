@@ -90,13 +90,26 @@ public class GameManager : MonoBehaviour
         // ReadLevelPathFile();
         ReadDoubleFile();
         // ReadFile();
-        ReadFileByIndex(0);
-        UpdateWord(wordList, true, "艹");
-        UpdateWord(wordList, true, "矢");
-        UpdateWord(wordList, true, "夕");
-        UpdateWord(wordList, true, "洛");
-        UpdateWord(wordList, true, "小");
-        UpdateWord(wordList, true, "水");
+        ReadFileByIndex(levelIndex);
+        if(levelIndex == 0)
+        {
+            UpdateWord(wordList, true, "艹");
+            UpdateWord(wordList, true, "矢");
+            UpdateWord(wordList, true, "夕");
+            UpdateWord(wordList, true, "洛");
+            UpdateWord(wordList, true, "小");
+            UpdateWord(wordList, true, "水");
+        }
+        else if(levelIndex == 1)
+        {
+            UpdateWord(wordList,true,"草");
+            UpdateWord(wordList,true,"又");
+            UpdateWord(wordList,true,"木");
+            UpdateWord(wordList,true,"一");
+            UpdateWord(wordList,true,"日");
+            UpdateWord(wordList,true,"阝");
+        }
+
     }
 
     // Update is called once per frame
