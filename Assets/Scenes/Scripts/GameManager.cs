@@ -199,6 +199,7 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     startPos = touch.position;
+                    
                     Ray ray2D = Camera.main.ScreenPointToRay(startPos);
                     RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
 
@@ -212,6 +213,9 @@ public class GameManager : MonoBehaviour
                             {
                                 chosenBall.isChosen = true;
                             }
+                            _line.SetVertexCount(1);
+                            _line.SetPosition(0,target.transform.position);
+                            _line.enabled = true;
                         }
                     }
                     break;
@@ -219,6 +223,7 @@ public class GameManager : MonoBehaviour
                     endPos = touch.position;
                     direction = startPos - endPos;
                     direction.Normalize();
+                    RayCast(target.transform.position, -direction);
                     percent = Vector2.Distance(startPos,endPos)/maxDistance;
                     break;
                 case TouchPhase.Ended:
@@ -233,6 +238,8 @@ public class GameManager : MonoBehaviour
                         UpdateWord(wordList, true, chosenBall.myName);
                         step++;
                         StepCount.text = step.ToString();
+                        _line.SetVertexCount(0);
+                        _count = 0;
                     }
                     
                     if(balls.Contains(chosenBall))
@@ -508,7 +515,7 @@ public class GameManager : MonoBehaviour
             newball.myName = targetWord;
             newball.gm = this;
             audioSource.PlayOneShot(ac, 1F);
-
+            Handheld.Vibrate();
             if(ArrayStringContainWord(poem , targetWord))
             {
                 newObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
@@ -586,5 +593,34 @@ public class GameManager : MonoBehaviour
     public void RemoveWordCount(string item)
     {
         wordCount.Remove(item);
+    }
+
+    public bool RayCast(Vector2 position, Vector2 dir)
+    {
+        // _line.SetVertexCount(1);
+        // _count = 0;
+        RaycastHit2D hit = Physics2D.Raycast(position, dir, _maxDistance);
+        if(hit && _count <= _maxIterations - 1)
+        {
+            _count++;
+            var reflectAngle = Vector2.Reflect(dir, hit.normal);
+            _line.SetVertexCount(_count + 1);
+            _line.SetPosition(_count, hit.point);
+            RayCast(hit.point + reflectAngle, reflectAngle);
+            return true;
+        }
+        else
+        {
+            _count = 0;
+        }
+
+        if(hit == false)
+        {
+            _line.SetVertexCount(_count + 2);
+            _line.SetPosition(_count + 1, position + dir*_maxDistance);
+            _count = 0;
+        }
+
+        return false;
     }
 }
