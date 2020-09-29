@@ -22,7 +22,8 @@ public class SelectGame : MonoBehaviour
 
     public void selectOne()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("checkpoint2");
+
     }
 
 

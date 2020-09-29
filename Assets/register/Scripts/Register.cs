@@ -56,7 +56,7 @@ public class Register : MonoBehaviour
 
     public void OnBack()
     {
-        panleRegister.SetActive(false);
+        SceneManager.LoadScene("login");
     }
 
 
@@ -98,7 +98,7 @@ public class Register : MonoBehaviour
             }
 
             writeToJson(user);
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("guides");
 
         }
         else

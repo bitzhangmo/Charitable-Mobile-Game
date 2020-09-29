@@ -10,7 +10,7 @@ public class Login : MonoBehaviour
 
     public InputField edUserName;
     public InputField edPwd;
-    public GameObject panleRegister;
+   
     public Toggle isSaveDefault;
 
     private User mUserDefault;
@@ -94,7 +94,7 @@ public class Login : MonoBehaviour
                 Utils.ClearFile(Utils.FileNameDefault);
             }
 
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("checkpoint");
         }
         else
         {
@@ -110,7 +110,7 @@ public class Login : MonoBehaviour
 
     public void OnRegister()
     {
-        panleRegister.SetActive(true);
+        SceneManager.LoadScene("register");
     }
 
 

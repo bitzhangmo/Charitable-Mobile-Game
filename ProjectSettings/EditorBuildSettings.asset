@@ -11,10 +11,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/checkpoint/checkpoint.unity
     guid: 7b2ee9a803ae44f0cb865b66d4b81cc8
+  - enabled: 1
+    path: Assets/guide/guides.unity
+    guid: 22ddac090136f4ef7b814fd5359902e4
   - enabled: 0
     path: Assets/Scenes/testCloud.unity
     guid: 39ac928b6ce2e454ba19c42e49d5e793
   - enabled: 1
     path: Assets/Scenes/level0.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/register/register.unity
+    guid: ef7871fe115cc4f6dbb8774f5e8680b1
+  - enabled: 1
+    path: Assets/checkpoint/checkpoint2.unity
+    guid: 10fa32a9d8831491c8e3cd42d323deb1
   m_configObjects: {}
