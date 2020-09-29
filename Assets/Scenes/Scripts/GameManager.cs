@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<string,List<string>> partRule = new Dictionary<string, List<string>>();
     public List<string> wordList = new List<string>();
     // public string[] levelPath;
-
+    public Sprite targetSprite;
     [Header("预瞄线")]
     [Range(1,5)]
     public int _maxIterations = 3;
@@ -97,7 +97,6 @@ public class GameManager : MonoBehaviour
             UpdateWord(wordList,true,"日");
             UpdateWord(wordList,true,"阝");
         }
-
     }
 
     // Update is called once per frame
@@ -182,10 +181,15 @@ public class GameManager : MonoBehaviour
                         balls.Remove(chosenBall);
                     }
                     // chosenBall.canMove = false;
-                    if(chosenBall != null)
+                    if(chosenBall != null && !chosenBall.isTargetBall)
                     {
                         chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
                     }
+                    if(chosenBall.isTargetBall)
+                    {
+                        chosenBall = null;
+                    }
+                    // chosenBall = null;
                     break;
             }
         }
@@ -200,29 +204,10 @@ public class GameManager : MonoBehaviour
     }
 
     // 读取数据表并生成依据
-    void ReadFile()
-    {
-        TextAsset txt = Resources.Load("level0/level0") as TextAsset;
-
-        string[] str = txt.text.Split('\n');
-        foreach(string strs in str)
-        {
-            string[] ss = strs.Split(',');
-            string key = ss[0];
-            List<string> result = new List<string>();
-            for (int i = 1; i < ss.Length; i++)
-            {
-                result.Add(ss[i]);
-            }
-            levelRule.Add(key,result);
-        }        
-    }
-
     public void ReadFileByIndex(int index)
     {
-
+        // 拼字规则表
         TextAsset txt = Resources.Load(levelPath[index] + "level") as TextAsset;
-        // Debug.Log(txt);
         string[] strs = txt.text.Split('\n');
 
         foreach(string line in strs)
@@ -238,8 +223,9 @@ public class GameManager : MonoBehaviour
             levelRule.Add(key,result);
         }
         
+        // 字体拆分表
         TextAsset partTxt = Resources.Load(levelPath[index] + "wordpart") as TextAsset;
-        Debug.Log(partTxt);
+        // Debug.Log(partTxt);
         string[] partStrs = partTxt.text.Split('\n');
 
         foreach (var item in partStrs)
@@ -256,14 +242,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 关卡规则文件名
-    public void ReadLevelPathFile()
-    {
-        TextAsset pathFile = Resources.Load("levelPath") as TextAsset;
-
-        levelPath = pathFile.text.Split('\n');
-    }
-
     // 同字合成表
     public void ReadDoubleFile()
     {
@@ -277,11 +255,6 @@ public class GameManager : MonoBehaviour
             string target = rule[1];
             doubleRule.Add(key,target);
         }
-    }
-
-    public void ReadPartFileByIndex()
-    {
-        // TextAsset partFile = Resources.Load("") as TextAsset;
     }
 
     void InitBall()
@@ -351,14 +324,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 拼字检查，如果可以拼成字返回可拼成的字，如果不可返回空字符串
     private string CheckBall(string myName, string otherName)
     {
         if(levelRule.ContainsKey(myName) && levelRule.ContainsKey(otherName))
         {
             List<string> list1 = levelRule[myName];
             List<string> list2 = levelRule[otherName];
-            // string[] list1 = levelRule[myName];
-            // string[] list2 = levelRule[otherName];
 
             // 检查同字情况
             if(myName == otherName)
@@ -376,6 +348,16 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        return "";
+    }   
+
+    // 在同字表中检查可否拼字
+    private string CheckBallInDoubleFile(string key)
+    {
+        if(doubleRule.ContainsKey(key))
+        {
+            return doubleRule[key];
+        }
         return "";
     }
 
@@ -407,15 +389,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private string CheckBallInDoubleFile(string key)
-    {
-        if(doubleRule.ContainsKey(key))
-        {
-            return doubleRule[key];
-        }
-        return "";
-    }
-
+    // 执行合字逻辑
     public void mixWord(GameObject[] balls)
     {
         // Debug.Log("mix");
@@ -436,12 +410,14 @@ public class GameManager : MonoBehaviour
             Ball newball = newObject.GetComponent<Ball>();
             newball.myName = targetWord;
             newball.gm = this;
+            newball.level = ball0.level + ball1.level;
+            newball.SetBall();
             audioSource.PlayOneShot(ac, 1F);
             Handheld.Vibrate();
             if(ArrayStringContainWord(poem , targetWord))
             {
                 newObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                newObject.GetComponent<SpriteRenderer>().color = Color.red;
+                newObject.GetComponent<SpriteRenderer>().sprite = targetSprite;
                 newball.isTargetBall = true;
                 if(wordCount.ContainsKey(targetWord))
                 {

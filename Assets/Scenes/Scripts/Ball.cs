@@ -2,42 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class Ball : MonoBehaviour
 {
     [Header("小球属性")]
-    public int Life = 10;
-    public int attack = 3;
+    [Tooltip("等级")]
+    public int level = 1;
+    [Tooltip("生命值")]
+    public float Life = 10;
+    [Tooltip("攻击力")]
+    public float attack = 3;
+    [Tooltip("最小速度:低于该速度停止")]
     public float minSpeed = 0.05f;
+    [Tooltip("当前速度")]
     public float speed = 0f;
+    [Tooltip("可移动次数")]
+    public int moveCount = 0;       // 1级球2次，2级球4次，3级球6次。
+
+    [Tooltip("是否被选中")]
+    public bool isChosen = false;
+    [Tooltip("是否可以移动")]
+    public bool canMove = false;
+    [Tooltip("字符")]
+    public string myName;
+    [Tooltip("是否是诗里的字")]
+    public bool isTargetBall = false;
+    private bool reachLimit = false;
     [Header("组件相关")]
     public GameManager gm;
-    public bool isChosen = false;
-    public string myName;
     private Rigidbody2D rb;
-    public bool canMove = false;
     private Transform word;
     private TextMesh textMesh;
     private GameObject canvas;
     private GameObject bar;
-    public bool isTargetBall = false;
-    public bool reachLimit = false;
-    public float rgb = 0;
+    public Sprite sprite0;
+    public Sprite sprite1;
+    public Sprite sprite2;
+    private float rgb = 0;
 
-    public Ball(int attack,int life,float bouns)
-    {
-        this.attack = attack;
-        this.Life = life;
-        // this.bouns = bouns;
-    }
     // Start is called before the first frame update
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
-        
         word = this.transform.GetChild(0);
         textMesh = word.gameObject.GetComponent<TextMesh>();
         textMesh.text = myName;
-
         canvas = this.transform.GetChild(1).gameObject;
         bar = canvas.transform.GetChild(1).gameObject;
     }
@@ -54,7 +63,44 @@ public class Ball : MonoBehaviour
         if(isTargetBall)
         {
             canvas.SetActive(true);
-            bar.GetComponent<Image>().fillAmount = (float)this.Life / 4.0f;
+            bar.GetComponent<Image>().fillAmount = this.Life / 4.0f;
+        }
+    }
+
+    public void SetBall()
+    {
+        Start();
+        switch(this.level)
+        {
+            case 1:
+            {
+                this.moveCount = 2;
+                this.rb.drag = 0.2f;
+                this.attack = 1;
+                // this.gameObject.GetComponent<SpriteRenderer>().sprite = ;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = sprite0;
+                break;
+            }
+            case 2:
+            {
+                this.moveCount = 4;
+                this.rb.drag = 0.15f;
+                this.attack = 1.5f;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = sprite1;
+                break;
+            }
+            case 3:
+            {
+                this.moveCount = 6;
+                this.rb.drag = 0.1f;
+                this.attack = 3;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = sprite2;
+                break;
+            }
+            default:
+            {
+                break;
+            }
         }
     }
 
@@ -140,6 +186,9 @@ public class Ball : MonoBehaviour
             rgb += Time.deltaTime;
         }
         
-        this.gameObject.GetComponent<SpriteRenderer>().color = new Color(rgb,rgb,rgb,rgb);
+        // this.gameObject.GetComponent<SpriteRenderer>().color = new Color(rgb,rgb,rgb,rgb);
+        // this.gameObject.GetComponent<SpriteRenderer>().color.a = rgb;
+        this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255,255,255,rgb);
     }
+
 }

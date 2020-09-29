@@ -234,7 +234,7 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 150
+  m_FontSize: 50
   m_FontStyle: 1
   m_RichText: 0
   m_Font: {fileID: 12800000, guid: 05bbd0220841a0b4b87dd9f690e02d64, type: 3}
@@ -270,7 +270,7 @@ Transform:
   m_GameObject: {fileID: 7717561598415076497}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -1.36, z: -0.2}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 7717561597020441204}
   - {fileID: 8210855654588236294}
@@ -316,7 +316,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 290194c80fb9f4a4f9b1407f8d77e5a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 100ad805f9033db44bcb1af98ff41acb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -342,7 +342,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 0.6
 --- !u!114 &9164149133467419391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,17 +355,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d58800c31cb2dd47bc2b48d7c686f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 1
   Life: 4
   attack: 2
   minSpeed: 1
   speed: 0
-  gm: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
+  moveCount: 0
   isChosen: 0
-  myName: 
   canMove: 1
+  myName: 
   isTargetBall: 0
-  reachLimit: 0
-  rgb: 0
+  gm: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
+  sprite0: {fileID: 21300000, guid: 100ad805f9033db44bcb1af98ff41acb, type: 3}
+  sprite1: {fileID: 21300000, guid: 6325adc28e94b834ebc9b92c568c4a71, type: 3}
+  sprite2: {fileID: 21300000, guid: 290194c80fb9f4a4f9b1407f8d77e5a6, type: 3}
 --- !u!50 &7717561598415076501
 Rigidbody2D:
   serializedVersion: 4
@@ -379,7 +382,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.2
   m_AngularDrag: 0.2
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -414,7 +417,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7835374998885132975}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 2302783837118134125}
@@ -424,8 +427,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -2.5}
-  m_SizeDelta: {x: 1, y: 0.2}
+  m_AnchoredPosition: {x: 0, y: -1}
+  m_SizeDelta: {x: 0.5, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &813892067668874833
 Canvas:

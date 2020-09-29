@@ -1114,6 +1114,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7717561598415076499, guid: 5d5253b33edb8094698411a0ef92e520,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 100ad805f9033db44bcb1af98ff41acb,
+        type: 3}
     - target: {fileID: 8210855654588236294, guid: 5d5253b33edb8094698411a0ef92e520,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -1631,8 +1637,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.49999678
-        value: 0.50000006
+        time: 0.505551
+        value: 0.08571249
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -5881,6 +5887,12 @@ PrefabInstance:
       propertyPath: StepCount
       value: 
       objectReference: {fileID: 897994973}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f6349e41cb3bc72479124470232ae655,
+        type: 3}
     - target: {fileID: 5268451022020078345, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: m_Name
