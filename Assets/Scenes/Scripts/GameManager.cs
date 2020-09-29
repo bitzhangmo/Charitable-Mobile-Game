@@ -14,27 +14,21 @@ public class GameManager : MonoBehaviour
     public Vector2 startPos;
     public Vector2 endPos;
     public Vector2 direction;
-    public Vector2 MousePos;
-    
     GameObject target;
     [Header("场景数据")]
-    public int strsIndex = 0;
     public int strsRealIndex = 0;
     public int restPartIndex = 0;
     public int restPartCount = 0;
-    // public int repeatCount = 0;
     public int chooseIndex = 0;
     public int levelIndex = 0;
     public float percent = 0.0f;
     public float maxDistance = 5.0f;
-    public float initTime = 5.0f;
     public float force = 5.0f;
-
+    public float maxSpeed = 5.0f;
     public GameObject prefab;
-    public GameObject p_Scroll;
-    public GameObject scroll;
     public Transform shootPoint;
     // public LineRenderer lineRenderer;
+    [Header("UI组件")]
     public Text topText;
     public Text StepCount;
     public int step = 0;
@@ -48,7 +42,6 @@ public class GameManager : MonoBehaviour
     [Header("关卡数据")]
     public Ball chosenBall;
     public string[] poem = {"花","落","知","多","少"};
-    public string[] strs = {"矢","少","洛","小","化","夕","口","丿","十","火","一","丁","木","办","林","日","艹"};
     public string[] strsReal = {"化","艹","口","目","丿","少","夕"};
     public string[] levelPath = {"level0/","level1/","level2/"};
     public List<string> restPartStr = new List<string>();
@@ -61,22 +54,17 @@ public class GameManager : MonoBehaviour
     // private string l = "落";
     [SerializeField]
     public Dictionary<string,List<string>> levelRule = new Dictionary<string, List<string>>();
-    // public Dictionary<string,string[]> levelRule = new Dictionary<string, string[]>();
     public Dictionary<string,string> doubleRule = new Dictionary<string, string>();
     public Dictionary<string,List<string>> partRule = new Dictionary<string, List<string>>();
     public List<string> wordList = new List<string>();
     // public string[] levelPath;
 
-    [Header("GM开关")]
-    public bool isUseDisturb = true;
-    
     [Header("预瞄线")]
     [Range(1,5)]
     public int _maxIterations = 3;
     public float _maxDistance = 10f;
-
-    public int _count;
-    public LineRenderer _line;
+    private int _count;
+    private LineRenderer _line;
 
     [Header("游戏流程")]
     public float gameTimer = 0;
@@ -115,12 +103,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        // #if UNITY_ANDROID
         UserMobileInput();
-        // #else
-        // UserInput();
-        // #endif
         InitBallByTime();
         if(wordCount.Count >= 5)
         {
@@ -131,67 +114,6 @@ public class GameManager : MonoBehaviour
             win.SetActive(true);
         }
         CheckGameOver(2);
-    }
-
-
-    void UserInput()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            if(!isMouseDown)
-            {
-                startPos = Input.mousePosition;
-            }
-            isMouseDown = true;
-            
-
-            if (chosenBall != null)
-            {
-                chosenBall.isChosen = false;
-            }
-
-            Ray ray2D = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
-
-            if(hit.collider)
-            {
-                if(hit.transform.gameObject.tag == "Ball")
-                {
-                    target = hit.transform.gameObject;
-                    chosenBall = target.GetComponent<Ball>();
-                    
-                    if(chosenBall.canMove)
-                    {
-                        chosenBall.isChosen = true;
-                    }
-                }
-            }
-        }
-        if(Input.GetMouseButtonUp(0))
-        {
-            isMouseDown = false;
-
-            endPos = Input.mousePosition;
-            percent = Vector2.Distance(startPos,endPos)/maxDistance;
-
-            direction = startPos - endPos;
-            direction.Normalize();
-            
-            Vector3 line_end = (startPos + direction)*5;
-            
-            if(target != null && chosenBall.canMove)
-            {
-                PushTarget(target, direction, percent);
-            }
-
-            if(balls.Contains(chosenBall))
-            {
-                balls.Remove(chosenBall);
-            }
-            // chosenBall.canMove = false;
-            chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-        }
-
     }
 
     public void UserMobileInput()
@@ -273,7 +195,8 @@ public class GameManager : MonoBehaviour
     void PushTarget(GameObject target,Vector2 direction,float percent)
     {
         Rigidbody2D rb2D = target.GetComponent<Rigidbody2D>();
-        rb2D.AddForce(direction*percent*force);
+        // rb2D.AddForce(direction*percent*force);
+        rb2D.velocity = direction*percent;
     }
 
     // 读取数据表并生成依据
@@ -398,26 +321,12 @@ public class GameManager : MonoBehaviour
                 restPartIndex++;
                 Debug.Log("InitObject");
                 initObject.SetActive(true);
-                // if(restPartCount > 3)
-                // {
-                //     Debug.Log("Game Over!");
-                //     // lose.SetEnabled(true);
-                //     lose.SetActive(true);
-                // }
             }
             else
             {
-                if(isUseDisturb)
-                {
-                    tempBall.myName = strs[strsIndex];
-                    strsIndex++;
-                }
-                else
-                {
-                    tempBall.myName = strsReal[strsRealIndex];
-                    strsRealIndex++;
-                    initObject.SetActive(true);
-                }
+                tempBall.myName = strsReal[strsRealIndex];
+                strsRealIndex++;
+                initObject.SetActive(true);
             }
 
 
@@ -600,7 +509,7 @@ public class GameManager : MonoBehaviour
 
     public void OnClickRestartButton()
     {
-        Application.LoadLevel(2);
+        Application.LoadLevel(levelIndex+3);
     }
 
     public void RemoveWordCount(string item)
@@ -608,10 +517,9 @@ public class GameManager : MonoBehaviour
         wordCount.Remove(item);
     }
 
+    // 通过LineRenderer绘制轨迹线
     public bool RayCast(Vector2 position, Vector2 dir)
     {
-        // _line.SetVertexCount(1);
-        // _count = 0;
         RaycastHit2D hit = Physics2D.Raycast(position, dir, _maxDistance);
         if(hit && _count <= _maxIterations - 1)
         {
