@@ -73,14 +73,14 @@ public class Register : MonoBehaviour
 
         if (mUserName.Length < 4 ||  mUserName. Length > 12)
         {
-            messageBox.setText("账号长度至少4位，至多12位！！");
+            messageBox.setText("账号长度至少4位，至多12位！");
             messageBox.show();
             return;
         }
 
         if(mPwd.Length<6 || mPwd.Length > 16)
         {
-            messageBox.setText("密码长度至少6位，至多16位！！");
+            messageBox.setText("密码长度至少6位，至多16位！");
             messageBox.show();
             return;
         }
@@ -103,7 +103,7 @@ public class Register : MonoBehaviour
         }
         else
         {
-            messageBox.setText("两次密码不一致！！");
+            messageBox.setText("两次密码不一致！");
             messageBox.show();
         }
 

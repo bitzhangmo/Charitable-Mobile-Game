@@ -98,7 +98,7 @@ public class Login : MonoBehaviour
         }
         else
         {
-            messageBox.setText("账号或密码错误！！");
+            messageBox.setText("账号或密码错误！");
             messageBox.show();
         }
 
