@@ -70,6 +70,9 @@ public class GameManager : MonoBehaviour
     public float gameTimer = 0;
     public bool isInitPartStr = false;
     public int processIndex = 0;    // 0尚未开始, 1初识翰墨, 2终成丹青
+
+    public GameObject step1;
+    public GameObject step2;
     // Start is called before the first frame update
     void Start()
     {
@@ -97,12 +100,14 @@ public class GameManager : MonoBehaviour
             UpdateWord(wordList,true,"日");
             UpdateWord(wordList,true,"阝");
         }
+        step1.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
         UserMobileInput();
+
         if(processIndex == 1)
         {
             InitBallByTime();
@@ -110,7 +115,7 @@ public class GameManager : MonoBehaviour
         
         if(wordCount.Count >= 5)
         {
-            processIndex = 2;
+            step2.SetActive(true);
         }
         if(processIndex == 2 && wordCount.Count <= 0)
         {
