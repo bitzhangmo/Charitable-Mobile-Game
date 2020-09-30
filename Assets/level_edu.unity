@@ -188,6 +188,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Step2
       objectReference: {fileID: 0}
+    - target: {fileID: 5063295700270745694, guid: 515feefa487e36347b52f27c9d000765,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 94872087}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 515feefa487e36347b52f27c9d000765, type: 3}
 --- !u!114 &94872087 stripped
@@ -406,13 +411,13 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 1
+    width: 1440
+    height: 3120
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -535,6 +540,11 @@ PrefabInstance:
       propertyPath: initPos.Array.data[2]
       value: 
       objectReference: {fileID: 687335230}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: levelIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078345, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: m_Name
@@ -706,6 +716,7 @@ GameObject:
   m_Component:
   - component: {fileID: 979731080}
   - component: {fileID: 979731081}
+  - component: {fileID: 979731082}
   m_Layer: 0
   m_Name: BackGround
   m_TagString: Untagged
@@ -777,6 +788,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!68 &979731082
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979731079}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0.015868664, y: -6.4219875}
+  - {x: -2.299644, y: -6.4748125}
+  - {x: -2.3329575, y: 4.4609637}
+  - {x: 2.3245258, y: 4.5387187}
+  - {x: 2.329538, y: 0.49203777}
+  - {x: 2.2499738, y: -5.087802}
+  - {x: 2.234224, y: -6.469645}
+  - {x: -0.06904459, y: -6.4554815}
 --- !u!1 &1216311932 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3686707134312352208, guid: 70d2ea52a00056749ae36af8de8f6c40,
@@ -1140,6 +1175,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7717561598415076501, guid: 5d5253b33edb8094698411a0ef92e520,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 29d353e5fe5ac3b4ca898d8628b14b12, type: 2}
     - target: {fileID: 9164149133467419391, guid: 5d5253b33edb8094698411a0ef92e520,
         type: 3}
       propertyPath: myName
