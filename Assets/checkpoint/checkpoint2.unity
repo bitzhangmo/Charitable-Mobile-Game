@@ -288,7 +288,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -351.5, y: 723.8754}
+  m_AnchoredPosition: {x: -351.5, y: 723.87585}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &191958712
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 2
   m_ReferenceResolution: {x: 720, y: 1280}
@@ -966,12 +966,12 @@ PrefabInstance:
     - target: {fileID: 3921713906108024505, guid: 89a5019ad0eb64079810e5188050616a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 281
+      value: -117.42999
       objectReference: {fileID: 0}
     - target: {fileID: 3921713906108024505, guid: 89a5019ad0eb64079810e5188050616a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 711.3
+      value: -66
       objectReference: {fileID: 0}
     - target: {fileID: 3921713906108024505, guid: 89a5019ad0eb64079810e5188050616a,
         type: 3}
@@ -986,22 +986,22 @@ PrefabInstance:
     - target: {fileID: 3921713906108024505, guid: 89a5019ad0eb64079810e5188050616a,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3921713906108024505, guid: 89a5019ad0eb64079810e5188050616a,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3921713906108024505, guid: 89a5019ad0eb64079810e5188050616a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3921713906108024505, guid: 89a5019ad0eb64079810e5188050616a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3921713906108024505, guid: 89a5019ad0eb64079810e5188050616a,
         type: 3}
@@ -1386,8 +1386,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 629358794}
   m_HandleRect: {fileID: 629358793}
   m_Direction: 2
-  m_Value: 1.0000005
-  m_Size: 0.61086583
+  m_Value: 1.0000002
+  m_Size: 0.6108659
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

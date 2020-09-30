@@ -28,7 +28,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Cloud2
+  m_Name: cloud2
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
