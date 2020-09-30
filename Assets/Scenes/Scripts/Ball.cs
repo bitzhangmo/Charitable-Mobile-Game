@@ -122,7 +122,7 @@ public class Ball : MonoBehaviour
             // Debug.Log("hello");
             if(this.isChosen)
             {
-                if(other.gameObject.GetComponent<Ball>().isTargetBall && gm.processIndex == 1)  // 当处于阶段2时才可以造成伤害
+                if(other.gameObject.GetComponent<Ball>().isTargetBall && gm.processIndex == 2)  // 当处于阶段2时才可以造成伤害
                 {   
                     other.gameObject.SendMessage("TakeDamage",attack);
                 }
