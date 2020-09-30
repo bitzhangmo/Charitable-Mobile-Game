@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
     [Header("游戏流程")]
     public float gameTimer = 0;
     public bool isInitPartStr = false;
-    public int processIndex = 0;
+    public int processIndex = 0;    // 0尚未开始, 1初识翰墨, 2终成丹青
     // Start is called before the first frame update
     void Start()
     {
@@ -103,12 +103,16 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UserMobileInput();
-        InitBallByTime();
+        if(processIndex == 1)
+        {
+            InitBallByTime();
+        }
+        
         if(wordCount.Count >= 5)
         {
-            processIndex = 1;
+            processIndex = 2;
         }
-        if(processIndex == 1 && wordCount.Count <= 0)
+        if(processIndex == 2 && wordCount.Count <= 0)
         {
             win.SetActive(true);
         }
