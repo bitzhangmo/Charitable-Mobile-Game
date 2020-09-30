@@ -2,17 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SelectGame2 : MonoBehaviour
 {
 
     public MessageBox messageBox;
 
+    public ScorePanel scorePanel;
+
+    public Image mImageOne;
+
+    public Sprite mSpriteOne;
+
+    public Image mImageTwo;
+
+    public Sprite mSpriteTwo;
+
     // Start is called before the first frame update
 
     void Start()
     {
-        
+        if (Utils.ReadPassFlage(1))
+        {
+            mImageOne.sprite = mSpriteOne;
+        }
+
+        if (Utils.ReadPassFlage(2))
+        {
+            mImageTwo.sprite = mSpriteTwo;
+        }
     }
 
     // Update is called once per frame
@@ -36,7 +55,7 @@ public class SelectGame2 : MonoBehaviour
 
     public void ShowScore()
     {
-
+        scorePanel.show();
     }
 
     public void ShowNull()

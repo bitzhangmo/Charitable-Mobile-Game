@@ -67,6 +67,19 @@ public class Utils
 
     public static int ReadMaxScoreOne()
     {
+        return ReadScoreOne().scoreOne; ;
+    }
+
+
+    public static int ReadMaxScoreTwo()
+    {
+
+        return ReadScoreTwo().scoreOne;
+    }
+
+
+    public static Score ReadScoreOne()
+    {
 
         Score preScore = new Score();
 
@@ -77,11 +90,11 @@ public class Utils
 
             JsonUtility.FromJsonOverwrite(scoreJson, preScore);
         }
-        return preScore.scoreOne;
+        return preScore;
     }
 
 
-    public static int ReadMaxScoreTwo()
+    public static Score ReadScoreTwo()
     {
 
         Score preScore = new Score();
@@ -93,7 +106,7 @@ public class Utils
 
             JsonUtility.FromJsonOverwrite(scoreJson, preScore);
         }
-        return preScore.scoreOne;
+        return preScore;
     }
 
 
