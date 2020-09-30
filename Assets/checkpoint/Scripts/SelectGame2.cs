@@ -5,7 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class SelectGame2 : MonoBehaviour
 {
+
+    public MessageBox messageBox;
+
     // Start is called before the first frame update
+
     void Start()
     {
         
@@ -22,4 +26,24 @@ public class SelectGame2 : MonoBehaviour
     {
         SceneManager.LoadScene("level0");
     }
+
+
+    public void OnBack()
+    {
+        SceneManager.LoadScene("checkpoint");
+    }
+
+
+    public void ShowScore()
+    {
+
+    }
+
+    public void ShowNull()
+    {
+        messageBox.setText("敬请期待！！");
+        messageBox.show();
+    }
+
+
 }
