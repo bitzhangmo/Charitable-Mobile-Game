@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SelectGame2 : MonoBehaviour
 {
 
-    public MessageBox messageBox;
+  
 
     public ScorePanel scorePanel;
 
@@ -60,8 +60,7 @@ public class SelectGame2 : MonoBehaviour
 
     public void ShowNull()
     {
-        messageBox.setText("敬请期待！！");
-        messageBox.show();
+
     }
 
 
