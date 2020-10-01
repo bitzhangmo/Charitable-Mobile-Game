@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     [Header("关卡数据")]
     public Ball chosenBall;
+    public string[] targetPoem;
+    public int offset = 0;
     public string[] poem = {"花","落","知","多","少"};
     public string[] strsReal = {"化","艹","口","目","丿","少","夕"};
     public string[] levelPath = {"level0/","level1/","level2/"};
@@ -168,6 +170,10 @@ public class GameManager : MonoBehaviour
                     direction.Normalize();
                     RayCast(target.transform.position, -direction);
                     percent = Vector2.Distance(startPos,endPos)/maxDistance;
+                    if(percent >= maxSpeed)
+                    {
+                        percent = maxSpeed;
+                    }
                     break;
                 case TouchPhase.Ended:
                     if(percent < 0.1)
@@ -447,8 +453,16 @@ public class GameManager : MonoBehaviour
 
     public void UpdateTopText(string name)
     {
-        uiText += name;
-        topText.text = uiText;
+        for(int i = 0; i < poem.Length; i++)
+        {
+            if(name == poem[i])
+            {
+                targetPoem[i+offset] = name;
+            }
+        }
+        topText.text = string.Join("",targetPoem);
+        // uiText += name;
+        // topText.text = uiText;
     }
 
     public bool ArrayStringContainWord(string[] array,string word)
@@ -529,4 +543,5 @@ public class GameManager : MonoBehaviour
 
         return false;
     }
+
 }
