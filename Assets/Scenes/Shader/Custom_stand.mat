@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: test
-  m_Shader: {fileID: 4800000, guid: 56ec343caa014a442a741d9bdc5ca3b1, type: 3}
+  m_Name: Custom_stand
+  m_Shader: {fileID: 4800000, guid: 9517a8e3305d1e94ebd22587d095d195, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,19 +19,13 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _DetailTex:
-        m_Texture: {fileID: 2800000, guid: 581ec1ebda92a5b448bb0487f18a7082, type: 3}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 5f2a401cd9019654cb8e637374d07cc1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 1, y: 1}
     m_Floats:
-    - _Glossiness: 1
+    - _Glossiness: 0.5
     - _Metallic: 0
-    - _Multiplier: 1
-    - _Scroll2X: 0.5
-    - _ScrollX: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Tiling: {r: 10, g: 1, b: 0, a: 0}
