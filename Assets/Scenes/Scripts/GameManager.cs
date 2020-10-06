@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
                     {
                         if(hit.transform.gameObject.tag == "Ball")
                         {
+                            Debug.Log(hit.transform.gameObject.name);
                             target = hit.transform.gameObject;
                             chosenBall = target.GetComponent<Ball>();
                             if(chosenBall.canMove)
@@ -424,6 +425,7 @@ public class GameManager : MonoBehaviour
             ball0.Destroy();
             ball1.Destroy();
             GameObject newObject = GameObject.Instantiate(prefab, pos, Quaternion.identity);
+            newObject.layer = LayerMask.NameToLayer("Default");
             Ball newball = newObject.GetComponent<Ball>();
             newball.myName = targetWord;
             newball.gm = this;
@@ -516,7 +518,11 @@ public class GameManager : MonoBehaviour
 
     public void RemoveWordCount(string item)
     {
-        wordCount.Remove(item);
+        if(wordCount.ContainsKey(item))
+        {
+            wordCount.Remove(item);
+        }
+        
     }
 
     // 通过LineRenderer绘制轨迹线
@@ -554,9 +560,6 @@ public class GameManager : MonoBehaviour
             balls.Remove(chosenBall);
         }
     }
-                    //     if(balls.Contains(chosenBall))
-                    // {
-                    //     balls.Remove(chosenBall);
-                    // }
+
 
 }
