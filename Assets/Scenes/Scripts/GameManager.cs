@@ -171,6 +171,10 @@ public class GameManager : MonoBehaviour
                     endPos = touch.position;
                     direction = startPos - endPos;
                     direction.Normalize();
+                    if(target == null)
+                    {
+                        return;
+                    }
                     RayCast(target.transform.position, -direction);
                     percent = Vector2.Distance(startPos,endPos)/maxDistance;
                     if(percent >= maxSpeed)
@@ -357,6 +361,10 @@ public class GameManager : MonoBehaviour
             }
             if((myName == "水")&&(otherName == "车") || (myName == "车")&&(otherName == "水"))
                 return "";
+            if((myName) == "水"&&(otherName == "涂") || (myName == "涂")&&(otherName == "水"))
+                return "";
+            if((myName) == "阝"&&(otherName == "除") || (myName == "除")&&(otherName == "阝"))
+                return "";
             foreach(string item in list1)
             {
                 if(list2.Contains(item))
@@ -513,7 +521,13 @@ public class GameManager : MonoBehaviour
 
     public void OnClickRestartButton()
     {
+        Debug.Log("OnClickRestartButton");
         Application.LoadLevel(levelIndex+3);
+    }
+
+    public void OnClickReturnContent()
+    {
+        Application.LoadLevel("checkpoint2");
     }
 
     public void RemoveWordCount(string item)

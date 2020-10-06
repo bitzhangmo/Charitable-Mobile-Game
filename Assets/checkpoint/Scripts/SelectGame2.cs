@@ -46,6 +46,10 @@ public class SelectGame2 : MonoBehaviour
         SceneManager.LoadScene("level0");
     }
 
+    public void OnSelectTwo()
+    {
+        SceneManager.LoadScene("level1");
+    }
 
     public void OnBack()
     {

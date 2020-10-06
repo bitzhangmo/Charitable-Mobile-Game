@@ -49,6 +49,7 @@ public class Ball : MonoBehaviour
         textMesh.text = myName;
         canvas = this.transform.GetChild(1).gameObject;
         bar = canvas.transform.GetChild(1).gameObject;
+        
     }
 
     // Update is called once per frame
@@ -114,6 +115,7 @@ public class Ball : MonoBehaviour
                 balls[1] = other.gameObject;
                 if(!other.gameObject.GetComponent<Ball>().isTargetBall)
                 {
+                    Debug.Log(gm.gameObject);
                     gm.gameObject.SendMessage("mixWord",balls);
                 }
             }
