@@ -193,10 +193,10 @@ public class GameManager : MonoBehaviour
                         _count = 0;
                     }
                     
-                    if(balls.Contains(chosenBall))
-                    {
-                        balls.Remove(chosenBall);
-                    }
+                    // if(balls.Contains(chosenBall))
+                    // {
+                    //     balls.Remove(chosenBall);
+                    // }
                     // chosenBall.canMove = false;
                     if(chosenBall != null && !chosenBall.isTargetBall)
                     {
@@ -546,5 +546,17 @@ public class GameManager : MonoBehaviour
 
         return false;
     }
+
+    public void RemoveFromBalls(Ball chosenball)
+    {
+        if(balls.Contains(chosenBall))
+        {
+            balls.Remove(chosenBall);
+        }
+    }
+                    //     if(balls.Contains(chosenBall))
+                    // {
+                    //     balls.Remove(chosenBall);
+                    // }
 
 }

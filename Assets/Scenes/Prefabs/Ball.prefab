@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2302783837118134125}
   - component: {fileID: 909650922966431803}
   - component: {fileID: 6038040226383641619}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 6056614097167086478}
   - component: {fileID: 7037848575293955643}
   - component: {fileID: 433415815289833006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 7717561597020441204}
   - component: {fileID: 7717561597020441203}
   - component: {fileID: 7717561597020441202}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: word
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 7717561598415076500}
   - component: {fileID: 9164149133467419391}
   - component: {fileID: 7717561598415076501}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ball
   m_TagString: Ball
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 813892067668874833}
   - component: {fileID: 2121582259146818312}
   - component: {fileID: 2422739673420189017}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

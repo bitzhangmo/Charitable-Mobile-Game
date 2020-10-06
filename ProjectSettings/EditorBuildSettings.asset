@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/checkpoint/checkpoint2.unity
     guid: 10fa32a9d8831491c8e3cd42d323deb1
+  - enabled: 0
+    path: Assets/Scenes/level/testLine.unity
+    guid: f285843fe3b96b94b877acf4726b4bec
+  - enabled: 1
+    path: Assets/Scenes/level/level_edu.unity
+    guid: 725994f9eb990034b8935f88fc2d1d87
   m_configObjects: {}
