@@ -195,6 +195,12 @@ PrefabInstance:
       objectReference: {fileID: 94872087}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 515feefa487e36347b52f27c9d000765, type: 3}
+--- !u!1 &86074229 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5063295699070738206, guid: 515feefa487e36347b52f27c9d000765,
+    type: 3}
+  m_PrefabInstance: {fileID: 77469396}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &94872087 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
@@ -471,6 +477,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
+      propertyPath: targetPoem.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: topTextIndex.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
       propertyPath: poem.Array.data[0]
       value: "\u601D"
       objectReference: {fileID: 0}
@@ -545,6 +561,86 @@ PrefabInstance:
       propertyPath: levelIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[0]
+      value: "\u4E3E"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[1]
+      value: "\u5934"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[2]
+      value: "\u671B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[3]
+      value: "\u660E"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[4]
+      value: "\u6708"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[5]
+      value: "\uFF0C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[6]
+      value: "\u4F4E"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[7]
+      value: "\u5934"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[8]
+      value: _
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[9]
+      value: _
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[10]
+      value: "\u4E61"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: targetPoem.Array.data[11]
+      value: "\u3002"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: topTextIndex.Array.data[0]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: topTextIndex.Array.data[1]
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: step1
+      value: 
+      objectReference: {fileID: 1296257416}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: step2
+      value: 
+      objectReference: {fileID: 86074229}
     - target: {fileID: 5268451022020078345, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: m_Name
@@ -897,6 +993,12 @@ PrefabInstance:
       objectReference: {fileID: 94872087}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ae4c7b16cb91ed468c82fa08940ff53, type: 3}
+--- !u!1 &1296257416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3433510841227450682, guid: 0ae4c7b16cb91ed468c82fa08940ff53,
+    type: 3}
+  m_PrefabInstance: {fileID: 1245084456}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1394790916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1113023586061023205, guid: 261ed44e8d973df4989f73b765b7e0c9,
@@ -984,6 +1086,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3686707134284673505, guid: 70d2ea52a00056749ae36af8de8f6c40,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u4E3E\u5934\u671B\u660E\u6708\uFF0C\u4F4E\u5934__\u4E61\u3002"
+      objectReference: {fileID: 0}
     - target: {fileID: 3686707135181561611, guid: 70d2ea52a00056749ae36af8de8f6c40,
         type: 3}
       propertyPath: m_LocalPosition.x

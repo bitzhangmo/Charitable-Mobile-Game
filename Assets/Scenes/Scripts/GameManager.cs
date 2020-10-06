@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     public Ball chosenBall;
     public string[] targetPoem;
     public int offset = 0;
+    public int[] topTextIndex;
     public string[] poem = {"花","落","知","多","少"};
     public string[] strsReal = {"化","艹","口","目","丿","少","夕"};
     public string[] levelPath = {"level0/","level1/","level2/"};
@@ -115,7 +116,8 @@ public class GameManager : MonoBehaviour
             InitBallByTime();
         }
         
-        if(wordCount.Count >= 5)
+        // if(wordCount.Count >= 5)
+        if(wordCount.Count >= poem.Length)
         {
             step2.SetActive(true);
         }
@@ -457,7 +459,8 @@ public class GameManager : MonoBehaviour
         {
             if(name == poem[i])
             {
-                targetPoem[i+offset] = name;
+                // targetPoem[i+offset] = name;
+                targetPoem[topTextIndex[i]] = name;
             }
         }
         topText.text = string.Join("",targetPoem);
