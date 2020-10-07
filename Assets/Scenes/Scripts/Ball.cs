@@ -40,6 +40,11 @@ public class Ball : MonoBehaviour
     public Sprite sprite2;
     private float rgb = 0;
 
+    public float m_Radius = 1; // 圆环的半径
+    public float m_Theta = 0.1f; // 值越低圆环越平滑
+    public Color m_Color = Color.green; // 线框颜色
+
+
     // Start is called before the first frame update
     void Start()
     {

@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     public int step = 0;
     public GameObject win;
     public GameObject lose;
+    public GameObject linePrefabs;
     
     [Header("音频相关")]
     public AudioClip ac;
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
         }
         else if(levelIndex == 1)
         {
-            UpdateWord(wordList,true,"草");
+            UpdateWord(wordList,true,"艹");
             UpdateWord(wordList,true,"又");
             UpdateWord(wordList,true,"木");
             UpdateWord(wordList,true,"一");
@@ -175,6 +176,7 @@ public class GameManager : MonoBehaviour
                     {
                         return;
                     }
+                    DrawLine(-direction, target.transform.position, 0.7f);
                     RayCast(target.transform.position, -direction);
                     percent = Vector2.Distance(startPos,endPos)/maxDistance;
                     if(percent >= maxSpeed)
@@ -187,7 +189,7 @@ public class GameManager : MonoBehaviour
                     {
                         break;
                     }
-
+                    DrawLine(-direction, target.transform.position, 0.7f);
                     if(target != null && chosenBall.canMove)
                     {
                         PushTarget(target, direction, percent);
@@ -565,6 +567,24 @@ public class GameManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void DrawLine(Vector2 dir, Vector2 origin , float radius)
+    {
+        float angle = 0.0f;
+        angle = Vector2.Angle(dir,Vector2.right);
+        // Debug.Log(angle);
+
+        float x1 = dir.x*Mathf.Cos(90) - dir.y*Mathf.Sin(90);
+        float y1 = dir.x*Mathf.Sin(90) + dir.y*Mathf.Cos(90);
+        Vector2 left = new Vector2(x1,y1);
+
+        float x2 = dir.x*Mathf.Cos(-90) - dir.y*Mathf.Sin(-90);
+        float y2 = dir.x*Mathf.Cos(-90) - dir.y*Mathf.Sin(-90);
+        Vector2 right = new Vector2(x2,y2);
+        // Debug.LogFormat("({0},{1})",x2,y2);
+        Debug.DrawLine(origin,left,Color.green);
+        Debug.DrawLine(origin,right,Color.red);
     }
 
     public void RemoveFromBalls(Ball chosenball)
