@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 120549913}
   - component: {fileID: 120549915}
   m_Layer: 5
-  m_Name: two
+  m_Name: three
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,8 +156,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -169, y: -305.9}
-  m_SizeDelta: {x: 418.2851, y: 255.3951}
+  m_AnchoredPosition: {x: -156, y: 176}
+  m_SizeDelta: {x: 212.93762, y: 255.3951}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &120549913
 MonoBehaviour:
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e28246145a9064cf887d873220a7e937, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5ad6c7f6810d5c544a775a3fdd50a32e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -240,7 +240,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1484155646}
-        m_MethodName: selectTwo
+        m_MethodName: selectThree
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -434,8 +434,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 189, y: -481}
-  m_SizeDelta: {x: 514.7292, y: 343.06522}
+  m_AnchoredPosition: {x: 0.0000061989, y: -45.983}
+  m_SizeDelta: {x: 211.80783, y: 264.43887}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1163510159
 MonoBehaviour:
@@ -456,7 +456,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 630ce97db896446c39e85f30deef2ea2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 66da9fdeb8da493449206390607051fc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 1338501231}
   - component: {fileID: 1338501233}
   m_Layer: 5
-  m_Name: three
+  m_Name: two
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -563,8 +563,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 234, y: -109.46}
-  m_SizeDelta: {x: 362.2553, y: 218.92975}
+  m_AnchoredPosition: {x: 141, y: 140}
+  m_SizeDelta: {x: 131.68994, y: 168.48865}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1338501231
 MonoBehaviour:
@@ -585,7 +585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 38ce62630f89647d180781e541a93334, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3919449170e44d247b945be65eb5802a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -647,7 +647,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1484155646}
-        m_MethodName: selectThree
+        m_MethodName: selectTwo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -810,7 +810,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bf00bbbc020ee423a805501a037b8222, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c67ea7bb04a72d644b4f1e327d7c9a38, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
