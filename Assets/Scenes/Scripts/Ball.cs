@@ -71,6 +71,7 @@ public class Ball : MonoBehaviour
             canvas.SetActive(true);
             bar.GetComponent<Image>().fillAmount = this.Life / 4.0f;
         }
+
     }
 
     public void SetBall()
@@ -160,11 +161,19 @@ public class Ball : MonoBehaviour
     public void CheckSpeed()
     {
         // Debug.Log(rb.velocity.magnitude);
-        if(rb.velocity.magnitude < minSpeed)
+        if(rb.velocity.magnitude > 0)
         {
-            speed = rb.velocity.magnitude;
-            rb.velocity = new Vector2(0, 0);
+            if(rb.velocity.magnitude < minSpeed)
+            {
+                if(isChosen)
+                {
+                    isChosen = false;
+                }
+                speed = rb.velocity.magnitude;
+                rb.velocity = new Vector2(0, 0);
+            }
         }
+
     }
 
     public void Destroy()
@@ -195,7 +204,15 @@ public class Ball : MonoBehaviour
         
         // this.gameObject.GetComponent<SpriteRenderer>().color = new Color(rgb,rgb,rgb,rgb);
         // this.gameObject.GetComponent<SpriteRenderer>().color.a = rgb;
-        this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255,255,255,rgb);
+        
+        if(isChosen)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255,255,255,rgb);
+        }
     }
 
 }

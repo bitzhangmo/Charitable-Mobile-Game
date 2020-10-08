@@ -268,11 +268,18 @@ public class GameManager : MonoBehaviour
 
         if(target != null)
         {
+            if(chosenBall != null)
+            {
+                chosenBall.isChosen = false;
+                isChooseNewBall = true;
+            }
+            // 运动中的球不可选择
             if(target.GetComponent<Rigidbody2D>().velocity.magnitude > 1)
             {
                 return;
             }
             chosenBall = target.GetComponent<Ball>();
+            chosenBall.isChosen = true;
         }
         else
         {
@@ -282,9 +289,9 @@ public class GameManager : MonoBehaviour
                 {
                     chosenBall.isChosen = true;
                 }
-                _line.SetVertexCount(1);
-                _line.SetPosition(0,target.transform.position);
-                _line.enabled = true;
+                // _line.SetVertexCount(1);
+                // _line.SetPosition(0,target.transform.position);
+                // _line.enabled = true;
             }
             else
             {
@@ -296,6 +303,10 @@ public class GameManager : MonoBehaviour
 
     public void OnMovedTouch(Touch touch)
     {
+        if(chosenBall != null)
+        {
+            target = chosenBall.gameObject;
+        }
         if(target == null)
         {
             return;
@@ -323,15 +334,18 @@ public class GameManager : MonoBehaviour
             DrawLine(-direction, target.transform.position, 0.7f);
             PushTarget(target, direction, percent);
             UpdateWord(wordList, true, chosenBall.myName);
+
+            RemoveFromBalls(chosenBall);
             step++;
             StepCount.text = step.ToString();
             _line.SetVertexCount(0);
             _count = 0;
-            target = null;
-            chosenBall = null;
-            startPos = Vector2.zero;
-            endPos = Vector2.zero;
-            percent = 0;
+            // // target = null;
+            // // chosenBall = null;
+            // startPos = Vector2.zero;
+            // endPos = Vector2.zero;
+            // percent = 0;
+            ReleaseBall();
         }
     }
 
@@ -346,6 +360,15 @@ public class GameManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void ReleaseBall()
+    {
+        target = null;
+        chosenBall = null;
+        startPos = Vector2.zero;
+        endPos = Vector2.zero;
+        percent = 0;
     }
 
     void PushTarget(GameObject target,Vector2 direction,float percent)
