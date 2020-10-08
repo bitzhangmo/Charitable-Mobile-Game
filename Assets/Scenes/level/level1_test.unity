@@ -1346,6 +1346,11 @@ PrefabInstance:
       propertyPath: levelIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: _maxIterations
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078345, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: m_Name

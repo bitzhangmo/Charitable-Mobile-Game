@@ -155,8 +155,13 @@ public class GameManager : MonoBehaviour
                     {
                         if(hit.transform.gameObject.tag == "Ball")
                         {
-                            Debug.Log(hit.transform.gameObject.name);
+                            // Debug.Log(hit.transform.gameObject.name);
                             target = hit.transform.gameObject;
+                            if(target.GetComponent<Rigidbody2D>().velocity.magnitude > 0.05)
+                            {
+                                Debug.Log("Target is moving");
+                                return;
+                            }
                             chosenBall = target.GetComponent<Ball>();
                             if(chosenBall.canMove)
                             {
@@ -165,6 +170,10 @@ public class GameManager : MonoBehaviour
                             _line.SetVertexCount(1);
                             _line.SetPosition(0,target.transform.position);
                             _line.enabled = true;
+                        }
+                        else
+                        {
+                            target = null;
                         }
                     }
                     break;
@@ -189,9 +198,10 @@ public class GameManager : MonoBehaviour
                     {
                         break;
                     }
-                    DrawLine(-direction, target.transform.position, 0.7f);
+                    
                     if(target != null && chosenBall.canMove)
                     {
+                        DrawLine(-direction, target.transform.position, 0.7f);
                         PushTarget(target, direction, percent);
                         UpdateWord(wordList, true, chosenBall.myName);
                         step++;
@@ -525,11 +535,14 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("OnClickRestartButton");
         Application.LoadLevel(levelIndex+3);
+        // win.SetActive(false);
+        
     }
 
     public void OnClickReturnContent()
     {
         Application.LoadLevel("checkpoint2");
+        // win.SetActive(false);
     }
 
     public void RemoveWordCount(string item)

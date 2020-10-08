@@ -2215,18 +2215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1404080529}
---- !u!1 &1912948112 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3686707134341026424, guid: 70d2ea52a00056749ae36af8de8f6c40,
-    type: 3}
-  m_PrefabInstance: {fileID: 3686707136253843432}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1960369720 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3686707134312352208, guid: 70d2ea52a00056749ae36af8de8f6c40,
-    type: 3}
-  m_PrefabInstance: {fileID: 3686707136253843432}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1990288905 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3686707134284673505, guid: 70d2ea52a00056749ae36af8de8f6c40,
@@ -2428,6 +2416,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1404080529}
+    - target: {fileID: 3040644502425719716, guid: 70d2ea52a00056749ae36af8de8f6c40,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1404080529}
+    - target: {fileID: 3040644502425719716, guid: 70d2ea52a00056749ae36af8de8f6c40,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickReturnContent
+      objectReference: {fileID: 0}
     - target: {fileID: 3686707135181561611, guid: 70d2ea52a00056749ae36af8de8f6c40,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2540,6 +2538,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70d2ea52a00056749ae36af8de8f6c40, type: 3}
+--- !u!1 &3686707136253843433 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2375539035030332731, guid: 70d2ea52a00056749ae36af8de8f6c40,
+    type: 3}
+  m_PrefabInstance: {fileID: 3686707136253843432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3686707136253843434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1382785108903505921, guid: 70d2ea52a00056749ae36af8de8f6c40,
+    type: 3}
+  m_PrefabInstance: {fileID: 3686707136253843432}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5063295700372468102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2667,12 +2677,12 @@ PrefabInstance:
         type: 3}
       propertyPath: win
       value: 
-      objectReference: {fileID: 1912948112}
+      objectReference: {fileID: 3686707136253843434}
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: lose
       value: 
-      objectReference: {fileID: 1960369720}
+      objectReference: {fileID: 3686707136253843433}
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: initPos.Array.data[0]
@@ -2803,6 +2813,11 @@ PrefabInstance:
       propertyPath: linePrefabs
       value: 
       objectReference: {fileID: 1372269950}
+    - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
+        type: 3}
+      propertyPath: _maxIterations
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078345, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
       propertyPath: m_Name
