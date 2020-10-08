@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     public float maxSpeed = 5.0f;
     public GameObject prefab;
     public Transform shootPoint;
+    public List<GameObject> AliveBalls = new List<GameObject>();
+    public bool isChooseNewBall = false;
     // public LineRenderer lineRenderer;
     [Header("UI组件")]
     public Text topText;
@@ -131,6 +133,107 @@ public class GameManager : MonoBehaviour
 
     public void UserMobileInput()
     {
+        _UserMobleInput();
+        // if(Input.touchCount > 0)
+        // {
+        //     Touch touch = Input.GetTouch(0);
+
+        //     switch(touch.phase)
+        //     {
+        //         case TouchPhase.Began:
+        //             if (chosenBall != null)
+        //             {
+        //                 chosenBall.isChosen = false;
+        //                 if(chosenBall.isTargetBall)
+        //                 {
+        //                     return;
+        //                 }
+        //             }
+        //             startPos = touch.position;
+                    
+        //             Ray ray2D = Camera.main.ScreenPointToRay(startPos);
+        //             RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
+
+        //             if(hit.collider)
+        //             {
+        //                 if(hit.transform.gameObject.tag == "Ball")
+        //                 {
+        //                     // Debug.Log(hit.transform.gameObject.name);
+        //                     target = hit.transform.gameObject;
+        //                     if(target.GetComponent<Rigidbody2D>().velocity.magnitude > 0.05)
+        //                     {
+        //                         Debug.Log("Target is moving");
+        //                         return;
+        //                     }
+        //                     chosenBall = target.GetComponent<Ball>();
+        //                     if(chosenBall.canMove)
+        //                     {
+        //                         chosenBall.isChosen = true;
+        //                     }
+        //                     _line.SetVertexCount(1);
+        //                     _line.SetPosition(0,target.transform.position);
+        //                     _line.enabled = true;
+        //                 }
+        //                 else
+        //                 {
+        //                     target = null;
+        //                 }
+        //             }
+        //             break;
+        //         case TouchPhase.Moved:
+        //             endPos = touch.position;
+        //             direction = startPos - endPos;
+        //             direction.Normalize();
+        //             if(target == null)
+        //             {
+        //                 return;
+        //             }
+        //             DrawLine(-direction, target.transform.position, 0.7f);
+        //             RayCast(target.transform.position, -direction);
+        //             percent = Vector2.Distance(startPos,endPos)/maxDistance;
+        //             if(percent >= maxSpeed)
+        //             {
+        //                 percent = maxSpeed;
+        //             }
+        //             break;
+        //         case TouchPhase.Ended:
+        //             if(percent < 0.1)
+        //             {
+        //                 break;
+        //             }
+                    
+        //             if(target != null && chosenBall.canMove)
+        //             {
+        //                 DrawLine(-direction, target.transform.position, 0.7f);
+        //                 PushTarget(target, direction, percent);
+        //                 UpdateWord(wordList, true, chosenBall.myName);
+        //                 step++;
+        //                 StepCount.text = step.ToString();
+        //                 _line.SetVertexCount(0);
+        //                 _count = 0;
+        //             }
+                    
+        //             // if(balls.Contains(chosenBall))
+        //             // {
+        //             //     balls.Remove(chosenBall);
+        //             // }
+        //             // chosenBall.canMove = false;
+        //             if(chosenBall != null && !chosenBall.isTargetBall)
+        //             {
+        //                 chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        //             }
+        //             if(chosenBall.isTargetBall)
+        //             {
+        //                 chosenBall = null;
+        //             }
+        //             // chosenBall = null;
+        //             break;
+        //     }
+        // }
+    }
+
+    public void _UserMobleInput()
+    {
         if(Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -138,103 +241,115 @@ public class GameManager : MonoBehaviour
             switch(touch.phase)
             {
                 case TouchPhase.Began:
-                    if (chosenBall != null)
-                    {
-                        chosenBall.isChosen = false;
-                        if(chosenBall.isTargetBall)
-                        {
-                            return;
-                        }
-                    }
-                    startPos = touch.position;
-                    
-                    Ray ray2D = Camera.main.ScreenPointToRay(startPos);
-                    RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
-
-                    if(hit.collider)
-                    {
-                        if(hit.transform.gameObject.tag == "Ball")
-                        {
-                            // Debug.Log(hit.transform.gameObject.name);
-                            target = hit.transform.gameObject;
-                            if(target.GetComponent<Rigidbody2D>().velocity.magnitude > 0.05)
-                            {
-                                Debug.Log("Target is moving");
-                                return;
-                            }
-                            chosenBall = target.GetComponent<Ball>();
-                            if(chosenBall.canMove)
-                            {
-                                chosenBall.isChosen = true;
-                            }
-                            _line.SetVertexCount(1);
-                            _line.SetPosition(0,target.transform.position);
-                            _line.enabled = true;
-                        }
-                        else
-                        {
-                            target = null;
-                        }
-                    }
+                    OnBeganTouch_pos(touch);
                     break;
                 case TouchPhase.Moved:
-                    endPos = touch.position;
-                    direction = startPos - endPos;
-                    direction.Normalize();
-                    if(target == null)
-                    {
-                        return;
-                    }
-                    DrawLine(-direction, target.transform.position, 0.7f);
-                    RayCast(target.transform.position, -direction);
-                    percent = Vector2.Distance(startPos,endPos)/maxDistance;
-                    if(percent >= maxSpeed)
-                    {
-                        percent = maxSpeed;
-                    }
+                    OnMovedTouch(touch);
                     break;
                 case TouchPhase.Ended:
-                    if(percent < 0.1)
-                    {
-                        break;
-                    }
-                    
-                    if(target != null && chosenBall.canMove)
-                    {
-                        DrawLine(-direction, target.transform.position, 0.7f);
-                        PushTarget(target, direction, percent);
-                        UpdateWord(wordList, true, chosenBall.myName);
-                        step++;
-                        StepCount.text = step.ToString();
-                        _line.SetVertexCount(0);
-                        _count = 0;
-                    }
-                    
-                    // if(balls.Contains(chosenBall))
-                    // {
-                    //     balls.Remove(chosenBall);
-                    // }
-                    // chosenBall.canMove = false;
-                    if(chosenBall != null && !chosenBall.isTargetBall)
-                    {
-                        chosenBall.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                    }
-                    if(chosenBall.isTargetBall)
-                    {
-                        chosenBall = null;
-                    }
-                    // chosenBall = null;
+                    OnEndedTouch();
                     break;
             }
         }
     }
 
+    // public void OnBeganTouch()
+    // {
+    //     startPos = touch.position;
+    //     Ray ray2D = Camera.main.ScreenPointToRay(startPos);
+    //     RaycastHit2D hit = Physics2D.Raycast(new Vector2(ray2D.origin.x, ray2D.origin.y), Vector2.zero);
+
+    // }
+    public void OnBeganTouch_pos(Touch touch)
+    {
+        startPos = Camera.main.ScreenToWorldPoint(touch.position);
+
+        target = IsClickBall(startPos);
+
+        if(target != null)
+        {
+            if(target.GetComponent<Rigidbody2D>().velocity.magnitude > 1)
+            {
+                return;
+            }
+            chosenBall = target.GetComponent<Ball>();
+        }
+        else
+        {
+            if(chosenBall != null)
+            {
+                if(chosenBall.canMove)
+                {
+                    chosenBall.isChosen = true;
+                }
+                _line.SetVertexCount(1);
+                _line.SetPosition(0,target.transform.position);
+                _line.enabled = true;
+            }
+            else
+            {
+                target = null;
+                Debug.Log("Click nothing");
+            }
+        }
+    }
+
+    public void OnMovedTouch(Touch touch)
+    {
+        if(target == null)
+        {
+            return;
+        }
+        endPos = Camera.main.ScreenToWorldPoint(touch.position);
+        direction = startPos - endPos;
+        direction.Normalize();
+        DrawLine(-direction, target.transform.position, 0.7f);
+        RayCast(target.transform.position, -direction);
+        percent = Vector2.Distance(startPos,endPos)/maxDistance;
+        if(percent >= maxSpeed)
+        {
+            percent = maxSpeed;
+        }
+    }
+
+    public void OnEndedTouch()
+    {
+        if(percent < 0.1)
+        {
+            return;
+        }
+        if(target != null && chosenBall.canMove)
+        {
+            DrawLine(-direction, target.transform.position, 0.7f);
+            PushTarget(target, direction, percent);
+            UpdateWord(wordList, true, chosenBall.myName);
+            step++;
+            StepCount.text = step.ToString();
+            _line.SetVertexCount(0);
+            _count = 0;
+            target = null;
+            chosenBall = null;
+        }
+    }
+
+    public GameObject IsClickBall(Vector2 clickPos)
+    {
+        foreach(var item in AliveBalls)
+        {
+            if(Vector2.Distance(item.transform.position, clickPos) < 1)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
 
     void PushTarget(GameObject target,Vector2 direction,float percent)
     {
         Rigidbody2D rb2D = target.GetComponent<Rigidbody2D>();
         // rb2D.AddForce(direction*percent*force);
-        rb2D.velocity = direction*percent;
+        rb2D.velocity = direction*percent*force;
     }
 
     // 读取数据表并生成依据
