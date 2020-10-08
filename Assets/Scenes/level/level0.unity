@@ -1284,6 +1284,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 100ad805f9033db44bcb1af98ff41acb,
         type: 3}
+    - target: {fileID: 7717561598415076501, guid: 5d5253b33edb8094698411a0ef92e520,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7835374998885132975, guid: 5d5253b33edb8094698411a0ef92e520,
         type: 3}
       propertyPath: m_Layer
@@ -2461,6 +2466,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClickReturnContent
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686707134284673505, guid: 70d2ea52a00056749ae36af8de8f6c40,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u591C\u6765\u98CE\u96E8\u58F0\uFF0C_____\u3002"
       objectReference: {fileID: 0}
     - target: {fileID: 3686707135181561611, guid: 70d2ea52a00056749ae36af8de8f6c40,
         type: 3}

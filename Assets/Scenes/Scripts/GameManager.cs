@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public Vector2 startPos;
     public Vector2 endPos;
     public Vector2 direction;
-    GameObject target;
+    public GameObject target;
     [Header("场景数据")]
     public int strsRealIndex = 0;
     public int restPartIndex = 0;
@@ -314,11 +314,11 @@ public class GameManager : MonoBehaviour
 
     public void OnEndedTouch()
     {
-        if(percent < 0.1)
+        if(percent < 0.5)
         {
             return;
         }
-        if(target != null && chosenBall.canMove)
+        if(target != null && chosenBall != null && chosenBall.canMove)
         {
             DrawLine(-direction, target.transform.position, 0.7f);
             PushTarget(target, direction, percent);
@@ -329,6 +329,9 @@ public class GameManager : MonoBehaviour
             _count = 0;
             target = null;
             chosenBall = null;
+            startPos = Vector2.zero;
+            endPos = Vector2.zero;
+            percent = 0;
         }
     }
 
@@ -414,6 +417,7 @@ public class GameManager : MonoBehaviour
             Ball tempBall = initObject.GetComponent<Ball>();
             initObject.SetActive(false);
             balls.Add(tempBall);
+            AliveBalls.Add(initObject);
             tempBall.canMove = true;
 
             // 字的逻辑
@@ -556,12 +560,14 @@ public class GameManager : MonoBehaviour
             UpdateWord(wordList, false, ball0.myName);
             UpdateWord(wordList, false, ball1.myName);
             UpdateWord(wordList, true, targetWord);
-
+            AliveBalls.Remove(balls[0]);
+            AliveBalls.Remove(balls[1]);
             ball0.Destroy();
             ball1.Destroy();
             GameObject newObject = GameObject.Instantiate(prefab, pos, Quaternion.identity);
             newObject.layer = LayerMask.NameToLayer("Default");
             Ball newball = newObject.GetComponent<Ball>();
+            AliveBalls.Add(newObject);
             newball.myName = targetWord;
             newball.gm = this;
             newball.level = ball0.level + ball1.level;
