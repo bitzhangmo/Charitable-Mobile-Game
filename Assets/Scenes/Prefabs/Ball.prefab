@@ -367,6 +367,7 @@ MonoBehaviour:
   canMove: 1
   myName: 
   isTargetBall: 0
+  hasSendMessage: 0
   gm: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
   sprite0: {fileID: 21300000, guid: 100ad805f9033db44bcb1af98ff41acb, type: 3}
   sprite1: {fileID: 21300000, guid: 6325adc28e94b834ebc9b92c568c4a71, type: 3}
@@ -375,7 +376,7 @@ MonoBehaviour:
   m_Theta: 0.1
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   clips:
-  - {fileID: 8300000, guid: 34a64bbeaae35a342a16d496e5519ed5, type: 3}
+  - {fileID: 8300000, guid: e7b8f32039fa5474493d009663d3aecf, type: 3}
   - {fileID: 8300000, guid: 3ad2e0cc053e47445a6441acf4ca240e, type: 3}
   - {fileID: 8300000, guid: c002b572cb992174e98057256c2646d4, type: 3}
   audioSource: {fileID: -7722158566112686514}

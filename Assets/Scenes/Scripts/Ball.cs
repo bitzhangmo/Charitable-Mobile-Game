@@ -204,6 +204,7 @@ public class Ball : MonoBehaviour
                 if(isChosen)
                 {
                     isChosen = false;
+                    hasSendMessage = false;
                 }
                 speed = rb.velocity.magnitude;
                 rb.velocity = new Vector2(0, 0);
