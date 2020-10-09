@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
         {
             step1.SetActive(true);
         }
-        
+        hasInsertScore = false;
     }
 
     public delegate void AudioCallBack();
