@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Text;
 using UnityEngine.UI;
-
+using UnityEngine.Events;
 public class GameManager : MonoBehaviour
 {
 
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public Transform shootPoint;
     public List<GameObject> AliveBalls = new List<GameObject>();
     public bool isChooseNewBall = false;
+    public bool isEduLevel = false;
     // public LineRenderer lineRenderer;
     [Header("UI组件")]
     public Text topText;
@@ -65,6 +66,12 @@ public class GameManager : MonoBehaviour
     public List<string> wordList = new List<string>();
     // public string[] levelPath;
     public Sprite targetSprite;
+
+    public AudioManager audioManager;
+    public AudioClip[] clips;
+    public Camera mainCamera;
+    public GameObject[] eduText;
+    public AudioCallBack callBack;
     [Header("预瞄线")]
     [Range(1,5)]
     public int _maxIterations = 3;
@@ -80,6 +87,26 @@ public class GameManager : MonoBehaviour
     public GameObject step1;
     public GameObject step2;
     // Start is called before the first frame update
+
+    
+    public void test1()
+    {
+        Debug.Log("Audio1 finish");
+        step1.SetActive(true);
+
+        eduText[0].SetActive(false);
+        eduText[1].SetActive(true);
+
+        AudioCallBack audioCallBack = test2;
+        PlayClipData(clips[1],audioCallBack);
+    }
+
+    public void test2()
+    {
+    }
+
+    // private AudioCallBack audioCallBack = test1();
+
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
@@ -106,9 +133,37 @@ public class GameManager : MonoBehaviour
             UpdateWord(wordList,true,"日");
             UpdateWord(wordList,true,"阝");
         }
-        step1.SetActive(true);
+        if(isEduLevel)
+        {
+            AudioCallBack audioCallBack = test1;
+            PlayClipData(clips[0],audioCallBack);
+        }
+        else
+        {
+            step1.SetActive(true);
+        }
+        
     }
 
+    public delegate void AudioCallBack();
+    public void PlayClipData(AudioClip clip, AudioCallBack callback)
+    {
+        audioSource.clip = clip;
+        audioSource.Play(0);
+        StartCoroutine(DelayedCallback(clip.length,callback));
+    }
+
+    public IEnumerator DelayedCallback(float time, AudioCallBack callback)
+    {
+        yield return new WaitForSeconds (time);
+        callback();
+    }
+
+    public void test4()
+    {
+        win.SetActive(true);
+    }
+    
     // Update is called once per frame
     void Update()
     {
@@ -126,7 +181,18 @@ public class GameManager : MonoBehaviour
         }
         if(processIndex == 2 && wordCount.Count <= 0)
         {
-            win.SetActive(true);
+            if(isEduLevel && !eduText[3].activeSelf)
+            {
+                AudioCallBack callBack = test4;
+                eduText[2].SetActive(false);
+                eduText[3].SetActive(true);
+                PlayClipData(clips[3],callBack);
+            }
+            else
+            {
+                win.SetActive(true);
+            }
+            
         }
         CheckGameOver(2);
     }
@@ -280,6 +346,10 @@ public class GameManager : MonoBehaviour
             }
             chosenBall = target.GetComponent<Ball>();
             chosenBall.isChosen = true;
+
+            _line.SetVertexCount(1);
+            _line.SetPosition(0,target.transform.position);
+            _line.enabled = true;
         }
         else
         {
@@ -289,9 +359,9 @@ public class GameManager : MonoBehaviour
                 {
                     chosenBall.isChosen = true;
                 }
-                // _line.SetVertexCount(1);
-                // _line.SetPosition(0,target.transform.position);
-                // _line.enabled = true;
+                _line.SetVertexCount(1);
+                _line.SetPosition(0,chosenBall.transform.position);
+                _line.enabled = true;
             }
             else
             {
@@ -569,6 +639,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void recoverVolume()
+    {
+        audioSource.volume = 1;
+    }
     // 执行合字逻辑
     public void mixWord(GameObject[] balls)
     {
@@ -595,7 +669,10 @@ public class GameManager : MonoBehaviour
             newball.gm = this;
             newball.level = ball0.level + ball1.level;
             newball.SetBall();
-            audioSource.PlayOneShot(ac, 1F);
+            audioSource.volume = 0.05f;
+            // audioSource.PlayOneShot(ac, 1F);
+            AudioCallBack testcall = recoverVolume;
+            PlayClipData(ac,recoverVolume);
             Handheld.Vibrate();
             if(ArrayStringContainWord(poem , targetWord))
             {

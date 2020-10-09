@@ -28,6 +28,7 @@ public class Ball : MonoBehaviour
     [Tooltip("是否是诗里的字")]
     public bool isTargetBall = false;
     private bool reachLimit = false;
+    public bool hasSendMessage = false;
     [Header("组件相关")]
     public GameManager gm;
     private Rigidbody2D rb;
@@ -38,12 +39,15 @@ public class Ball : MonoBehaviour
     public Sprite sprite0;
     public Sprite sprite1;
     public Sprite sprite2;
+    private ShakeCamera shakeCamera;
     private float rgb = 0;
-
+    
     public float m_Radius = 1; // 圆环的半径
     public float m_Theta = 0.1f; // 值越低圆环越平滑
     public Color m_Color = Color.green; // 线框颜色
 
+    public AudioClip[] clips;
+    public AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +58,9 @@ public class Ball : MonoBehaviour
         textMesh.text = myName;
         canvas = this.transform.GetChild(1).gameObject;
         bar = canvas.transform.GetChild(1).gameObject;
-        
+        GameObject obj = GameObject.Find("MainCamera");
+        shakeCamera = obj.GetComponent<ShakeCamera>();
+        audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -68,6 +74,7 @@ public class Ball : MonoBehaviour
         }
         if(isTargetBall)
         {
+            isChosen = false;
             canvas.SetActive(true);
             bar.GetComponent<Image>().fillAmount = this.Life / 4.0f;
         }
@@ -112,6 +119,11 @@ public class Ball : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.tag != "shootpoint")
+        {
+            shakeCamera.enabled = true;
+        }
+        
         if (other.gameObject.tag == "Ball")
         {
             if(this.isChosen)
@@ -121,8 +133,9 @@ public class Ball : MonoBehaviour
                 balls[1] = other.gameObject;
                 if(!other.gameObject.GetComponent<Ball>().isTargetBall)
                 {
-                    Debug.Log(gm.gameObject);
-                    gm.gameObject.SendMessage("mixWord",balls);
+                    // Debug.Log(gm.gameObject);
+                    // gm.gameObject.SendMessage("mixWord",balls);
+                    SendMessageToOtherBall(other.gameObject, balls);
                 }
             }
 
@@ -132,10 +145,32 @@ public class Ball : MonoBehaviour
             {
                 if(other.gameObject.GetComponent<Ball>().isTargetBall && gm.processIndex == 2)  // 当处于阶段2时才可以造成伤害
                 {   
+                    OnPlayAudio();
                     other.gameObject.SendMessage("TakeDamage",attack);
                 }
             }
         }
+    }
+
+    public void SendMessageToOtherBall(GameObject otherObj, GameObject[] balls)
+    {
+        if(!hasSendMessage)
+        {
+            otherObj.SendMessage("PostEvent", balls);
+            otherObj.GetComponent<Ball>().hasSendMessage = true;
+        }
+    }
+
+    public void PostEvent(GameObject[] balls)
+    {
+        gm.gameObject.SendMessage("mixWord", balls);
+    }
+
+
+    public void OnPlayAudio()
+    {
+        audioSource.clip = clips[level - 1];
+        audioSource.Play(0);
     }
 
     public void TakeDamage(int attack)
@@ -153,6 +188,7 @@ public class Ball : MonoBehaviour
         {
             gm.gameObject.SendMessage("UpdateTopText",myName);
             gm.gameObject.SendMessage("RemoveWordCount",myName);
+            gm.AliveBalls.Remove(this.gameObject);
             GameObject.Destroy(this.gameObject);
             // this.transform.gameObject.Destory();
         }
