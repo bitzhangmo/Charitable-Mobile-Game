@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public int restPartIndex = 0;
     public int restPartCount = 0;
     public int chooseIndex = 0;
-    public int levelIndex = 0;
+    public int levelIndex;
     public float percent = 0.0f;
     public float maxDistance = 5.0f;
     public float force = 5.0f;
@@ -34,9 +34,11 @@ public class GameManager : MonoBehaviour
     [Header("UI组件")]
     public Text topText;
     public Text StepCount;
+    public Text bestCount;
     public int step = 0;
     public GameObject win;
     public GameObject lose;
+    public GameObject setting;
     public GameObject linePrefabs;
     
     [Header("音频相关")]
@@ -72,6 +74,10 @@ public class GameManager : MonoBehaviour
     public Camera mainCamera;
     public GameObject[] eduText;
     public AudioCallBack callBack;
+
+    public ScorePanel scorePanel;
+    public bool hasInsertScore = false;
+
     [Header("预瞄线")]
     [Range(1,5)]
     public int _maxIterations = 3;
@@ -123,6 +129,7 @@ public class GameManager : MonoBehaviour
             UpdateWord(wordList, true, "洛");
             UpdateWord(wordList, true, "小");
             UpdateWord(wordList, true, "水");
+            bestCount.text = Utils.ReadMaxScoreOne().ToString();
         }
         else if(levelIndex == 1)
         {
@@ -132,6 +139,8 @@ public class GameManager : MonoBehaviour
             UpdateWord(wordList,true,"一");
             UpdateWord(wordList,true,"日");
             UpdateWord(wordList,true,"阝");
+
+            bestCount.text = Utils.ReadMaxScoreTwo().ToString();
         }
         if(isEduLevel)
         {
@@ -192,7 +201,19 @@ public class GameManager : MonoBehaviour
             {
                 win.SetActive(true);
             }
-            
+            if(levelIndex == 0 && !hasInsertScore)
+            {
+                Utils.WriteScoreOne(step);
+                Utils.WritePassFlage(1);
+                hasInsertScore = true;
+            }
+            else if(levelIndex == 1 && !hasInsertScore)
+            {
+
+                Utils.WriteScoreTwo(step);
+                Utils.WritePassFlage(2);
+                hasInsertScore = true;
+            }
         }
         CheckGameOver(2);
     }
@@ -423,7 +444,7 @@ public class GameManager : MonoBehaviour
     {
         foreach(var item in AliveBalls)
         {
-            if(Vector2.Distance(item.transform.position, clickPos) < 1.5)
+            if(Vector2.Distance(item.transform.position, clickPos) < 1.0)
             {
                 return item;
             }
@@ -755,9 +776,21 @@ public class GameManager : MonoBehaviour
     public void OnClickRestartButton()
     {
         Debug.Log("OnClickRestartButton");
-        Application.LoadLevel(levelIndex+3);
+        Debug.Log(levelIndex);
+        // Application.LoadLevel(levelIndex+3);
         // win.SetActive(false);
-        
+        if(levelIndex == 1)
+        {
+            Application.LoadLevel("level1_test");
+        }
+        else if(levelIndex == 2)
+        {   
+            Application.LoadLevel("level_edu_test");
+        }
+        else if(levelIndex == 0)
+        {
+            Application.LoadLevel("level0");
+        }
     }
 
     public void OnClickReturnContent()
@@ -829,5 +862,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void OnClickSetting()
+    {
+        setting.SetActive(true);
+    }
 
+    public void OnClickCloseSetting()
+    {
+        setting.SetActive(false);
+    }
+
+    public void OnClickRank()
+    {
+        scorePanel.show();
+    }
 }

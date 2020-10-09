@@ -21,7 +21,7 @@ public class Guides : MonoBehaviour
 
     public void GoNewerGuide()
     {
-        SceneManager.LoadScene("level0");
+        SceneManager.LoadScene("level_edu_test");
     }
 
 

@@ -67,7 +67,7 @@ public class Utils
 
     public static int ReadMaxScoreOne()
     {
-        return ReadScoreOne().scoreOne; ;
+        return ReadScoreOne().scoreOne;
     }
 
 

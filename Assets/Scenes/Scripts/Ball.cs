@@ -45,7 +45,7 @@ public class Ball : MonoBehaviour
     public float m_Radius = 1; // 圆环的半径
     public float m_Theta = 0.1f; // 值越低圆环越平滑
     public Color m_Color = Color.green; // 线框颜色
-
+    public GameObject light;
     public AudioClip[] clips;
     public AudioSource audioSource;
 
@@ -244,10 +244,12 @@ public class Ball : MonoBehaviour
         
         if(isChosen)
         {
-            this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            // this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            light.SetActive(true);
         }
         else
         {
+            light.SetActive(false);
             this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255,255,255,rgb);
         }
     }
