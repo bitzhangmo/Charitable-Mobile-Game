@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -290,7 +290,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -351.5, y: 723.84247}
+  m_AnchoredPosition: {x: -351.5, y: 723.87616}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &191958712
@@ -526,9 +526,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scorePanel: {fileID: 1870703373}
   mImageOne: {fileID: 39664778}
-  mSpriteOne: {fileID: 21300000, guid: 630ce97db896446c39e85f30deef2ea2, type: 3}
+  mSpriteOne: {fileID: 21300000, guid: c00661c161264409f9c77e0c210fcb87, type: 3}
   mImageTwo: {fileID: 614752373}
-  mSpriteTwo: {fileID: 21300000, guid: 630ce97db896446c39e85f30deef2ea2, type: 3}
+  mSpriteTwo: {fileID: 21300000, guid: 9c84b224c801c4c3fa24cb3692030b3d, type: 3}
 --- !u!1 &526237526
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,7 +670,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e5261734a733d464bb8a5aa058610eff, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9c84b224c801c4c3fa24cb3692030b3d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1702,8 +1702,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 629358794}
   m_HandleRect: {fileID: 629358793}
   m_Direction: 2
-  m_Value: 1.0000287
-  m_Size: 0.5455549
+  m_Value: 0.9999998
+  m_Size: 0.55257714
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
