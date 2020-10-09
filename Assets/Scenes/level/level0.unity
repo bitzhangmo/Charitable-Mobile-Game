@@ -2640,6 +2640,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3686707135976755280, guid: 70d2ea52a00056749ae36af8de8f6c40,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u5386\u53F2\u6700\u4F73\uFF1A"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70d2ea52a00056749ae36af8de8f6c40, type: 3}
 --- !u!1 &3686707136253843433 stripped
@@ -2754,19 +2759,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.ctime0
-      value: 0
+      value: 21203
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.ctime1
@@ -2774,19 +2779,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key1.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key1.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key1.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.atime1
       value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}

@@ -423,7 +423,7 @@ public class GameManager : MonoBehaviour
     {
         foreach(var item in AliveBalls)
         {
-            if(Vector2.Distance(item.transform.position, clickPos) < 1)
+            if(Vector2.Distance(item.transform.position, clickPos) < 1.5)
             {
                 return item;
             }

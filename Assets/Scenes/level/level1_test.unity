@@ -891,34 +891,36 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.0025630724, y: -4.029043}
-  - {x: -0.34664404, y: -4.0359836}
-  - {x: -3.6214125, y: -4.091687}
+  - {x: 0.06840093, y: -4.2037106}
+  - {x: -0.25793904, y: -4.2252064}
+  - {x: -3.6036716, y: -4.237244}
   - {x: -3.5996256, y: -1.643683}
-  - {x: -3.0139275, y: -0.98968637}
-  - {x: -2.5882468, y: -0.59326804}
-  - {x: -1.8606491, y: -0.15203732}
-  - {x: -2.1744924, y: 0.004561701}
-  - {x: -2.536194, y: 0.21002114}
-  - {x: -2.9761546, y: 0.6064346}
-  - {x: -3.2621963, y: 0.92579895}
+  - {x: -3.594831, y: -0.7665955}
+  - {x: -3.302807, y: -0.54929835}
+  - {x: -2.9146261, y: -0.2986031}
+  - {x: -3.2977967, y: -0.08818795}
+  - {x: -3.6132607, y: 0.1703093}
+  - {x: -3.6137953, y: 0.2167301}
+  - {x: -3.622254, y: 0.6463622}
+  - {x: -3.609224, y: 0.95107937}
+  - {x: -3.612536, y: 1.1011841}
   - {x: -3.624991, y: 1.3551321}
-  - {x: -3.5992131, y: 3.742677}
-  - {x: 0.03750696, y: 3.758826}
-  - {x: 3.6758347, y: 3.759302}
+  - {x: -3.6179614, y: 3.6350007}
+  - {x: 0.03750696, y: 3.623154}
+  - {x: 3.5820916, y: 3.636243}
   - {x: 3.6028876, y: 2.1861777}
   - {x: 3.6113274, y: 1.3408216}
-  - {x: 3.1795642, y: 0.79041}
-  - {x: 2.717998, y: 0.40416718}
-  - {x: 2.2289293, y: 0.054091692}
-  - {x: 1.8776332, y: -0.14563799}
-  - {x: 2.3062117, y: -0.3985681}
-  - {x: 2.6697755, y: -0.6297829}
-  - {x: 2.901367, y: -0.8450929}
-  - {x: 3.068101, y: -1.0004871}
+  - {x: 3.6183922, y: 0.8516929}
+  - {x: 3.595654, y: 0.6033368}
+  - {x: 3.5734236, y: 0.115374625}
+  - {x: 2.932198, y: -0.3064254}
+  - {x: 3.337689, y: -0.51809883}
+  - {x: 3.5939753, y: -0.74643445}
+  - {x: 3.6296344, y: -1.0825642}
+  - {x: 3.6096327, y: -1.3988261}
   - {x: 3.6009362, y: -1.6470178}
-  - {x: 3.628369, y: -4.073634}
-  - {x: -0.0015065521, y: -4.034708}
+  - {x: 3.5928867, y: -4.2337465}
+  - {x: 0.033975594, y: -4.2239313}
 --- !u!1 &749568974
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +947,7 @@ Transform:
   m_GameObject: {fileID: 749568974}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -2.08, z: -0.01}
-  m_LocalScale: {x: 1.2045269, y: 1.2045269, z: 1.2045269}
+  m_LocalScale: {x: 1.5, y: 1.3, z: 1.5}
   m_Children: []
   m_Father: {fileID: 743248037}
   m_RootOrder: 1
@@ -1146,19 +1148,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.r
-      value: 1
+      value: 0.11320752
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.g
-      value: 1
+      value: 0.11320752
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.b
-      value: 1
+      value: 0.11320752
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.ctime0
-      value: 0
+      value: 23516
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.ctime1
@@ -1166,15 +1168,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key1.r
-      value: 0.11320752
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key1.g
-      value: 0.11320752
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 818753793, guid: fded4da80efb0994cbe67ce1937a38a2, type: 3}
       propertyPath: m_Parameters.colorGradient.key1.b
-      value: 0.11320752
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5268451022020078344, guid: fded4da80efb0994cbe67ce1937a38a2,
         type: 3}
@@ -1716,6 +1718,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 899309ef0e7b44543a1c7698e884ab7b,
         type: 3}
+    - target: {fileID: 3686707135976755280, guid: 70d2ea52a00056749ae36af8de8f6c40,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u5386\u53F2\u6700\u4F73\uFF1A"
+      objectReference: {fileID: 0}
     - target: {fileID: 4195973564358723832, guid: 70d2ea52a00056749ae36af8de8f6c40,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2002,6 +2009,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7717561598415076499, guid: 5d5253b33edb8094698411a0ef92e520,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f6349e41cb3bc72479124470232ae655,
+        type: 3}
     - target: {fileID: 7717561598415076501, guid: 5d5253b33edb8094698411a0ef92e520,
         type: 3}
       propertyPath: m_Constraints
@@ -2290,8 +2303,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806500661}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0, y: 1.78, z: -0.01}
-  m_LocalScale: {x: 1.2045269, y: 1.2045269, z: 1.2045269}
+  m_LocalPosition: {x: 0.03, y: 1.477, z: -0.01}
+  m_LocalScale: {x: 1.5, y: 1.3, z: 1.5}
   m_Children: []
   m_Father: {fileID: 743248037}
   m_RootOrder: 0
@@ -2438,6 +2451,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7717561598415076499, guid: 5d5253b33edb8094698411a0ef92e520,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f6349e41cb3bc72479124470232ae655,
+        type: 3}
     - target: {fileID: 7717561598415076501, guid: 5d5253b33edb8094698411a0ef92e520,
         type: 3}
       propertyPath: m_Constraints
