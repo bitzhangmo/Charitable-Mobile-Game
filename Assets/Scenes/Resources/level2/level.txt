@@ -1,4 +1,3 @@
-心,思,1
-田,思,2
-古,故,3
-攵,故,4
+version https://git-lfs.github.com/spec/v1
+oid sha256:51228c3561c88d46a24664af3ad3cdde8dac4d53924e42b99afff2cee5832cbb
+size 42

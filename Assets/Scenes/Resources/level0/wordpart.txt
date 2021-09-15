@@ -1,5 +1,3 @@
-花,艹,化,1
-落,艹,洛,2
-知,矢,口,3
-多,夕,夕,4
-少,小,丿,5
+version https://git-lfs.github.com/spec/v1
+oid sha256:109d40116226cf1683814d2458d3038c61b08d9419bb478625a071a448b854da
+size 73

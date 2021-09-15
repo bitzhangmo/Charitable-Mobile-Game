@@ -1,7 +1,3 @@
-夕,多,1
-木,林,2
-口,吕,3
-火,炎,4
-一,二,5
-日,昌,7
-月,朋,8
+version https://git-lfs.github.com/spec/v1
+oid sha256:ad1c907b3ef9ce3b05b461a845783f9de24f47ee7c2bda66b13ccfa5ccb0bd85
+size 75

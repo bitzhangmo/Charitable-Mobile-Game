@@ -1,5 +1,3 @@
-柳,木,卯,1
-暗,日,音,2
-花,艹,化,3
-明,日,月,4
-村,木,寸,5
+version https://git-lfs.github.com/spec/v1
+oid sha256:dee1b5288276a4137298f2fabbc2f9338b734e8c8c0235a719cd72d354314480
+size 73
